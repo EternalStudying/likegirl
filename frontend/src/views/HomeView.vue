@@ -1,121 +1,178 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import { fetchSiteData, postMessage } from '../api/site';
-import MessageBoard from '../components/MessageBoard.vue';
-import { daysTogether, nextAnniversaryCountdown } from '../utils/date';
-import { mockSiteData } from '../mock/siteData';
-import type { Message, MessagePayload, SiteData } from '../types/site';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import PageLoader from '../components/PageLoader.vue';
+import { homeHeroSlides } from '../config/homeHeroSlides';
+import { useSiteData } from '../composables/useSiteData';
 
-const site = ref<SiteData>(mockSiteData);
-const loaded = ref(false);
+const { site, loaded, togetherDays, anniversary } = useSiteData();
+const activeSlideIndex = ref(0);
+const heroPaused = ref(false);
+const prefersReducedMotion =
+  typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+let heroAutoplayTimer: number | undefined;
 
-const togetherDays = computed(() => daysTogether(site.value.couple.startDate));
-const anniversary = computed(() => nextAnniversaryCountdown(site.value.couple.anniversaryDate));
+const activeSlide = computed(() => homeHeroSlides[activeSlideIndex.value] ?? homeHeroSlides[0]);
 
-async function loadSite() {
-  site.value = await fetchSiteData();
-  loaded.value = true;
+function showHeroSlide(index: number) {
+  activeSlideIndex.value = (index + homeHeroSlides.length) % homeHeroSlides.length;
 }
 
-async function submitMessage(payload: MessagePayload) {
-  await postMessage(payload);
+function showNextHeroSlide() {
+  showHeroSlide(activeSlideIndex.value + 1);
 }
 
-async function refreshMessages(): Promise<Message[]> {
-  const nextSite = await fetchSiteData();
-  site.value = nextSite;
-  return nextSite.messages;
+function startHeroAutoplay() {
+  if (prefersReducedMotion || homeHeroSlides.length < 2) {
+    return;
+  }
+
+  heroAutoplayTimer = window.setInterval(() => {
+    if (!heroPaused.value) {
+      showNextHeroSlide();
+    }
+  }, 5000);
 }
 
-onMounted(loadSite);
+function stopHeroAutoplay() {
+  if (heroAutoplayTimer) {
+    window.clearInterval(heroAutoplayTimer);
+    heroAutoplayTimer = undefined;
+  }
+}
+
+onMounted(startHeroAutoplay);
+onBeforeUnmount(stopHeroAutoplay);
+
+const directoryItems = [
+  {
+    to: '/story',
+    number: '01',
+    title: '故事卷轴',
+    label: 'Story Scroll',
+    description: '按时间翻看每一个被认真收好的瞬间。',
+    accent: 'coral'
+  },
+  {
+    to: '/album',
+    number: '02',
+    title: '照片相册',
+    label: 'Photo Album',
+    description: '把散步、旅行和日常光线装进相册。',
+    accent: 'orange'
+  },
+  {
+    to: '/messages',
+    number: '03',
+    title: '留言板',
+    label: 'Message Board',
+    description: '写下今天想留给彼此的一句话。',
+    accent: 'green'
+  },
+  {
+    to: '/wishes',
+    number: '04',
+    title: '恋爱清单',
+    label: 'Wish List',
+    description: '一起完成那些正在发光的小计划。',
+    accent: 'gold'
+  },
+  {
+    to: '/about',
+    number: '05',
+    title: '关于我们',
+    label: 'About Us',
+    description: '记录这本纪念册从哪里开始。',
+    accent: 'coral'
+  }
+];
 </script>
 
 <template>
   <main>
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="eyebrow">{{ site.hero.title }}</p>
-        <h1 id="hero-title">{{ site.couple.personA }} 和 {{ site.couple.personB }}</h1>
-        <p>{{ site.hero.slogan }}</p>
-      </div>
-      <div class="hero-stats" :class="{ ready: loaded }">
-        <div>
-          <span>在一起</span>
-          <strong>第 {{ togetherDays }} 天</strong>
+    <template v-if="site">
+      <section
+        class="home-hero-carousel"
+        :class="`home-hero-carousel--${activeSlide.tone}`"
+        aria-label="情侣纪念册插画封面"
+        @mouseenter="heroPaused = true"
+        @mouseleave="heroPaused = false"
+      >
+        <div class="home-hero-slides" aria-hidden="true">
+          <figure
+            v-for="(slide, index) in homeHeroSlides"
+            :key="slide.image"
+            class="home-hero-slide"
+            :class="[`home-hero-slide--${slide.tone}`, { 'is-active': index === activeSlideIndex }]"
+          >
+            <img :src="slide.image" alt="" />
+          </figure>
         </div>
-        <div>
-          <span>开始日期</span>
-          <strong>{{ site.couple.startDate }}</strong>
-        </div>
-        <div>
-          <span>下一纪念日</span>
-          <strong>{{ anniversary.days }} 天后</strong>
-          <small>{{ anniversary.date }}</small>
-        </div>
-      </div>
-    </section>
 
-    <section class="section timeline-section">
-      <div class="section-heading">
-        <p>Moments</p>
-        <h2>点点滴滴时间线</h2>
-      </div>
-      <div class="timeline">
-        <article v-for="memory in site.memories" :key="memory.id" class="timeline-item">
-          <time>{{ memory.date }}</time>
-          <div>
-            <h3>{{ memory.title }}</h3>
-            <p>{{ memory.content }}</p>
-            <span v-for="tag in memory.tags" :key="tag">#{{ tag }}</span>
+        <div class="home-hero-content">
+          <div class="hero-sticker-cluster" :aria-label="`${site.couple.personA} 和 ${site.couple.personB}`">
+            <div class="hero-person-sticker hero-person-sticker--left">
+              <span class="hero-avatar-sticker hero-avatar-sticker--left" aria-hidden="true">
+                {{ site.couple.personA.slice(0, 1) }}
+              </span>
+              <span class="hero-avatar-name">{{ site.couple.personA }}</span>
+            </div>
+
+            <span class="hero-center-heart" aria-hidden="true">♥</span>
+
+            <div class="hero-person-sticker hero-person-sticker--right">
+              <span class="hero-avatar-sticker hero-avatar-sticker--right" aria-hidden="true">
+                {{ site.couple.personB.slice(0, 1) }}
+              </span>
+              <span class="hero-avatar-name">{{ site.couple.personB }}</span>
+            </div>
           </div>
-        </article>
-      </div>
-    </section>
 
-    <section class="section photo-section">
-      <div class="section-heading">
-        <p>Album</p>
-        <h2>照片墙</h2>
-      </div>
-      <div class="photo-grid">
-        <figure v-for="photo in site.photos" :key="photo.id">
-          <img :src="photo.url" :alt="photo.caption" loading="lazy" />
-          <figcaption>
-            <span>{{ photo.caption }}</span>
-            <time>{{ photo.date }}</time>
-          </figcaption>
-        </figure>
-      </div>
-    </section>
+          <div class="hero-memory-stack" :class="{ ready: loaded }">
+            <p class="hero-memory-note">在一起第 <strong>{{ togetherDays }}</strong> 天</p>
+            <p class="hero-anniversary-capsule">下一纪念日 <strong>{{ anniversary.days }}</strong> 天后</p>
+          </div>
+        </div>
 
-    <MessageBoard
-      :messages="site.messages"
-      :submit-message="submitMessage"
-      :refresh-messages="refreshMessages"
-    />
+        <div class="home-hero-dots" aria-label="首页封面轮播">
+          <button
+            v-for="(slide, index) in homeHeroSlides"
+            :key="slide.title"
+            type="button"
+            class="home-hero-dot"
+            :aria-label="`切换到${slide.title}`"
+            :aria-current="index === activeSlideIndex ? 'true' : undefined"
+            @click="showHeroSlide(index)"
+          >
+            <span></span>
+          </button>
+        </div>
+      </section>
 
-    <section class="section wish-section">
-      <div class="section-heading">
-        <p>List</p>
-        <h2>恋爱清单</h2>
-      </div>
-      <ul class="wish-list">
-        <li v-for="wish in site.wishes" :key="wish.id" :class="{ done: wish.done }">
-          <span>{{ wish.done ? '完成' : '待完成' }}</span>
-          {{ wish.title }}
-        </li>
-      </ul>
-    </section>
+      <section class="section directory-section" aria-labelledby="directory-title">
+        <div class="section-heading">
+          <p>Memory Index</p>
+          <h2 id="directory-title">纪念册目录</h2>
+        </div>
 
-    <section class="section about-section">
-      <div class="section-heading">
-        <p>About</p>
-        <h2>关于我们</h2>
-      </div>
-      <p>
-        这里不做复杂的后台，也不追求热闹。只是把两个人的时间、照片、愿望和留言按顺序放好，
-        等以后回头看的时候，还能准确想起那一天的光。
-      </p>
-    </section>
+        <div class="directory-grid">
+          <RouterLink
+            v-for="(item, index) in directoryItems"
+            :key="item.to"
+            class="directory-card index-tab"
+            :class="`index-tab--${item.accent}`"
+            :style="`--tab-order: ${index}`"
+            :to="item.to"
+          >
+            <span class="index-number">{{ item.number }}</span>
+            <span class="directory-label">{{ item.label }}</span>
+            <strong>{{ item.title }}</strong>
+            <p>{{ item.description }}</p>
+            <span class="directory-arrow">进入 →</span>
+          </RouterLink>
+        </div>
+      </section>
+    </template>
+
+    <PageLoader v-else />
   </main>
 </template>

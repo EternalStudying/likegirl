@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Sakura onsen illustration background">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f7cdbf"/>
+      <stop offset="0.46" stop-color="#f4e4d6"/>
+      <stop offset="1" stop-color="#8fb6a1"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#d65a4e"/>
+      <stop offset="0.5" stop-color="#f2a35d"/>
+      <stop offset="1" stop-color="#255542"/>
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#fff7d8"/>
+      <stop offset="0.52" stop-color="#ffd98d" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffd98d" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <circle cx="1190" cy="190" r="145" fill="url(#sunGlow)"/>
+  <path d="M0 455 C170 330 305 365 475 245 C630 138 765 255 900 170 C1060 70 1240 212 1600 118 L1600 900 L0 900Z" fill="#214f3f" opacity="0.82"/>
+  <path d="M0 520 C190 410 322 435 520 328 C690 236 812 337 960 265 C1120 188 1320 315 1600 245 L1600 900 L0 900Z" fill="#f4e3cf" opacity="0.52"/>
+  <path d="M0 592 C214 510 350 535 560 456 C770 374 950 432 1130 370 C1325 304 1450 382 1600 342 L1600 900 L0 900Z" fill="#315d49" opacity="0.8"/>
+  <path d="M-60 706 C180 638 348 690 560 625 C804 552 1012 662 1234 592 C1390 542 1510 572 1660 526 L1660 900 L-60 900Z" fill="#fff6e8" opacity="0.72"/>
+  <ellipse cx="790" cy="725" rx="675" ry="126" fill="url(#water)" opacity="0.78"/>
+  <ellipse cx="790" cy="720" rx="580" ry="86" fill="#fff3df" opacity="0.26"/>
+  <path d="M185 702 C314 670 453 678 588 700 M813 672 C975 642 1162 652 1340 696" fill="none" stroke="#fffdf9" stroke-width="10" stroke-linecap="round" opacity="0.42"/>
+  <path d="M486 598 C458 543 470 496 512 465 M570 600 C538 548 554 506 594 470 M1038 596 C1010 540 1028 498 1068 464" fill="none" stroke="#fffdf9" stroke-width="9" stroke-linecap="round" opacity="0.58" filter="url(#soft)"/>
+  <g opacity="0.92">
+    <path d="M166 404 C118 324 132 247 208 194 C286 140 390 172 416 262 C446 360 360 446 250 432 C224 468 182 468 166 404Z" fill="#f8a7a6"/>
+    <path d="M126 450 C205 392 284 390 354 438" fill="none" stroke="#7b3f36" stroke-width="11" stroke-linecap="round"/>
+    <circle cx="214" cy="262" r="18" fill="#fff7e9" opacity="0.9"/>
+    <circle cx="282" cy="230" r="12" fill="#fff7e9" opacity="0.78"/>
+  </g>
+  <g opacity="0.88">
+    <path d="M1330 438 C1286 360 1306 284 1386 238 C1462 194 1554 236 1568 328 C1582 420 1490 488 1392 456 C1362 488 1324 482 1330 438Z" fill="#f7b0aa"/>
+    <path d="M1258 493 C1354 426 1446 432 1538 492" fill="none" stroke="#7b3f36" stroke-width="11" stroke-linecap="round"/>
+    <circle cx="1414" cy="306" r="16" fill="#fff7e9" opacity="0.9"/>
+    <circle cx="1476" cy="346" r="10" fill="#fff7e9" opacity="0.82"/>
+  </g>
+  <g opacity="0.72">
+    <circle cx="95" cy="156" r="9" fill="#fff4e6"/>
+    <circle cx="210" cy="120" r="7" fill="#fff4e6"/>
+    <circle cx="430" cy="138" r="8" fill="#fff4e6"/>
+    <circle cx="1210" cy="102" r="8" fill="#fff4e6"/>
+    <circle cx="1480" cy="170" r="7" fill="#fff4e6"/>
+  </g>
+</svg>

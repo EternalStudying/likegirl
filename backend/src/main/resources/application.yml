@@ -1,9 +1,14 @@
 spring:
   datasource:
-    url: ${DB_URL:jdbc:mysql://localhost:3306/likegirl?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false}
+    url: ${DB_URL:jdbc:mysql://114.215.171.7:13306/likegirl?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false}
     username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:123456}
+    password: ${DB_PASSWORD:}
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      max-lifetime: 300000
+      keepalive-time: 120000
+      validation-timeout: 3000
+      connection-timeout: 10000
   sql:
     init:
       mode: always
@@ -15,3 +20,10 @@ mybatis:
 
 server:
   port: 8080
+
+minio:
+  endpoint: ${MINIO_ENDPOINT:}
+  access-key: ${MINIO_ACCESS_KEY:}
+  secret-key: ${MINIO_SECRET_KEY:}
+  bucket: ${MINIO_BUCKET:}
+  public-base-url: ${MINIO_PUBLIC_BASE_URL:}

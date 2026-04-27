@@ -26,3 +26,8 @@ values
 
 insert ignore into messages (id, nickname, content, created_at)
 values (1, '访客', '祝你们每天都开心。', '2026-04-26 12:00:00');
+-- Initial password for both users: 123456
+insert ignore into auth_user (id, username, display_name, password_hash)
+values
+    (1, 'xiaozhi', '小栀', '$2a$10$TpcuPT.ru2p8svo8xL3uvuOSzUS0hIFnJfswNnNfPr0gmFmnBqtMa'),
+    (2, 'aran', '阿然', '$2a$10$TpcuPT.ru2p8svo8xL3uvuOSzUS0hIFnJfswNnNfPr0gmFmnBqtMa');

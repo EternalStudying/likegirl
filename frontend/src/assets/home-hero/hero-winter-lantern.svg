@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Winter lantern illustration background">
+  <defs>
+    <linearGradient id="night" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#1f4b3d"/>
+      <stop offset="0.44" stop-color="#446d5d"/>
+      <stop offset="1" stop-color="#f4c789"/>
+    </linearGradient>
+    <linearGradient id="snow" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#fffdf9"/>
+      <stop offset="1" stop-color="#f6dfc8"/>
+    </linearGradient>
+    <radialGradient id="lantern" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#fff4bf"/>
+      <stop offset="0.48" stop-color="#f28a2e"/>
+      <stop offset="1" stop-color="#df5145" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="20"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#night)"/>
+  <circle cx="320" cy="180" r="130" fill="#fff4e6" opacity="0.18"/>
+  <circle cx="320" cy="180" r="78" fill="#fff4e6" opacity="0.45"/>
+  <path d="M0 420 C162 286 310 330 456 218 C620 92 780 220 934 142 C1120 48 1268 190 1600 92 L1600 900 L0 900Z" fill="#173c32" opacity="0.9"/>
+  <path d="M0 510 C190 380 340 434 525 310 C700 194 876 346 1050 254 C1240 154 1400 290 1600 218 L1600 900 L0 900Z" fill="#fff4e6" opacity="0.42"/>
+  <path d="M-40 622 C178 520 375 590 575 500 C785 408 1018 558 1210 470 C1384 390 1505 450 1640 408 L1640 900 L-40 900Z" fill="#214f3f" opacity="0.66"/>
+  <path d="M-60 710 C150 626 390 686 585 608 C830 508 1015 690 1255 602 C1418 542 1530 586 1660 548 L1660 900 L-60 900Z" fill="url(#snow)" opacity="0.95"/>
+  <g filter="url(#blur)" opacity="0.88">
+    <circle cx="1215" cy="470" r="150" fill="url(#lantern)"/>
+    <circle cx="495" cy="540" r="120" fill="url(#lantern)" opacity="0.72"/>
+  </g>
+  <g opacity="0.95">
+    <path d="M1086 356 L1370 356 L1432 582 L1024 582Z" fill="#fff0d5"/>
+    <path d="M1128 314 L1328 314 L1370 356 L1086 356Z" fill="#df5145"/>
+    <rect x="1120" y="384" width="90" height="158" rx="8" fill="#f28a2e" opacity="0.78"/>
+    <rect x="1248" y="384" width="90" height="158" rx="8" fill="#214f3f" opacity="0.84"/>
+    <path d="M1016 582 L1440 582 L1492 654 L964 654Z" fill="#7a3d31"/>
+    <path d="M1040 654 L1416 654 L1416 724 L1040 724Z" fill="#fff4e6"/>
+  </g>
+  <g opacity="0.85">
+    <path d="M360 464 C332 406 356 340 418 314 C488 284 558 328 560 410 C562 492 472 540 400 500 C372 528 338 514 360 464Z" fill="#f4b3a8"/>
+    <path d="M314 538 C418 464 520 470 628 540" fill="none" stroke="#6f3c31" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="444" cy="398" r="16" fill="#fffdf9" opacity="0.86"/>
+  </g>
+  <g fill="#fffdf9" opacity="0.78">
+    <circle cx="92" cy="96" r="5"/>
+    <circle cx="184" cy="246" r="7"/>
+    <circle cx="600" cy="112" r="6"/>
+    <circle cx="735" cy="278" r="5"/>
+    <circle cx="1012" cy="124" r="7"/>
+    <circle cx="1458" cy="208" r="6"/>
+    <circle cx="1518" cy="336" r="5"/>
+  </g>
+</svg>

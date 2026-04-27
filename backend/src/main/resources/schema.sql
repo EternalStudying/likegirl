@@ -40,3 +40,14 @@ create table if not exists messages (
     content text not null,
     created_at datetime not null
 );
+
+create table if not exists auth_user (
+    id bigint primary key auto_increment,
+    username varchar(60) not null unique,
+    display_name varchar(80) not null,
+    password_hash varchar(100) not null,
+    avatar_url varchar(500) null,
+    bio varchar(200) null,
+    mood varchar(80) null,
+    updated_at datetime not null default current_timestamp on update current_timestamp
+);
