@@ -3,17 +3,15 @@ package cn.kikiw.likegirl.config;
 import cn.kikiw.likegirl.service.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 public class JwtAuthInterceptor implements HandlerInterceptor {
 
-    private final JwtService jwtService;
-
-    public JwtAuthInterceptor(JwtService jwtService) {
-        this.jwtService = jwtService;
-    }
+    @Autowired
+    private JwtService jwtService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

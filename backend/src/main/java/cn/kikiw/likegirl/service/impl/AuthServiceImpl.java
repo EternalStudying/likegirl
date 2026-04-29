@@ -9,6 +9,7 @@ import cn.kikiw.likegirl.service.AvatarStorageService;
 import cn.kikiw.likegirl.service.JwtService;
 import cn.kikiw.likegirl.vo.CurrentUserVo;
 import cn.kikiw.likegirl.vo.LoginVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,18 +24,14 @@ public class AuthServiceImpl implements AuthService {
     private static final long MAX_AVATAR_SIZE = 2L * 1024L * 1024L;
     private static final Set<String> ALLOWED_AVATAR_TYPES = Set.of("image/jpeg", "image/png", "image/webp");
 
-    private final AuthUserMapper authUserMapper;
-    private final JwtService jwtService;
-    private final PasswordEncoder passwordEncoder;
-    private final AvatarStorageService avatarStorageService;
-
-    public AuthServiceImpl(AuthUserMapper authUserMapper, JwtService jwtService, PasswordEncoder passwordEncoder,
-                           AvatarStorageService avatarStorageService) {
-        this.authUserMapper = authUserMapper;
-        this.jwtService = jwtService;
-        this.passwordEncoder = passwordEncoder;
-        this.avatarStorageService = avatarStorageService;
-    }
+    @Autowired
+    private AuthUserMapper authUserMapper;
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AvatarStorageService avatarStorageService;
 
     @Override
     public LoginVo login(LoginDto request) {

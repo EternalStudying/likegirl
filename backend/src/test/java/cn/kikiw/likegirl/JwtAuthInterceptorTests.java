@@ -12,6 +12,7 @@ import cn.kikiw.likegirl.vo.SiteVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,8 +28,8 @@ class JwtAuthInterceptorTests {
     private final JwtService jwtService = mock(JwtService.class);
     private final SiteService siteService = mock(SiteService.class);
     private final AuthService authService = mock(AuthService.class);
-    private final MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new SiteController(siteService))
-            .addInterceptors(new JwtAuthInterceptor(jwtService))
+    private final MockMvc mockMvc = MockMvcBuilders.standaloneSetup(siteController())
+            .addInterceptors(jwtAuthInterceptor())
             .build();
 
     @Test
@@ -58,11 +59,29 @@ class JwtAuthInterceptorTests {
 
     @Test
     void meRejectsRequestWithoutToken() throws Exception {
-        MockMvc authMockMvc = MockMvcBuilders.standaloneSetup(new AuthController(authService))
-                .addInterceptors(new JwtAuthInterceptor(jwtService))
+        MockMvc authMockMvc = MockMvcBuilders.standaloneSetup(authController())
+                .addInterceptors(jwtAuthInterceptor())
                 .build();
 
         authMockMvc.perform(get("/api/auth/me"))
                 .andExpect(status().isUnauthorized());
+    }
+
+    private SiteController siteController() {
+        SiteController controller = new SiteController();
+        ReflectionTestUtils.setField(controller, "siteService", siteService);
+        return controller;
+    }
+
+    private AuthController authController() {
+        AuthController controller = new AuthController();
+        ReflectionTestUtils.setField(controller, "authService", authService);
+        return controller;
+    }
+
+    private JwtAuthInterceptor jwtAuthInterceptor() {
+        JwtAuthInterceptor interceptor = new JwtAuthInterceptor();
+        ReflectionTestUtils.setField(interceptor, "jwtService", jwtService);
+        return interceptor;
     }
 }

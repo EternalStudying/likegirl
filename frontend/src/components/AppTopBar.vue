@@ -12,7 +12,7 @@ const userAriaLabel = computed(() => `打开个人资料页：${displayName.valu
 <template>
   <header class="app-topbar" aria-label="登录后导航">
     <div class="app-topbar__inner">
-      <p class="app-topbar__quote">收好我们的日常与心动</p>
+      <p class="app-topbar__quote">LG Demo</p>
 
       <RouterLink v-if="hasUser && user" class="app-topbar__user" to="/user" :aria-label="userAriaLabel">
         <UserAvatar :avatar-url="user.avatarUrl" :name="displayName" :username="user.username" />

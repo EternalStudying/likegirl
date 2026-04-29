@@ -25,57 +25,58 @@ const CLOUDY_CLOUDS: CloudConfig[] = [
 ];
 
 const SUNBEAMS = [
-  { left: '8%', width: '22vw', rotate: '-16deg', duration: 13, delay: '-1.2s', opacity: 0.42 },
-  { left: '26%', width: '18vw', rotate: '-9deg', duration: 11, delay: '-3.4s', opacity: 0.34 },
-  { left: '48%', width: '20vw', rotate: '7deg', duration: 12, delay: '-6.2s', opacity: 0.38 },
-  { left: '70%', width: '16vw', rotate: '14deg', duration: 10, delay: '-2.6s', opacity: 0.28 }
+  { left: '-21%', top: '-24%', width: '7vw', height: '132vh', rotate: '-54deg', duration: 17, delay: '-1.2s', opacity: 0.5 },
+  { left: '-16%', top: '-25%', width: '9vw', height: '144vh', rotate: '-48deg', duration: 19, delay: '-4.4s', opacity: 0.44 },
+  { left: '-10%', top: '-24%', width: '10vw', height: '150vh', rotate: '-42deg', duration: 15, delay: '-6.2s', opacity: 0.36 },
+  { left: '-4%', top: '-22%', width: '8vw', height: '140vh', rotate: '-36deg', duration: 20, delay: '-2.6s', opacity: 0.3 },
+  { left: '2%', top: '-21%', width: '7vw', height: '130vh', rotate: '-31deg', duration: 16, delay: '-8.1s', opacity: 0.24 }
 ];
 
-const MOTES = Array.from({ length: 18 }, (_, index) => ({
-  left: `${8 + (index * 5.1) % 82}%`,
-  top: `${12 + (index * 7.3) % 56}%`,
-  size: 3 + (index % 4) * 2,
-  duration: 5.5 + (index % 5) * 1.1,
-  delay: `-${index * 0.65}s`
+const MOTES = Array.from({ length: 24 }, (_, index) => ({
+  left: `${5 + (index * 4.7) % 72}%`,
+  top: `${8 + (index * 6.4) % 58}%`,
+  size: 2 + (index % 5) * 1.4,
+  duration: 6.4 + (index % 5) * 1.2,
+  delay: `-${index * 0.58}s`,
+  opacity: 0.24 + (index % 4) * 0.07
 }));
 
-const RAIN_LINES = Array.from({ length: 34 }, (_, index) => ({
-  left: `${(index * 3.2) % 110 - 8}%`,
-  height: `${64 + (index % 5) * 26}px`,
-  duration: 0.95 + (index % 4) * 0.18,
+const RAIN_LINES = Array.from({ length: 72 }, (_, index) => ({
+  left: `${(index * 2.35) % 108 - 4}%`,
+  height: `${86 + (index % 6) * 16}px`,
+  duration: 0.72 + (index % 7) * 0.08,
   delay: `-${index * 0.14}s`,
-  opacity: 0.22 + (index % 4) * 0.08,
+  opacity: 0.18 + (index % 6) * 0.055,
+  slant: `${index % 4}deg`,
   scale: index % 3 === 0 ? 'far' : index % 3 === 1 ? 'mid' : 'near'
 }));
 
-const RAIN_TRAILS = Array.from({ length: 8 }, (_, index) => ({
-  left: `${10 + index * 11}%`,
-  duration: 4.4 + index * 0.32,
-  delay: `-${index * 0.48}s`
+const RAIN_TRAILS = Array.from({ length: 12 }, (_, index) => ({
+  left: `${4 + index * 8.6}%`,
+  duration: 3.8 + index * 0.18,
+  delay: `-${index * 0.36}s`
 }));
-
-const RIPPLE_RINGS = [
-  { left: '22%', top: '72%', delay: '-0.8s' },
-  { left: '38%', top: '78%', delay: '-2.4s' },
-  { left: '58%', top: '74%', delay: '-1.6s' },
-  { left: '78%', top: '80%', delay: '-3.1s' }
-];
 
 const SNOW_FLAKES = Array.from({ length: 32 }, (_, index) => ({
   left: `${(index * 7.1) % 104 - 2}%`,
-  size: 4 + (index % 5) * 3,
+  size: 10 + (index % 5) * 3,
   duration: 7 + (index % 6) * 1.25,
+  spinDuration: 10 + (index % 7) * 1.4,
+  spinTurn: index % 2 === 0 ? '1turn' : '-1turn',
   delay: `-${index * 0.52}s`,
   depth: index % 3 === 0 ? 'far' : index % 3 === 1 ? 'mid' : 'near'
 }));
 
-const FOG_BANDS = Array.from({ length: 6 }, (_, index) => ({
-  top: `${12 + index * 12}%`,
-  width: `${56 + (index % 3) * 14}vw`,
-  height: `${38 + (index % 3) * 12}px`,
-  duration: 12 + index * 1.2,
-  delay: `-${index * 1.1}s`,
-  opacity: 0.12 + (index % 3) * 0.05
+const FOG_BANDS = Array.from({ length: 10 }, (_, index) => ({
+  left: `${-18 + (index % 4) * 8}vw`,
+  top: `${8 + (index * 8.4) % 78}%`,
+  width: `${76 + (index % 5) * 10}vw`,
+  height: `${56 + (index % 4) * 14}px`,
+  duration: 14 + (index % 6) * 1.8,
+  delay: `-${index * 1.35}s`,
+  opacity: 0.15 + (index % 4) * 0.035,
+  blur: `${10 + (index % 5) * 2}px`,
+  depth: index % 3 === 0 ? 'far' : index % 3 === 1 ? 'mid' : 'near'
 }));
 
 const THUNDER_FLASHES = [
@@ -89,6 +90,18 @@ const WIND_LINES = Array.from({ length: 14 }, (_, index) => ({
   width: `${72 + (index % 4) * 20}px`,
   duration: 4.6 + (index % 5) * 0.45,
   delay: `-${index * 0.38}s`
+}));
+
+const WIND_GUSTS = Array.from({ length: 9 }, (_, index) => ({
+  top: `${10 + (index * 9.2) % 72}%`,
+  left: `${-42 + (index % 3) * 4}vw`,
+  width: `${380 + (index % 4) * 92}px`,
+  height: `${54 + (index % 3) * 16}px`,
+  duration: 7.6 + (index % 5) * 0.72,
+  delay: `-${index * 0.82}s`,
+  opacity: 0.23 + (index % 3) * 0.08,
+  depth: index % 3 === 0 ? 'far' : index % 3 === 1 ? 'mid' : 'near',
+  bend: `${-4 + (index % 5) * 2}deg`
 }));
 
 const WIND_SCRAPS = Array.from({ length: 12 }, (_, index) => ({
@@ -318,9 +331,15 @@ onMounted(loadWeather);
     :data-weather-type="normalizedWeatherType" :data-daytime="weather.isDay ? 'day' : 'night'">
     <div v-if="normalizedWeatherType === 'sunny'" class="weather-atmosphere__layer weather-atmosphere__layer--sunny"
       aria-hidden="true">
+      <span class="weather-sunwarmth"></span>
+      <span class="weather-light-source"></span>
+      <span class="weather-light-streak"></span>
+      <span class="weather-rainbow"></span>
       <span v-for="(beam, index) in SUNBEAMS" :key="`sunbeam-${index}`" class="weather-sunbeam" :style="{
         '--beam-left': beam.left,
+        '--beam-top': beam.top,
         '--beam-width': beam.width,
+        '--beam-height': beam.height,
         '--beam-rotate': beam.rotate,
         '--beam-duration': `${beam.duration}s`,
         '--beam-delay': beam.delay,
@@ -332,7 +351,8 @@ onMounted(loadWeather);
         '--mote-top': mote.top,
         '--mote-size': `${mote.size}px`,
         '--mote-duration': `${mote.duration}s`,
-        '--mote-delay': mote.delay
+        '--mote-delay': mote.delay,
+        '--mote-opacity': `${mote.opacity}`
       }"></span>
     </div>
 
@@ -355,17 +375,13 @@ onMounted(loadWeather);
           '--rain-height': line.height,
           '--rain-duration': `${line.duration}s`,
           '--rain-delay': line.delay,
-          '--rain-opacity': `${line.opacity}`
+          '--rain-opacity': `${line.opacity}`,
+          '--rain-slant': line.slant
         }"></span>
       <span v-for="(trail, index) in RAIN_TRAILS" :key="`rain-trail-${index}`" class="weather-rain-trail" :style="{
         '--trail-left': trail.left,
         '--trail-duration': `${trail.duration}s`,
         '--trail-delay': trail.delay
-      }"></span>
-      <span v-for="(ring, index) in RIPPLE_RINGS" :key="`ripple-${index}`" class="weather-ripple" :style="{
-        '--ripple-left': ring.left,
-        '--ripple-top': ring.top,
-        '--ripple-delay': ring.delay
       }"></span>
     </div>
 
@@ -377,21 +393,32 @@ onMounted(loadWeather);
           '--flake-left': flake.left,
           '--flake-size': `${flake.size}px`,
           '--flake-duration': `${flake.duration}s`,
+          '--flake-spin-duration': `${flake.spinDuration}s`,
+          '--flake-spin-turn': flake.spinTurn,
           '--flake-delay': flake.delay
-        }"></span>
+        }">
+        <span class="weather-snowflake__shape"></span>
+      </span>
     </div>
 
     <div v-if="normalizedWeatherType === 'fog'" class="weather-atmosphere__layer weather-atmosphere__layer--fog"
       aria-hidden="true">
       <span class="weather-fog-wash"></span>
-      <span v-for="(band, index) in FOG_BANDS" :key="`fog-${index}`" class="weather-fog-band" :style="{
+      <span class="weather-fog-depth"></span>
+      <span class="weather-fog-side-veil weather-fog-side-veil--left"></span>
+      <span class="weather-fog-side-veil weather-fog-side-veil--right"></span>
+      <span v-for="(band, index) in FOG_BANDS" :key="`fog-${index}`" class="weather-fog-band"
+        :class="`weather-fog-band--${band.depth}`" :style="{
+        '--fog-left': band.left,
         '--fog-top': band.top,
         '--fog-width': band.width,
         '--fog-height': band.height,
         '--fog-duration': `${band.duration}s`,
         '--fog-delay': band.delay,
-        '--fog-opacity': `${band.opacity}`
+        '--fog-opacity': `${band.opacity}`,
+        '--fog-blur': band.blur
       }"></span>
+      <span class="weather-fog-near-veil"></span>
     </div>
 
     <div v-if="normalizedWeatherType === 'thunder'" class="weather-atmosphere__layer weather-atmosphere__layer--thunder"
@@ -415,6 +442,17 @@ onMounted(loadWeather);
 
     <div v-if="normalizedWeatherType === 'windy'" class="weather-atmosphere__layer weather-atmosphere__layer--windy"
       aria-hidden="true">
+      <span v-for="(gust, index) in WIND_GUSTS" :key="`wind-gust-${index}`" class="weather-wind-gust"
+        :class="`weather-wind-gust--${gust.depth}`" :style="{
+          '--gust-left': gust.left,
+          '--gust-top': gust.top,
+          '--gust-width': gust.width,
+          '--gust-height': gust.height,
+          '--gust-duration': `${gust.duration}s`,
+          '--gust-delay': gust.delay,
+          '--gust-opacity': `${gust.opacity}`,
+          '--gust-bend': gust.bend
+        }"></span>
       <span v-for="(line, index) in WIND_LINES" :key="`wind-line-${index}`" class="weather-wind-line" :style="{
         '--wind-left': line.left,
         '--wind-top': line.top,
@@ -462,6 +500,9 @@ onMounted(loadWeather);
 
 <style scoped>
 .weather-atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
   pointer-events: none;
 }
 
@@ -573,40 +614,200 @@ onMounted(loadWeather);
 
 .weather-atmosphere__layer--sunny {
   z-index: 2;
+  overflow: hidden;
+}
+
+.weather-sunwarmth {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255, 245, 182, 0.6), rgba(255, 210, 76, 0.24) 10%, rgba(255, 221, 126, 0.06) 22%, transparent 38%),
+    radial-gradient(ellipse at 10% 13%, rgba(255, 252, 220, 0.2), transparent 28%),
+    linear-gradient(118deg, rgba(255, 214, 104, 0.13), rgba(255, 244, 202, 0.05) 22%, transparent 50%),
+    linear-gradient(180deg, rgba(255, 248, 229, 0.05), transparent 50%);
+  opacity: 0.48;
+  mix-blend-mode: screen;
+}
+
+.weather-light-source {
+  position: absolute;
+  left: clamp(-220px, -11vw, -96px);
+  top: clamp(-190px, -12vh, -92px);
+  z-index: 5;
+  width: clamp(300px, 24vw, 460px);
+  height: clamp(300px, 24vw, 460px);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 58% 58%, rgba(255, 255, 232, 0.98) 0 4%, rgba(255, 230, 118, 0.68) 12%, rgba(255, 184, 45, 0.34) 28%, rgba(255, 215, 112, 0.14) 48%, transparent 70%);
+  filter: blur(2px);
+  mix-blend-mode: screen;
+  opacity: 0.58;
+  transform-origin: left top;
+  animation: weather-light-source-breathe 18s ease-in-out infinite;
+}
+
+.weather-light-source::before,
+.weather-light-source::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+.weather-light-source::before {
+  left: 30%;
+  top: 40%;
+  width: 58%;
+  height: 8%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 230, 0.72), rgba(255, 213, 92, 0.28), transparent);
+  filter: blur(5px);
+  transform: rotate(-18deg);
+}
+
+.weather-light-source::after {
+  left: 34%;
+  top: 34%;
+  width: 9%;
+  height: 62%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 232, 0.58), transparent);
+  filter: blur(7px);
+  transform: rotate(36deg);
+}
+
+.weather-light-streak {
+  position: absolute;
+  left: -8vw;
+  top: clamp(72px, 10vh, 132px);
+  z-index: 4;
+  width: clamp(620px, 64vw, 1080px);
+  height: clamp(118px, 15vh, 210px);
+  background:
+    linear-gradient(118deg, transparent 0 5%, rgba(255, 253, 220, 0.78) 10%, rgba(255, 219, 104, 0.2) 25%, transparent 58%),
+    linear-gradient(118deg, transparent 0 28%, rgba(255, 255, 232, 0.32) 35%, rgba(255, 230, 150, 0.12) 46%, transparent 70%),
+    linear-gradient(128deg, transparent 0 15%, rgba(255, 250, 215, 0.28) 23%, transparent 50%);
+  filter: blur(3px);
+  mix-blend-mode: screen;
+  opacity: 0.86;
+  transform: rotate(12deg);
+  transform-origin: left top;
+  animation: weather-light-streak-breathe 20s ease-in-out infinite;
+}
+
+.weather-light-streak::before,
+.weather-light-streak::after {
+  content: '';
+  position: absolute;
+  left: 4%;
+  width: 76%;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 234, 0.74) 18%, rgba(255, 222, 126, 0.22) 46%, transparent 82%);
+  filter: blur(1.5px);
+  pointer-events: none;
+}
+
+.weather-light-streak::before {
+  top: 31%;
+}
+
+.weather-light-streak::after {
+  top: 53%;
+  left: 10%;
+  width: 58%;
+  opacity: 0.68;
+}
+
+.weather-rainbow {
+  position: absolute;
+  left: clamp(920px, 61vw, 1250px);
+  top: clamp(86px, 12vh, 136px);
+  z-index: 2;
+  width: min(500px, 29vw);
+  height: clamp(180px, 13vw, 260px);
+  background:
+    radial-gradient(ellipse at 50% 100%,
+      transparent 0 48%,
+      rgba(255, 94, 110, 0.54) 48.4% 49.8%,
+      rgba(255, 156, 72, 0.5) 49.8% 51.2%,
+      rgba(255, 226, 88, 0.46) 51.2% 52.6%,
+      rgba(116, 210, 126, 0.42) 52.6% 54%,
+      rgba(76, 176, 230, 0.4) 54% 55.5%,
+      rgba(127, 112, 218, 0.36) 55.5% 57%,
+      rgba(218, 126, 204, 0.32) 57% 58.5%,
+      transparent 59.2%
+    );
+  opacity: 0.58;
+  filter: blur(4px) saturate(1.12);
+  mix-blend-mode: screen;
+  transform: rotate(-11deg) scaleY(0.58);
+  transform-origin: 40% 100%;
+  mask-image: radial-gradient(ellipse at 50% 100%, transparent 0 47%, #000 49% 60%, transparent 62%);
+}
+
+.weather-rainbow::after {
+  content: '';
+  position: absolute;
+  inset: 42% 2% 17%;
+  background:
+    radial-gradient(ellipse at 50% 62%, rgba(255, 250, 220, 0.2), rgba(255, 250, 220, 0.08) 42%, transparent 72%);
+  filter: blur(18px);
+  opacity: 0.7;
+  pointer-events: none;
 }
 
 .weather-sunbeam {
   position: absolute;
-  top: -18%;
+  top: var(--beam-top);
   left: var(--beam-left);
+  z-index: 3;
   width: var(--beam-width);
-  height: 140%;
-  background: linear-gradient(180deg, rgba(255, 240, 196, 0.55), rgba(255, 216, 132, 0.12) 50%, rgba(255, 255, 255, 0));
+  height: var(--beam-height);
+  clip-path: polygon(42% 0, 60% 0, 84% 100%, 10% 100%);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 234, 0), rgba(255, 244, 190, var(--beam-opacity)) 12%, rgba(255, 210, 86, 0.24) 46%, rgba(255, 255, 255, 0.02) 80%, transparent 100%);
   opacity: var(--beam-opacity);
   transform: rotate(var(--beam-rotate));
-  filter: blur(18px);
+  transform-origin: left top;
+  filter: blur(10px);
   mix-blend-mode: screen;
   animation: weather-sunbeam-sweep var(--beam-duration) ease-in-out infinite;
   animation-delay: var(--beam-delay);
 }
 
+.weather-sunbeam::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  left: 36%;
+  width: 22%;
+  background: linear-gradient(180deg, rgba(255, 255, 232, 0), rgba(255, 255, 232, 0.48) 18%, rgba(255, 229, 134, 0.16) 54%, transparent 84%);
+  filter: blur(2px);
+}
+
 .weather-sunwash {
   position: absolute;
   inset: 0;
+  z-index: 1;
   background:
-    radial-gradient(circle at 50% 22%, rgba(255, 226, 160, 0.28), transparent 36%),
-    radial-gradient(circle at 50% 52%, rgba(255, 247, 221, 0.12), transparent 44%);
+    radial-gradient(circle at 5% 8%, rgba(255, 255, 228, 0.26), transparent 21%),
+    radial-gradient(ellipse at 22% 15%, rgba(255, 224, 132, 0.08), transparent 30%),
+    linear-gradient(112deg, rgba(255, 223, 146, 0.07), rgba(255, 250, 230, 0.03) 34%, transparent 70%);
+  opacity: 0.42;
+  mix-blend-mode: screen;
 }
 
 .weather-mote {
   position: absolute;
   left: var(--mote-left);
   top: var(--mote-top);
+  z-index: 6;
   width: var(--mote-size);
   height: var(--mote-size);
   border-radius: 50%;
-  background: rgba(248, 222, 154, 0.52);
-  box-shadow: 0 0 14px rgba(255, 219, 132, 0.42);
+  background: rgba(255, 250, 222, var(--mote-opacity));
+  box-shadow: 0 0 10px rgba(255, 232, 156, 0.38);
   animation: weather-mote-float var(--mote-duration) ease-in-out infinite;
   animation-delay: var(--mote-delay);
 }
@@ -618,49 +819,36 @@ onMounted(loadWeather);
 .weather-rain-line {
   position: absolute;
   left: var(--rain-left);
-  top: -12%;
-  width: 2px;
+  top: -22vh;
+  width: 1px;
   height: var(--rain-height);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(214, 232, 242, var(--rain-opacity)), rgba(255, 255, 255, 0));
-  transform: rotate(18deg);
-  filter: blur(0.4px);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(232, 244, 250, var(--rain-opacity)) 24%, rgba(232, 244, 250, var(--rain-opacity)) 76%, rgba(255, 255, 255, 0));
+  transform: translate3d(0, 0, 0) rotate(var(--rain-slant));
+  transform-origin: top center;
+  filter: blur(0.18px);
   animation: weather-rain-fall var(--rain-duration) linear infinite;
   animation-delay: var(--rain-delay);
 }
 
 .weather-rain-line--mid {
-  width: 2.6px;
+  width: 1.2px;
 }
 
 .weather-rain-line--near {
-  width: 3px;
+  width: 1.45px;
 }
 
 .weather-rain-trail {
   position: absolute;
   left: var(--trail-left);
-  top: 0;
-  width: 26px;
-  height: 92%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+  top: -8vh;
+  width: 18px;
+  height: 116vh;
+  background: linear-gradient(180deg, rgba(232, 244, 250, 0), rgba(232, 244, 250, 0.06), rgba(232, 244, 250, 0));
   filter: blur(8px);
-  opacity: 0.4;
+  opacity: 0.28;
   animation: weather-rain-trail-glide var(--trail-duration) ease-in-out infinite;
   animation-delay: var(--trail-delay);
-}
-
-.weather-ripple {
-  position: absolute;
-  left: var(--ripple-left);
-  top: var(--ripple-top);
-  width: 72px;
-  height: 28px;
-  border: 1px solid rgba(220, 240, 248, 0.22);
-  border-radius: 50%;
-  transform: translate(-50%, -50%) scale(0.72);
-  opacity: 0;
-  animation: weather-ripple-ring 4.2s ease-out infinite;
-  animation-delay: var(--ripple-delay);
 }
 
 .weather-atmosphere__layer--snow {
@@ -682,11 +870,44 @@ onMounted(loadWeather);
   top: -12%;
   width: var(--flake-size);
   height: var(--flake-size);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.28);
+  --flake-stroke: max(1px, calc(var(--flake-size) * 0.1));
+  color: rgba(255, 255, 255, 0.86);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.24));
   animation: weather-snow-fall var(--flake-duration) linear infinite;
   animation-delay: var(--flake-delay);
+}
+
+.weather-snowflake__shape {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(currentColor, currentColor) center / 100% var(--flake-stroke) no-repeat,
+    radial-gradient(circle, rgba(255, 255, 255, 0.95) 0 16%, transparent 18%);
+  animation: weather-snow-spin var(--flake-spin-duration) linear infinite;
+  animation-delay: var(--flake-delay);
+}
+
+.weather-snowflake__shape::before,
+.weather-snowflake__shape::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: var(--flake-stroke);
+  border-radius: 999px;
+  background: currentColor;
+  transform-origin: center;
+}
+
+.weather-snowflake__shape::before {
+  transform: translateY(-50%) rotate(60deg);
+}
+
+.weather-snowflake__shape::after {
+  transform: translateY(-50%) rotate(-60deg);
 }
 
 .weather-snowflake--far {
@@ -710,20 +931,107 @@ onMounted(loadWeather);
 .weather-fog-wash {
   position: absolute;
   inset: 0;
-  background: rgba(239, 243, 246, 0.09);
+  background:
+    radial-gradient(circle at 18% 30%, rgba(246, 248, 248, 0.2), transparent 34%),
+    radial-gradient(circle at 76% 26%, rgba(220, 228, 230, 0.18), transparent 38%),
+    linear-gradient(180deg, rgba(236, 241, 242, 0.28), rgba(238, 242, 242, 0.18) 48%, rgba(225, 232, 232, 0.26)),
+    linear-gradient(90deg, rgba(228, 234, 235, 0.24), transparent 28%, transparent 72%, rgba(228, 234, 235, 0.22));
+}
+
+.weather-fog-depth {
+  position: absolute;
+  inset: -6vh -8vw;
+  z-index: 0;
+  --fog-opacity: 0.32;
+  background:
+    linear-gradient(180deg, rgba(232, 238, 239, 0.28), rgba(244, 247, 247, 0.16) 34%, rgba(218, 226, 226, 0.24)),
+    radial-gradient(ellipse at 50% 52%, rgba(245, 247, 247, 0.2), transparent 58%);
+  opacity: var(--fog-opacity);
+  animation: weather-fog-breathe 19s ease-in-out infinite;
+}
+
+.weather-fog-side-veil {
+  position: absolute;
+  top: -8vh;
+  bottom: -8vh;
+  width: 58vw;
+  z-index: 2;
+  --fog-gather-from: -18vw;
+  --fog-gather-to: 6vw;
+  --fog-gather-low: 0.12;
+  --fog-gather-high: 0.34;
+  background:
+    radial-gradient(ellipse at 42% 46%, rgba(246, 249, 249, 0.42), transparent 58%),
+    radial-gradient(ellipse at 22% 76%, rgba(224, 232, 232, 0.3), transparent 54%),
+    linear-gradient(90deg, rgba(240, 245, 245, 0.48), rgba(234, 241, 241, 0.26) 58%, transparent);
+  filter: blur(16px);
+  opacity: var(--fog-gather-low);
+  transform: translate3d(var(--fog-gather-from), 0, 0);
+  animation: weather-fog-gather 22s ease-in-out infinite alternate;
+}
+
+.weather-fog-side-veil--left {
+  left: -24vw;
+}
+
+.weather-fog-side-veil--right {
+  right: -24vw;
+  --fog-gather-from: 18vw;
+  --fog-gather-to: -6vw;
+  --fog-gather-low: 0.1;
+  --fog-gather-high: 0.3;
+  background:
+    radial-gradient(ellipse at 58% 46%, rgba(246, 249, 249, 0.42), transparent 58%),
+    radial-gradient(ellipse at 78% 76%, rgba(224, 232, 232, 0.3), transparent 54%),
+    linear-gradient(270deg, rgba(240, 245, 245, 0.48), rgba(234, 241, 241, 0.26) 58%, transparent);
+  animation-duration: 24s;
+  animation-delay: -5s;
+}
+
+.weather-fog-near-veil {
+  position: absolute;
+  left: -10vw;
+  right: -10vw;
+  bottom: -8vh;
+  height: 38vh;
+  z-index: 4;
+  --fog-opacity: 0.46;
+  background:
+    radial-gradient(ellipse at 18% 78%, rgba(245, 248, 248, 0.42), transparent 42%),
+    radial-gradient(ellipse at 72% 86%, rgba(226, 234, 234, 0.42), transparent 46%),
+    linear-gradient(180deg, transparent, rgba(238, 243, 243, 0.36) 38%, rgba(226, 234, 234, 0.5));
+  opacity: var(--fog-opacity);
+  animation: weather-fog-breathe 16s ease-in-out infinite;
 }
 
 .weather-fog-band {
   position: absolute;
-  left: -22vw;
+  left: var(--fog-left);
   top: var(--fog-top);
   width: var(--fog-width);
   height: var(--fog-height);
   border-radius: 999px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(245, 247, 248, var(--fog-opacity)), rgba(255, 255, 255, 0));
-  filter: blur(16px);
-  animation: weather-fog-drift var(--fog-duration) ease-in-out infinite;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(250, 252, 252, var(--fog-opacity)), rgba(232, 238, 238, var(--fog-opacity)) 48%, transparent 74%),
+    linear-gradient(90deg, transparent, rgba(245, 248, 248, var(--fog-opacity)) 24%, rgba(230, 236, 236, var(--fog-opacity)) 68%, transparent);
+  filter: blur(var(--fog-blur));
+  opacity: var(--fog-opacity);
+  animation:
+    weather-fog-drift var(--fog-duration) ease-in-out infinite,
+    weather-fog-breathe var(--fog-duration) ease-in-out infinite;
   animation-delay: var(--fog-delay);
+}
+
+.weather-fog-band--far {
+  z-index: 1;
+}
+
+.weather-fog-band--mid {
+  z-index: 2;
+}
+
+.weather-fog-band--near {
+  z-index: 3;
 }
 
 .weather-atmosphere__layer--thunder {
@@ -948,6 +1256,57 @@ onMounted(loadWeather);
   z-index: 3;
 }
 
+.weather-wind-gust {
+  position: absolute;
+  left: var(--gust-left);
+  top: var(--gust-top);
+  width: var(--gust-width);
+  height: var(--gust-height);
+  --gust-line-width: 2.6px;
+  border-top: var(--gust-line-width) solid rgba(235, 247, 252, var(--gust-opacity));
+  border-radius: 58% 42% 0 0;
+  background: linear-gradient(90deg, transparent, rgba(242, 250, 255, 0.14) 28%, transparent 72%) 16% 42% / 64% 2px no-repeat;
+  filter: drop-shadow(0 0 3px rgba(220, 240, 248, 0.16));
+  opacity: 0;
+  transform: translate3d(-18vw, 0, 0) rotate(var(--gust-bend));
+  animation: weather-wind-gust-flow var(--gust-duration) cubic-bezier(0.32, 0.04, 0.22, 1) infinite;
+  animation-delay: var(--gust-delay);
+}
+
+.weather-wind-gust::before,
+.weather-wind-gust::after {
+  content: '';
+  position: absolute;
+  height: 58%;
+  border-top: var(--gust-line-width) solid rgba(235, 247, 252, var(--gust-opacity));
+  border-radius: 58% 42% 0 0;
+  pointer-events: none;
+}
+
+.weather-wind-gust::before {
+  left: 12%;
+  top: 18%;
+  width: 64%;
+}
+
+.weather-wind-gust::after {
+  right: 10%;
+  top: 50%;
+  width: 42%;
+}
+
+.weather-wind-gust--far {
+  --gust-line-width: 1.6px;
+  filter: blur(0.55px);
+}
+
+.weather-wind-gust--near {
+  --gust-line-width: 3.2px;
+  filter:
+    drop-shadow(0 0 7px rgba(220, 240, 248, 0.34))
+    drop-shadow(0 0 2px rgba(255, 255, 255, 0.18));
+}
+
 .weather-wind-line {
   position: absolute;
   left: var(--wind-left);
@@ -1017,7 +1376,7 @@ onMounted(loadWeather);
   position: fixed;
   top: 92px;
   right: 26px;
-  z-index: 30;
+  z-index: 1;
   min-width: 136px;
   display: grid;
   gap: 2px;
@@ -1128,11 +1487,41 @@ onMounted(loadWeather);
 
   0%,
   100% {
-    transform: translateX(-4vw) rotate(var(--beam-rotate));
+    transform: translate3d(-0.4vw, -0.2vh, 0) rotate(var(--beam-rotate));
+    opacity: 0.18;
   }
 
   50% {
-    transform: translateX(5vw) rotate(var(--beam-rotate));
+    transform: translate3d(0.8vw, 0.5vh, 0) rotate(var(--beam-rotate));
+    opacity: var(--beam-opacity);
+  }
+}
+
+@keyframes weather-light-source-breathe {
+
+  0%,
+  100% {
+    transform: translate3d(-0.4vw, -0.2vh, 0) scale(0.98);
+    opacity: 0.82;
+  }
+
+  50% {
+    transform: translate3d(0.5vw, 0.3vh, 0) scale(1.03);
+    opacity: 1;
+  }
+}
+
+@keyframes weather-light-streak-breathe {
+
+  0%,
+  100% {
+    transform: translate3d(-0.5vw, -0.2vh, 0) rotate(12deg);
+    opacity: 0.48;
+  }
+
+  50% {
+    transform: translate3d(0.8vw, 0.4vh, 0) rotate(12deg);
+    opacity: 0.78;
   }
 }
 
@@ -1141,22 +1530,29 @@ onMounted(loadWeather);
   0%,
   100% {
     transform: translate3d(0, 0, 0) scale(0.92);
-    opacity: 0.5;
+    opacity: 0.38;
   }
 
   50% {
-    transform: translate3d(1.2vw, -1.1vh, 0) scale(1.08);
-    opacity: 0.92;
+    transform: translate3d(0.7vw, -0.8vh, 0) scale(1.08);
+    opacity: 0.86;
   }
 }
 
 @keyframes weather-rain-fall {
   0% {
-    transform: translate3d(0, -8vh, 0) rotate(18deg);
+    transform: translate3d(0, -14vh, 0) rotate(var(--rain-slant));
+    opacity: 0;
+  }
+
+  8%,
+  92% {
+    opacity: 0.95;
   }
 
   100% {
-    transform: translate3d(9vw, 108vh, 0) rotate(18deg);
+    transform: translate3d(0.12vw, 136vh, 0) rotate(var(--rain-slant));
+    opacity: 0;
   }
 }
 
@@ -1164,29 +1560,13 @@ onMounted(loadWeather);
 
   0%,
   100% {
-    transform: translateX(-1vw);
-    opacity: 0.18;
+    transform: translateY(-2vh);
+    opacity: 0.14;
   }
 
   50% {
-    transform: translateX(1vw);
-    opacity: 0.42;
-  }
-}
-
-@keyframes weather-ripple-ring {
-  0% {
-    transform: translate(-50%, -50%) scale(0.72);
-    opacity: 0;
-  }
-
-  18% {
-    opacity: 0.24;
-  }
-
-  100% {
-    transform: translate(-50%, -50%) scale(1.38);
-    opacity: 0;
+    transform: translateY(2vh);
+    opacity: 0.28;
   }
 }
 
@@ -1200,15 +1580,49 @@ onMounted(loadWeather);
   }
 }
 
+@keyframes weather-snow-spin {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(var(--flake-spin-turn));
+  }
+}
+
 @keyframes weather-fog-drift {
 
   0%,
   100% {
-    transform: translateX(0);
+    transform: translate3d(-8vw, 0, 0);
   }
 
   50% {
-    transform: translateX(18vw);
+    transform: translate3d(16vw, 0, 0);
+  }
+}
+
+@keyframes weather-fog-breathe {
+
+  0%,
+  100% {
+    opacity: var(--fog-opacity);
+  }
+
+  50% {
+    opacity: calc(var(--fog-opacity) + 0.08);
+  }
+}
+
+@keyframes weather-fog-gather {
+  0% {
+    transform: translate3d(var(--fog-gather-from), 0, 0);
+    opacity: var(--fog-gather-low);
+  }
+
+  100% {
+    transform: translate3d(var(--fog-gather-to), 0, 0);
+    opacity: var(--fog-gather-high);
   }
 }
 
@@ -1288,6 +1702,23 @@ onMounted(loadWeather);
 
   100% {
     transform: translateX(24vw) rotate(-8deg);
+    opacity: 0;
+  }
+}
+
+@keyframes weather-wind-gust-flow {
+  0% {
+    transform: translate3d(-18vw, 0, 0) rotate(var(--gust-bend));
+    opacity: 0;
+  }
+
+  16%,
+  78% {
+    opacity: var(--gust-opacity);
+  }
+
+  100% {
+    transform: translate3d(150vw, -1.8vh, 0) rotate(calc(var(--gust-bend) - 4deg));
     opacity: 0;
   }
 }

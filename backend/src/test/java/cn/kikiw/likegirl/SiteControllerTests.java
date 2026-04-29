@@ -15,6 +15,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class SiteControllerTests {
 
     private final SiteService siteService = mock(SiteService.class);
-    private final MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new SiteController(siteService))
+    private final MockMvc mockMvc = MockMvcBuilders.standaloneSetup(siteController())
             .setMessageConverters(new MappingJackson2HttpMessageConverter(
                     Jackson2ObjectMapperBuilder.json()
                             .modules(new JavaTimeModule())
@@ -76,5 +77,11 @@ class SiteControllerTests {
                 .andExpect(jsonPath("$.nickname").value("Alice"))
                 .andExpect(jsonPath("$.content").value("hello"))
                 .andExpect(jsonPath("$.createdAt").value("2026-04-26T12:00:00"));
+    }
+
+    private SiteController siteController() {
+        SiteController controller = new SiteController();
+        ReflectionTestUtils.setField(controller, "siteService", siteService);
+        return controller;
     }
 }

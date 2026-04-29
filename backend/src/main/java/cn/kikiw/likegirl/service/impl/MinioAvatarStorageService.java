@@ -5,6 +5,7 @@ import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,24 +17,24 @@ import java.util.UUID;
 @Service
 public class MinioAvatarStorageService implements AvatarStorageService {
 
-    private final String endpoint;
-    private final String accessKey;
-    private final String secretKey;
-    private final String bucket;
-    private final String publicBaseUrl;
+    @Value("${minio.endpoint:}")
+    private String endpoint;
+    @Value("${minio.access-key:}")
+    private String accessKey;
+    @Value("${minio.secret-key:}")
+    private String secretKey;
+    @Value("${minio.bucket:}")
+    private String bucket;
+    @Value("${minio.public-base-url:}")
+    private String publicBaseUrl;
 
-    public MinioAvatarStorageService(
-            @Value("${minio.endpoint:}") String endpoint,
-            @Value("${minio.access-key:}") String accessKey,
-            @Value("${minio.secret-key:}") String secretKey,
-            @Value("${minio.bucket:}") String bucket,
-            @Value("${minio.public-base-url:}") String publicBaseUrl
-    ) {
-        this.endpoint = clean(endpoint);
-        this.accessKey = clean(accessKey);
-        this.secretKey = clean(secretKey);
-        this.bucket = clean(bucket);
-        this.publicBaseUrl = clean(publicBaseUrl);
+    @PostConstruct
+    public void init() {
+        endpoint = clean(endpoint);
+        accessKey = clean(accessKey);
+        secretKey = clean(secretKey);
+        bucket = clean(bucket);
+        publicBaseUrl = clean(publicBaseUrl);
     }
 
     @Override

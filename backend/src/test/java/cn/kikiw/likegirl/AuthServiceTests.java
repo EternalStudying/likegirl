@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -28,15 +29,12 @@ import static org.mockito.Mockito.when;
 
 class AuthServiceTests {
 
+    private static final String SECRET = "test-secret-key-that-is-long-enough-for-hs256-tests";
+
     private final AuthUserMapper authUserMapper = mock(AuthUserMapper.class);
     private final AvatarStorageService avatarStorageService = mock(AvatarStorageService.class);
-    private final JwtService jwtService = new JwtService("test-secret-key-that-is-long-enough-for-hs256-tests");
-    private final AuthService authService = new AuthServiceImpl(
-            authUserMapper,
-            jwtService,
-            new BCryptPasswordEncoder(),
-            avatarStorageService
-    );
+    private final JwtService jwtService = jwtService();
+    private final AuthService authService = authService();
 
     @Test
     void loginChecksBCryptPasswordAndReturnsTokenWithUser() {
@@ -126,5 +124,21 @@ class AuthServiceTests {
                 "Happy",
                 LocalDateTime.of(2026, 4, 27, 12, 0)
         );
+    }
+
+    private JwtService jwtService() {
+        JwtService service = new JwtService();
+        ReflectionTestUtils.setField(service, "secret", SECRET);
+        service.init();
+        return service;
+    }
+
+    private AuthService authService() {
+        AuthServiceImpl service = new AuthServiceImpl();
+        ReflectionTestUtils.setField(service, "authUserMapper", authUserMapper);
+        ReflectionTestUtils.setField(service, "jwtService", jwtService);
+        ReflectionTestUtils.setField(service, "passwordEncoder", new BCryptPasswordEncoder());
+        ReflectionTestUtils.setField(service, "avatarStorageService", avatarStorageService);
+        return service;
     }
 }

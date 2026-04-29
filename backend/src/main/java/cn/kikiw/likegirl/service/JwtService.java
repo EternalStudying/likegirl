@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,13 @@ public class JwtService {
 
     private static final Duration TOKEN_TTL = Duration.ofHours(1);
 
-    private final SecretKey secretKey;
+    @Value("${JWT_SECRET:likegirl-development-secret-key-change-me-please-32-bytes-minimum}")
+    private String secret;
 
-    public JwtService(@Value("${JWT_SECRET:likegirl-development-secret-key-change-me-please-32-bytes-minimum}") String secret) {
+    private SecretKey secretKey;
+
+    @PostConstruct
+    public void init() {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 

@@ -71,21 +71,25 @@ describe('首页入口和独立路由', () => {
     await flushPromises();
 
     expect(wrapper.find('.home-hero-carousel').exists()).toBe(true);
+    expect(wrapper.find('.home-cozy-stage').exists()).toBe(true);
     expect(wrapper.find('.memoir-stage').exists()).toBe(false);
     expect(wrapper.find('.home-hero-title').exists()).toBe(false);
     expect(wrapper.findAll('.home-hero-slide')).toHaveLength(2);
     expect(wrapper.findAll('.hero-avatar-sticker')).toHaveLength(2);
-    expect(wrapper.findAll('.hero-avatar-name').map((item) => item.text())).toEqual(['小栀', '阿然']);
+    expect(wrapper.find('.hero-center-heart').exists()).toBe(true);
     expect(wrapper.get('.hero-memory-note').text()).toContain('在一起第 1439 天');
     expect(wrapper.get('.hero-anniversary-capsule').text()).toContain('下一纪念日 23 天后');
+    expect(wrapper.find('.home-memory-card__days').text()).toContain('1439');
+    expect(wrapper.get('.home-memory-card__anniversary').text()).toContain('23 天后');
     expect(wrapper.find('.home-hero-wave').exists()).toBe(false);
+    expect(wrapper.findAll('.home-cozy-nav__link')).toHaveLength(7);
     expect(wrapper.findAll('.index-tab')).toHaveLength(5);
     expect(wrapper.find('.index-number').text()).toBe('01');
     expect(wrapper.text()).toContain('Memory Index');
     expect(wrapper.text()).toContain('纪念册目录');
   });
 
-  it('首页仍显示在一起天数和下一纪念日', async () => {
+  it('首页在 Hero 和纪念卡中保留在一起天数和下一纪念日', async () => {
     freezeHomeDate();
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve(siteDataFixture) }));
     const router = createRouter({ history: createMemoryHistory(), routes });
@@ -95,7 +99,9 @@ describe('首页入口和独立路由', () => {
 
     expect(wrapper.get('.home-hero-carousel').text()).toContain('第 1439 天');
     expect(wrapper.get('.home-hero-carousel').text()).toContain('下一纪念日');
-    expect(wrapper.get('.home-hero-carousel').text()).toContain('23 天后');
+    expect(wrapper.get('.home-memory-card').text()).toContain('1439');
+    expect(wrapper.get('.home-memory-card').text()).toContain('下一纪念日');
+    expect(wrapper.get('.home-memory-card').text()).toContain('23 天后');
     expect(wrapper.get('.home-hero-carousel').text()).not.toContain('小栀 和 阿然');
   });
 

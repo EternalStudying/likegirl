@@ -12,6 +12,8 @@ const weatherAtmosphereSource = readFileSync(
   resolve(dirname(fileURLToPath(import.meta.url)), '../src/components/WeatherAtmosphere.vue'),
   'utf8'
 );
+const appSource = readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), '../src/App.vue'), 'utf8');
+const homeViewSource = readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), '../src/views/HomeView.vue'), 'utf8');
 
 const layerSelectors = {
   sunny: '.weather-atmosphere__layer--sunny',
@@ -169,6 +171,25 @@ describe('WeatherAtmosphere', () => {
     expect(wrapper.find('.weather-atmosphere__cloud-layer').exists()).toBe(true);
     expect(wrapper.findAll('.weather-cloud').length).toBeGreaterThanOrEqual(5);
     expect(wrapper.find('canvas').exists()).toBe(false);
+  });
+
+  it('sunny 光源集中在左上角并显示轻彩虹', async () => {
+    stubReducedMotion(false);
+    stubGeolocationSuccess(30.2741, 120.1551);
+    vi.stubGlobal('fetch', stubWeatherFetch('sunny'));
+
+    const wrapper = mount(WeatherAtmosphere);
+    await flushPromises();
+
+    expect(wrapper.find('.weather-light-source').exists()).toBe(true);
+    expect(wrapper.find('.weather-light-streak').exists()).toBe(true);
+    expect(wrapper.find('.weather-rainbow').exists()).toBe(true);
+    expect(wrapper.findAll('.weather-sunbeam').length).toBeGreaterThanOrEqual(5);
+    expect(weatherAtmosphereSource).toContain("transform-origin: left top;");
+    expect(weatherAtmosphereSource).toContain("linear-gradient(118deg");
+    expect(weatherAtmosphereSource).toContain("radial-gradient(ellipse at 50% 100%");
+    expect(weatherAtmosphereSource).toContain("mask-image: radial-gradient(ellipse");
+    expect(weatherAtmosphereSource).toContain(".weather-rainbow::after");
   });
 
   it('cloudy/thunder/windy/night 复用同一套云层 class', async () => {
@@ -329,5 +350,23 @@ describe('WeatherAtmosphere', () => {
     expect(weatherAtmosphereSource).not.toContain('function drawRain(');
     expect(weatherAtmosphereSource).not.toContain('function drawSnow(');
     expect(weatherAtmosphereSource).not.toContain('function drawFog(');
+  });
+
+  it('登录后全站环境层由 App 挂载，首页不重复挂载', () => {
+    expect(appSource).toContain("import WeatherAtmosphere from './components/WeatherAtmosphere.vue';");
+    expect(appSource).toMatch(
+      /<template v-if="isLoggedIn">\s*<WeatherAtmosphere\s*\/>\s*<AppTopBar\s*\/>\s*<RouterView\s*\/>\s*<\/template>/
+    );
+    expect(homeViewSource).not.toContain('WeatherAtmosphere');
+    expect(homeViewSource).not.toContain('<WeatherAtmosphere');
+  });
+
+  it('天气根层固定全屏在最顶层且不拦截交互', () => {
+    const rootBlock = weatherAtmosphereSource.match(/\.weather-atmosphere\s*{([\s\S]*?)\n}/)?.[1] ?? '';
+
+    expect(rootBlock).toContain('position: fixed;');
+    expect(rootBlock).toContain('inset: 0;');
+    expect(rootBlock).toContain('z-index: 2147483647;');
+    expect(rootBlock).toContain('pointer-events: none;');
   });
 });

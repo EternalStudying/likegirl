@@ -5,6 +5,7 @@ import cn.kikiw.likegirl.dto.ProfileUpdateDto;
 import cn.kikiw.likegirl.service.AuthService;
 import cn.kikiw.likegirl.vo.CurrentUserVo;
 import cn.kikiw.likegirl.vo.LoginVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,11 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final AuthService authService;
-
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
+    @Autowired
+    private AuthService authService;
 
     @PostMapping("/login")
     public LoginVo login(@RequestBody LoginDto request) {

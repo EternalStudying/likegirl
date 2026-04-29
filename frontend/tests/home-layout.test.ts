@@ -102,7 +102,7 @@ describe('首页用户入口布局', () => {
     expect(wrapper.find('.home-hero-carousel .user-badge').exists()).toBe(false);
   });
 
-  it('首页首屏中心区使用角色贴纸和手账纪念日构图', async () => {
+  it('首页红框首屏使用整幅插画、悬浮导航和纸质纪念卡构图', async () => {
     stubHomeGeolocation();
     vi.stubGlobal('fetch', mockHomeFetch());
     const router = createRouter({ history: createMemoryHistory(), routes });
@@ -110,44 +110,54 @@ describe('首页用户入口布局', () => {
     const wrapper = mount(HomeView, { global: { plugins: [router] } });
     await flushPromises();
 
-    const avatarImages = wrapper.findAll('.hero-avatar-image');
-
-    expect(avatarImages).toHaveLength(2);
-    expect(avatarImages[0].attributes('src')).toContain('hero-sticker-left-bear');
-    expect(avatarImages[1].attributes('src')).toContain('hero-sticker-right-reader');
-    expect(wrapper.find('.hero-heart-spark--left').exists()).toBe(true);
-    expect(wrapper.find('.hero-heart-spark--right').exists()).toBe(true);
-    expect(wrapper.find('.hero-memory-note--torn').exists()).toBe(true);
-    expect(wrapper.find('.hero-anniversary-capsule--paper').exists()).toBe(true);
-    expect(wrapper.find('.weather-atmosphere').exists()).toBe(true);
-    expect(wrapper.find('.weather-atmosphere__stamp').text()).toContain('Hangzhou');
-    expect(wrapper.find('.weather-atmosphere__stamp').text()).toContain('24°');
-    expect(wrapper.find('.weather-atmosphere__stamp').text()).toContain('晴朗');
+    expect(wrapper.find('.home-cozy-stage').exists()).toBe(true);
+    expect(wrapper.findAll('.home-hero-carousel .hero-avatar-image')).toHaveLength(2);
+    expect(wrapper.find('.home-hero-carousel .hero-center-heart').exists()).toBe(true);
+    expect(wrapper.find('.home-hero-carousel .hero-memory-note').text()).toContain('在一起第');
+    expect(wrapper.find('.home-hero-carousel .hero-anniversary-capsule').text()).toContain('下一纪念日');
+    expect(wrapper.find('.home-cozy-nav').exists()).toBe(true);
+    expect(wrapper.findAll('.home-cozy-nav__link')).toHaveLength(7);
+    expect(wrapper.find('.home-cozy-nav__link--home').text()).toContain('首页');
+    expect(wrapper.find('.home-cozy-title').text()).toContain('收好我们的日常与心动');
+    expect(wrapper.find('.home-memory-card').exists()).toBe(true);
+    expect(wrapper.find('.home-memory-card__days').text()).toContain(String(togetherDaysFromFixture()));
+    expect(wrapper.find('.home-memory-card__anniversary').text()).toContain('下一纪念日');
+    expect(wrapper.find('.directory-section').exists()).toBe(true);
+    expect(wrapper.find('.weather-atmosphere').exists()).toBe(false);
   });
 
-  it('首页中心纸条和爱心使用手工质感样式', () => {
-    const anniversaryStart = styles.lastIndexOf('\n.hero-anniversary-capsule {');
-    const anniversaryEnd = styles.indexOf('\n}', anniversaryStart);
-    const anniversaryBlock = styles.slice(anniversaryStart, anniversaryEnd);
-
-    expect(styles).toMatch(/\.hero-memory-note::after\s*{/);
-    expect(anniversaryBlock).toContain('clip-path: polygon(');
-    expect(anniversaryBlock).not.toContain('border-radius: 999px;');
-    expect(styles).toMatch(/\.hero-center-heart::before\s*{[\s\S]*repeating-linear-gradient/);
+  it('红框区域样式包含底部雪坡、悬浮胶囊导航和纸质纪念卡', () => {
+    expect(styles).toMatch(/\.home-cozy-stage\s*{/);
+    expect(styles).toMatch(/--cozy-boundary-top:\s*calc\(var\(--cozy-hero-height\) \+ var\(--cozy-nav-offset\) \+ var\(--cozy-nav-half\)\);/);
+    expect(styles).toMatch(/\.home-cozy-stage::before\s*{[\s\S]*background:\s*#fff8ee;/);
+    expect(styles).toMatch(/\.home-cozy-stage::after\s*{[\s\S]*linear-gradient\(180deg,\s*transparent calc\(100% - 1px\)/);
+    expect(styles).toMatch(/\.home-cozy-stage \.home-hero-carousel::after\s*{[\s\S]*radial-gradient/);
+    expect(styles).toMatch(/\.home-cozy-stage \.home-hero-carousel::after\s*{[\s\S]*mask-image:\s*url\("data:image\/svg\+xml/);
+    expect(styles).toContain("M0%2042Q960%20318%201920%2042V220H0Z");
+    expect(styles).toMatch(/\.home-cozy-stage \.home-hero-carousel::after\s*{[\s\S]*drop-shadow/);
+    expect(styles).toMatch(/\.home-cozy-stage \.home-hero-dots\s*{[\s\S]*bottom:\s*-17px;/);
+    expect(styles).toMatch(/\.home-cozy-nav\s*{[\s\S]*margin:\s*var\(--cozy-nav-offset\) auto 0;[\s\S]*border-radius:\s*999px;/);
+    expect(styles).toMatch(/\.home-memory-card\s*{[\s\S]*repeating-linear-gradient/);
+    expect(styles).toMatch(/\.home-memory-card__days\s*{[\s\S]*font-size:\s*clamp/);
   });
 
-  it('全局顶栏使用 sticky 布局且移动端文本省略避免横向溢出', () => {
+  it('全局顶栏使用红框图中的居中 LG Demo 小栏', () => {
     expect(styles).toMatch(/\.app-topbar\s*{[\s\S]*position:\s*sticky;[\s\S]*top:\s*0;/);
     expect(styles).not.toMatch(/\.app-topbar__inner\s*{[\s\S]*width:\s*min\(1120px,\s*calc\(100%\s*-\s*32px\)\);/);
     expect(styles).toMatch(/\.app-topbar__inner\s*{[\s\S]*width:\s*auto;[\s\S]*margin-left:\s*max\(var\(--topbar-edge-gap\),\s*env\(safe-area-inset-left\)\);/);
     expect(styles).toMatch(/\.app-topbar__inner\s*{[\s\S]*margin-right:\s*max\(var\(--topbar-edge-gap\),\s*env\(safe-area-inset-right\)\);/);
-    expect(styles).toMatch(/\.app-topbar__quote\s*{[\s\S]*overflow:\s*hidden;[\s\S]*text-overflow:\s*ellipsis;[\s\S]*white-space:\s*nowrap;/);
+    expect(styles).toMatch(/\.app-topbar__quote\s*{[\s\S]*left:\s*50%;[\s\S]*transform:\s*translateX\(-50%\);/);
     expect(styles).not.toMatch(/@media\s*\(max-width:\s*760px\)[\s\S]*\.app-topbar__inner\s*{[\s\S]*width:\s*calc\(100%\s*-\s*24px\);/);
   });
 
-  it('首页 Hero 横幅接近全宽但保留桌面和移动安全边距', () => {
-    expect(styles).toMatch(/\.home-hero-carousel\s*{[\s\S]*width:\s*min\(1600px,\s*calc\(100%\s*-\s*32px\)\);/);
-    expect(styles).toMatch(/@media\s*\(max-width:\s*760px\)[\s\S]*\.home-hero-carousel\s*{[\s\S]*width:\s*min\(100%\s*-\s*20px,\s*1480px\);/);
-    expect(styles).toMatch(/@media\s*\(max-width:\s*420px\)[\s\S]*\.home-hero-carousel\s*{[\s\S]*width:\s*min\(100%\s*-\s*18px,\s*1480px\);/);
+  it('红框 Hero 横幅贴齐红框宽度且目录顺延到纪念卡之后', () => {
+    expect(styles).toMatch(/\.home-cozy-stage \.home-hero-carousel\s*{[\s\S]*width:\s*100%;[\s\S]*margin:\s*0;/);
+    expect(styles).toMatch(/\.home-cozy-stage \+ \.directory-section\s*{[\s\S]*padding-top:[\s\S]*background:\s*#fff8ee;/);
   });
 });
+
+function togetherDaysFromFixture() {
+  const start = new Date(`${siteDataFixture.couple.startDate}T00:00:00`);
+  const now = new Date();
+  return Math.floor((now.getTime() - start.getTime()) / 86_400_000) + 1;
+}

@@ -9,6 +9,7 @@ import cn.kikiw.likegirl.service.impl.SiteServiceImpl;
 import cn.kikiw.likegirl.vo.MessageVo;
 import cn.kikiw.likegirl.vo.SiteVo;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ import static org.mockito.Mockito.when;
 class SiteServiceTests {
 
     private final SiteMapper siteMapper = mock(SiteMapper.class);
-    private final SiteService siteService = new SiteServiceImpl(siteMapper);
+    private final SiteService siteService = siteService();
 
     @Test
     void getSiteReturnsHomepageDataFromMapper() {
@@ -76,5 +77,11 @@ class SiteServiceTests {
         assertThatThrownBy(() -> siteService.addMessage(new MessageCreateDto("Bob", "x".repeat(501))))
                 .isInstanceOf(ResponseStatusException.class)
                 .hasMessageContaining("400");
+    }
+
+    private SiteService siteService() {
+        SiteServiceImpl service = new SiteServiceImpl();
+        ReflectionTestUtils.setField(service, "siteMapper", siteMapper);
+        return service;
     }
 }

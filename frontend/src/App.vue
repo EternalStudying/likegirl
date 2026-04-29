@@ -5,6 +5,7 @@ import { login, type LoginPayload } from './api/auth';
 import { clearAuthToken, getAuthToken, onLogout, setAuthToken } from './auth';
 import AppTopBar from './components/AppTopBar.vue';
 import PointerEffects from './components/PointerEffects.vue';
+import WeatherAtmosphere from './components/WeatherAtmosphere.vue';
 import LoginView from './views/LoginView.vue';
 
 const router = useRouter();
@@ -35,6 +36,7 @@ onUnmounted(() => {
 <template>
   <PointerEffects />
   <template v-if="isLoggedIn">
+    <WeatherAtmosphere />
     <AppTopBar />
     <RouterView />
   </template>

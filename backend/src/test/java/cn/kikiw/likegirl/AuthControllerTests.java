@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -31,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AuthControllerTests {
 
     private final AuthService authService = mock(AuthService.class);
-    private final MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new AuthController(authService))
+    private final MockMvc mockMvc = MockMvcBuilders.standaloneSetup(authController())
             .setControllerAdvice(new ApiExceptionHandler())
             .build();
 
@@ -143,5 +144,11 @@ class AuthControllerTests {
                 "Happy",
                 LocalDateTime.of(2026, 4, 27, 12, 0)
         );
+    }
+
+    private AuthController authController() {
+        AuthController controller = new AuthController();
+        ReflectionTestUtils.setField(controller, "authService", authService);
+        return controller;
     }
 }

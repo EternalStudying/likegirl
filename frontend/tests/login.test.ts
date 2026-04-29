@@ -153,7 +153,7 @@ describe('App auth flow', () => {
     const topbar = wrapper.get('.app-topbar');
     const userLink = topbar.get('.app-topbar__user');
 
-    expect(topbar.text()).toContain('收好我们的日常与心动');
+    expect(topbar.text()).toContain('LG Demo');
     expect(userLink.attributes('href')).toBe('/user');
     expect(userLink.attributes('aria-label')).toContain('小夏');
     expect(userLink.text()).toContain('小夏');

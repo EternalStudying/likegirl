@@ -3,6 +3,7 @@ package cn.kikiw.likegirl.service.impl;
 import cn.kikiw.likegirl.service.WeatherService;
 import cn.kikiw.likegirl.vo.WeatherAtmosphereVo;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -19,12 +20,9 @@ public class WeatherServiceImpl implements WeatherService {
     private static final Duration CACHE_TTL = Duration.ofMinutes(20);
     private static final DateTimeFormatter AMAP_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    private final WeatherApiClient weatherApiClient;
+    @Autowired
+    private WeatherApiClient weatherApiClient;
     private final ConcurrentMap<String, CacheEntry> cache = new ConcurrentHashMap<>();
-
-    public WeatherServiceImpl(WeatherApiClient weatherApiClient) {
-        this.weatherApiClient = weatherApiClient;
-    }
 
     @Override
     public WeatherAtmosphereVo getAtmosphere(HttpServletRequest request) {
@@ -67,8 +65,7 @@ public class WeatherServiceImpl implements WeatherService {
                 displayCity(loc),
                 displayCountry(loc),
                 live.temperature(),
-//                mapWeatherType(live.weather()),
-                mapWeatherType("雪"),
+                mapWeatherType(live.weather()),
                 true,
                 parseReportTime(live.reportTime())
         ));

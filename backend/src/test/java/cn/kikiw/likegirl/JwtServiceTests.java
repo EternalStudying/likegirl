@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -16,7 +17,7 @@ class JwtServiceTests {
 
     private static final String SECRET = "test-secret-key-that-is-long-enough-for-hs256-tests";
 
-    private final JwtService jwtService = new JwtService(SECRET);
+    private final JwtService jwtService = jwtService();
 
     @Test
     void generatedTokenExpiresAboutOneHourAfterIssuedAt() {
@@ -35,5 +36,12 @@ class JwtServiceTests {
         ).toSeconds();
 
         assertThat(ttlSeconds).isBetween(3595L, 3605L);
+    }
+
+    private JwtService jwtService() {
+        JwtService service = new JwtService();
+        ReflectionTestUtils.setField(service, "secret", SECRET);
+        service.init();
+        return service;
     }
 }

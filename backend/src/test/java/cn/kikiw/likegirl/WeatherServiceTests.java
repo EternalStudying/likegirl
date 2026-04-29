@@ -5,6 +5,7 @@ import cn.kikiw.likegirl.service.impl.WeatherServiceImpl;
 import cn.kikiw.likegirl.vo.WeatherAtmosphereVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
@@ -17,7 +18,7 @@ import static org.mockito.Mockito.when;
 class WeatherServiceTests {
 
     private final WeatherApiClient weatherApiClient = mock(WeatherApiClient.class);
-    private final WeatherServiceImpl weatherService = new WeatherServiceImpl(weatherApiClient);
+    private final WeatherServiceImpl weatherService = weatherService();
 
     @Test
     void getAtmosphereReturnsFallbackWithoutIpWeatherCall() {
@@ -83,5 +84,11 @@ class WeatherServiceTests {
         assertThat(response.weatherType()).isEqualTo("cloudy");
         assertThat(response.isDay()).isTrue();
         assertThat(response.updatedAt()).isNotNull();
+    }
+
+    private WeatherServiceImpl weatherService() {
+        WeatherServiceImpl service = new WeatherServiceImpl();
+        ReflectionTestUtils.setField(service, "weatherApiClient", weatherApiClient);
+        return service;
     }
 }

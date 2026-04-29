@@ -2,6 +2,8 @@ package cn.kikiw.likegirl.service.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -12,12 +14,16 @@ import java.util.Optional;
 @Component
 public class AmapWeatherApiClient implements WeatherApiClient {
 
-    private final RestClient restClient;
-    private final String amapKey;
+    @Autowired
+    private RestClient.Builder restClientBuilder;
 
-    public AmapWeatherApiClient(
-            RestClient.Builder restClientBuilder,
-            @Value("${amap.key:}") String amapKey) {
+    @Value("${amap.key:}")
+    private String amapKey;
+
+    private RestClient restClient;
+
+    @PostConstruct
+    public void init() {
         this.restClient = restClientBuilder.build();
         this.amapKey = amapKey == null ? "" : amapKey.trim();
     }

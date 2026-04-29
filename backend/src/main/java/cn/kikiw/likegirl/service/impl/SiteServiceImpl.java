@@ -15,6 +15,7 @@ import cn.kikiw.likegirl.vo.MessageVo;
 import cn.kikiw.likegirl.vo.PhotoVo;
 import cn.kikiw.likegirl.vo.SiteVo;
 import cn.kikiw.likegirl.vo.WishItemVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -28,11 +29,8 @@ public class SiteServiceImpl implements SiteService {
     private static final int MAX_NICKNAME_LENGTH = 40;
     private static final int MAX_CONTENT_LENGTH = 500;
 
-    private final SiteMapper siteMapper;
-
-    public SiteServiceImpl(SiteMapper siteMapper) {
-        this.siteMapper = siteMapper;
-    }
+    @Autowired
+    private SiteMapper siteMapper;
 
     @Override
     public SiteVo getSite() {

@@ -12,6 +12,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
 
@@ -26,8 +27,8 @@ class WeatherControllerTests {
 
     private final WeatherService weatherService = mock(WeatherService.class);
     private final JwtService jwtService = mock(JwtService.class);
-    private final MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new WeatherController(weatherService))
-            .addInterceptors(new JwtAuthInterceptor(jwtService))
+    private final MockMvc mockMvc = MockMvcBuilders.standaloneSetup(weatherController())
+            .addInterceptors(jwtAuthInterceptor())
             .setMessageConverters(new MappingJackson2HttpMessageConverter(
                     Jackson2ObjectMapperBuilder.json()
                             .modules(new JavaTimeModule())
@@ -96,5 +97,17 @@ class WeatherControllerTests {
                         .param("latitude", "30.25")
                         .param("longitude", "120.16"))
                 .andExpect(status().isUnauthorized());
+    }
+
+    private WeatherController weatherController() {
+        WeatherController controller = new WeatherController();
+        ReflectionTestUtils.setField(controller, "weatherService", weatherService);
+        return controller;
+    }
+
+    private JwtAuthInterceptor jwtAuthInterceptor() {
+        JwtAuthInterceptor interceptor = new JwtAuthInterceptor();
+        ReflectionTestUtils.setField(interceptor, "jwtService", jwtService);
+        return interceptor;
     }
 }
