@@ -27,3 +27,6 @@ minio:
   secret-key: ${MINIO_SECRET_KEY:}
   bucket: ${MINIO_BUCKET:}
   public-base-url: ${MINIO_PUBLIC_BASE_URL:}
+
+amap:
+  key: ${AMAP_KEY:}

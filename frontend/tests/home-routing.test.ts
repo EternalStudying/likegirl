@@ -23,6 +23,11 @@ function stubReducedMotion(matches: boolean) {
   );
 }
 
+function freezeHomeDate() {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date('2026-04-27T12:00:00'));
+}
+
 describe('首页入口和独立路由', () => {
   afterEach(() => {
     vi.useRealTimers();
@@ -58,6 +63,7 @@ describe('首页入口和独立路由', () => {
   });
 
   it('首页展示插画横幅轮播和索引签入口', async () => {
+    freezeHomeDate();
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve(siteDataFixture) }));
     const router = createRouter({ history: createMemoryHistory(), routes });
 
@@ -80,6 +86,7 @@ describe('首页入口和独立路由', () => {
   });
 
   it('首页仍显示在一起天数和下一纪念日', async () => {
+    freezeHomeDate();
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve(siteDataFixture) }));
     const router = createRouter({ history: createMemoryHistory(), routes });
 

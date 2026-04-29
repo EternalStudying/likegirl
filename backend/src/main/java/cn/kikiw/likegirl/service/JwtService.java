@@ -16,7 +16,7 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    private static final Duration TOKEN_TTL = Duration.ofDays(7);
+    private static final Duration TOKEN_TTL = Duration.ofHours(1);
 
     private final SecretKey secretKey;
 

@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { fetchSiteData } from '../src/api/site';
+import { fetchWeatherAtmosphere } from '../src/api/weather';
 import { siteDataFixture } from './siteData.fixture';
 
 describe('fetchSiteData', () => {
@@ -22,5 +23,22 @@ describe('fetchSiteData', () => {
     });
 
     await expect(fetchSiteData(fetcher)).resolves.toEqual(siteDataFixture);
+  });
+
+  it('按后端契约读取天气氛围 VO', async () => {
+    const weatherFixture = {
+      city: 'Hangzhou',
+      country: 'CN',
+      temperature: 24,
+      weatherType: 'sunny',
+      isDay: true,
+      updatedAt: '2026-04-28T10:00:00'
+    };
+    const fetcher = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(weatherFixture)
+    });
+
+    await expect(fetchWeatherAtmosphere(fetcher)).resolves.toEqual(weatherFixture);
   });
 });

@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import PageLoader from '../components/PageLoader.vue';
+import WeatherAtmosphere from '../components/WeatherAtmosphere.vue';
 import { homeHeroSlides } from '../config/homeHeroSlides';
 import { useSiteData } from '../composables/useSiteData';
+import heroStickerLeftBear from '../assets/home-hero/hero-sticker-left-bear.png';
+import heroStickerRightReader from '../assets/home-hero/hero-sticker-right-reader.png';
 
 const { site, loaded, togetherDays, anniversary } = useSiteData();
 const activeSlideIndex = ref(0);
@@ -90,6 +93,8 @@ const directoryItems = [
 <template>
   <main>
     <template v-if="site">
+      <WeatherAtmosphere />
+
       <section
         class="home-hero-carousel"
         :class="`home-hero-carousel--${activeSlide.tone}`"
@@ -112,24 +117,45 @@ const directoryItems = [
           <div class="hero-sticker-cluster" :aria-label="`${site.couple.personA} 和 ${site.couple.personB}`">
             <div class="hero-person-sticker hero-person-sticker--left">
               <span class="hero-avatar-sticker hero-avatar-sticker--left" aria-hidden="true">
-                {{ site.couple.personA.slice(0, 1) }}
+                <img class="hero-avatar-image" :src="heroStickerLeftBear" alt="" />
               </span>
               <span class="hero-avatar-name">{{ site.couple.personA }}</span>
             </div>
 
-            <span class="hero-center-heart" aria-hidden="true">♥</span>
+            <div class="hero-centerpiece">
+              <span class="hero-center-heart" aria-hidden="true">
+                <span class="hero-heart-spark hero-heart-spark--left">✦</span>
+                <svg class="hero-heart-fabric" viewBox="0 0 100 96" focusable="false">
+                  <path
+                    class="hero-heart-fill"
+                    d="M50 88C25 70 12 54 12 36C12 20 24 10 38 10C44 10 49 13 50 18C51 13 56 10 62 10C76 10 88 20 88 36C88 54 75 70 50 88Z"
+                  />
+                  <path
+                    class="hero-heart-highlight"
+                    d="M30 31C34 22 43 20 49 27"
+                  />
+                  <path
+                    class="hero-heart-stitch"
+                    d="M50 78C31 64 22 51 22 37C22 28 29 21 38 21C43 21 48 24 50 29C52 24 57 21 62 21C71 21 78 28 78 37C78 51 69 64 50 78Z"
+                  />
+                </svg>
+                <span class="hero-heart-spark hero-heart-spark--right">✦</span>
+              </span>
+
+              <div class="hero-memory-stack" :class="{ ready: loaded }">
+                <p class="hero-memory-note hero-memory-note--torn">在一起第 <strong>{{ togetherDays }}</strong> 天</p>
+                <p class="hero-anniversary-capsule hero-anniversary-capsule--paper">
+                  下一纪念日 <strong>{{ anniversary.days }}</strong> 天后
+                </p>
+              </div>
+            </div>
 
             <div class="hero-person-sticker hero-person-sticker--right">
               <span class="hero-avatar-sticker hero-avatar-sticker--right" aria-hidden="true">
-                {{ site.couple.personB.slice(0, 1) }}
+                <img class="hero-avatar-image" :src="heroStickerRightReader" alt="" />
               </span>
               <span class="hero-avatar-name">{{ site.couple.personB }}</span>
             </div>
-          </div>
-
-          <div class="hero-memory-stack" :class="{ ready: loaded }">
-            <p class="hero-memory-note">在一起第 <strong>{{ togetherDays }}</strong> 天</p>
-            <p class="hero-anniversary-capsule">下一纪念日 <strong>{{ anniversary.days }}</strong> 天后</p>
           </div>
         </div>
 

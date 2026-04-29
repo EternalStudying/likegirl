@@ -14,12 +14,51 @@ import { siteDataFixture } from './siteData.fixture';
 
 const styles = readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), '../src/styles.css'), 'utf8');
 
+function stubHomeGeolocation() {
+  Object.defineProperty(globalThis.navigator, 'geolocation', {
+    configurable: true,
+    value: {
+      getCurrentPosition: vi.fn((success: PositionCallback) => {
+        success({
+          coords: {
+            latitude: 30.2741,
+            longitude: 120.1551,
+            accuracy: 10,
+            altitude: null,
+            altitudeAccuracy: null,
+            heading: null,
+            speed: null
+          },
+          timestamp: Date.now()
+        } as GeolocationPosition);
+      }),
+      clearWatch: vi.fn(),
+      watchPosition: vi.fn()
+    }
+  });
+}
+
 function mockHomeFetch() {
   return vi.fn((input: RequestInfo | URL) => {
     const url = String(input);
 
     if (url === '/api/site') {
       return Promise.resolve({ ok: true, json: () => Promise.resolve(siteDataFixture) });
+    }
+
+    if (url === '/api/weather/atmosphere/browser?latitude=30.2741&longitude=120.1551') {
+      return Promise.resolve({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            city: 'Hangzhou',
+            country: 'browser',
+            temperature: 24,
+            weatherType: 'sunny',
+            isDay: true,
+            updatedAt: '2026-04-28T10:00:00'
+          })
+      });
     }
 
     return Promise.reject(new Error(`Unexpected request: ${url}`));
@@ -52,6 +91,7 @@ describe('首页用户入口布局', () => {
 
   it('首页不再渲染旧的孤立 UserBadge 入口', async () => {
     localStorage.setItem('likegirl_token', 'jwt-token');
+    stubHomeGeolocation();
     vi.stubGlobal('fetch', mockHomeFetch());
     const router = createRouter({ history: createMemoryHistory(), routes });
 
@@ -60,6 +100,40 @@ describe('首页用户入口布局', () => {
 
     expect(wrapper.find('.user-badge').exists()).toBe(false);
     expect(wrapper.find('.home-hero-carousel .user-badge').exists()).toBe(false);
+  });
+
+  it('首页首屏中心区使用角色贴纸和手账纪念日构图', async () => {
+    stubHomeGeolocation();
+    vi.stubGlobal('fetch', mockHomeFetch());
+    const router = createRouter({ history: createMemoryHistory(), routes });
+
+    const wrapper = mount(HomeView, { global: { plugins: [router] } });
+    await flushPromises();
+
+    const avatarImages = wrapper.findAll('.hero-avatar-image');
+
+    expect(avatarImages).toHaveLength(2);
+    expect(avatarImages[0].attributes('src')).toContain('hero-sticker-left-bear');
+    expect(avatarImages[1].attributes('src')).toContain('hero-sticker-right-reader');
+    expect(wrapper.find('.hero-heart-spark--left').exists()).toBe(true);
+    expect(wrapper.find('.hero-heart-spark--right').exists()).toBe(true);
+    expect(wrapper.find('.hero-memory-note--torn').exists()).toBe(true);
+    expect(wrapper.find('.hero-anniversary-capsule--paper').exists()).toBe(true);
+    expect(wrapper.find('.weather-atmosphere').exists()).toBe(true);
+    expect(wrapper.find('.weather-atmosphere__stamp').text()).toContain('Hangzhou');
+    expect(wrapper.find('.weather-atmosphere__stamp').text()).toContain('24°');
+    expect(wrapper.find('.weather-atmosphere__stamp').text()).toContain('晴朗');
+  });
+
+  it('首页中心纸条和爱心使用手工质感样式', () => {
+    const anniversaryStart = styles.lastIndexOf('\n.hero-anniversary-capsule {');
+    const anniversaryEnd = styles.indexOf('\n}', anniversaryStart);
+    const anniversaryBlock = styles.slice(anniversaryStart, anniversaryEnd);
+
+    expect(styles).toMatch(/\.hero-memory-note::after\s*{/);
+    expect(anniversaryBlock).toContain('clip-path: polygon(');
+    expect(anniversaryBlock).not.toContain('border-radius: 999px;');
+    expect(styles).toMatch(/\.hero-center-heart::before\s*{[\s\S]*repeating-linear-gradient/);
   });
 
   it('全局顶栏使用 sticky 布局且移动端文本省略避免横向溢出', () => {

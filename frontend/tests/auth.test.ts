@@ -2,6 +2,7 @@ import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { login } from '../src/api/auth';
 import { clearAuthToken, getAuthToken, setAuthToken } from '../src/auth';
 import { fetchSiteData, postMessage } from '../src/api/site';
+import { fetchBrowserWeatherAtmosphere, fetchWeatherAtmosphere } from '../src/api/weather';
 
 describe('auth api', () => {
   beforeEach(() => {
@@ -84,5 +85,43 @@ describe('authenticated site api', () => {
     expect(getAuthToken()).toBe('');
     expect(listener).toHaveBeenCalledTimes(1);
     window.removeEventListener('likegirl:logout', listener);
+  });
+
+  it('请求天气氛围时附带 Bearer token，收到 401 时复用退出逻辑', async () => {
+    setAuthToken('jwt-token');
+    const listener = vi.fn();
+    window.addEventListener('likegirl:logout', listener);
+    const fetcher = vi.fn().mockResolvedValue({ ok: false, status: 401 });
+
+    await expect(fetchWeatherAtmosphere(fetcher)).rejects.toThrow('登录已过期，请重新登录');
+
+    expect(fetcher).toHaveBeenCalledWith('/api/weather/atmosphere', {
+      headers: { Authorization: 'Bearer jwt-token' }
+    });
+    expect(getAuthToken()).toBe('');
+    expect(listener).toHaveBeenCalledTimes(1);
+    window.removeEventListener('likegirl:logout', listener);
+  });
+
+  it('请求浏览器坐标天气时附带 Bearer token', async () => {
+    setAuthToken('jwt-token');
+    const fetcher = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          city: '当前位置',
+          country: 'browser',
+          temperature: 22,
+          weatherType: 'cloudy',
+          isDay: true,
+          updatedAt: '2026-04-28T10:00:00'
+        })
+    });
+
+    await fetchBrowserWeatherAtmosphere(30.2741, 120.1551, fetcher);
+
+    expect(fetcher).toHaveBeenCalledWith('/api/weather/atmosphere/browser?latitude=30.2741&longitude=120.1551', {
+      headers: { Authorization: 'Bearer jwt-token' }
+    });
   });
 });

@@ -1232,27 +1232,30 @@ figcaption {
   display: grid;
   place-items: center;
   align-content: center;
-  gap: clamp(10px, 2vw, 18px);
-  max-width: 980px;
+  gap: 0;
+  max-width: 1120px;
   margin: 0 auto;
   padding: clamp(86px, 10vw, 128px) clamp(18px, 5vw, 68px) clamp(88px, 9vw, 118px);
   color: #4f3d33;
   text-align: center;
+  transform: translateY(-18px);
 }
 
 .hero-sticker-cluster {
   display: grid;
-  grid-template-columns: minmax(92px, 180px) minmax(58px, 112px) minmax(92px, 180px);
-  align-items: center;
+  grid-template-columns: minmax(150px, 230px) minmax(280px, 430px) minmax(150px, 230px);
+  align-items: start;
   justify-content: center;
-  gap: clamp(14px, 5vw, 72px);
-  width: min(100%, 680px);
+  gap: clamp(12px, 3.4vw, 48px);
+  width: min(100%, 1010px);
 }
 
 .hero-person-sticker {
   display: grid;
   justify-items: center;
   gap: 0;
+  min-width: 0;
+  margin-top: 10px;
 }
 
 .hero-person-sticker--left {
@@ -1267,23 +1270,27 @@ figcaption {
   position: relative;
   display: grid;
   place-items: center;
-  width: clamp(94px, 12vw, 166px);
+  width: clamp(142px, 16vw, 224px);
   aspect-ratio: 1;
   border: 2px dashed rgba(112, 78, 58, 0.52);
   border-radius: 50%;
-  color: #6a3f33;
   background:
-    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.82), transparent 28%),
-    linear-gradient(145deg, rgba(255, 253, 247, 0.98), rgba(252, 236, 211, 0.94));
-  box-shadow: 0 14px 30px rgba(86, 54, 35, 0.2), inset 0 0 0 8px rgba(255, 250, 238, 0.72);
-  font-size: clamp(2.35rem, 5vw, 4.8rem);
-  font-weight: 900;
-  line-height: 1;
+    radial-gradient(circle at 36% 28%, rgba(255, 255, 255, 0.72), transparent 28%),
+    linear-gradient(145deg, rgba(255, 253, 247, 0.96), rgba(248, 233, 210, 0.9));
+  box-shadow:
+    0 16px 30px rgba(86, 54, 35, 0.2),
+    inset 0 0 0 8px rgba(255, 250, 238, 0.72);
+  overflow: hidden;
+}
+
+.hero-avatar-sticker::before,
+.hero-avatar-sticker::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
 }
 
 .hero-avatar-sticker::before {
-  content: "";
-  position: absolute;
   top: -8px;
   left: 50%;
   width: clamp(46px, 5vw, 72px);
@@ -1295,6 +1302,14 @@ figcaption {
     rgba(255, 244, 212, 0.78);
   transform: translateX(-50%) rotate(-8deg);
   box-shadow: 0 4px 10px rgba(82, 43, 26, 0.08);
+  z-index: 3;
+}
+
+.hero-avatar-sticker::after {
+  inset: 9px;
+  z-index: 2;
+  border: 1.5px dashed rgba(112, 78, 58, 0.44);
+  border-radius: inherit;
 }
 
 .hero-avatar-sticker--right::before {
@@ -1304,60 +1319,183 @@ figcaption {
   transform: translateX(-50%) rotate(7deg);
 }
 
+.hero-avatar-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  max-width: none;
+  user-select: none;
+  pointer-events: none;
+}
+
 .hero-avatar-name {
   position: relative;
-  margin-top: -6px;
-  padding: 8px 24px 9px;
+  z-index: 3;
+  margin-top: -8px;
+  max-width: 86%;
+  padding: 8px 25px 9px;
   border: 1px dashed rgba(214, 90, 78, 0.55);
-  border-radius: 7px;
+  border-radius: 6px;
   color: #5a4034;
-  background: rgba(255, 250, 240, 0.96);
-  box-shadow: 0 9px 20px rgba(86, 54, 35, 0.14);
-  font-size: clamp(1.05rem, 2vw, 1.55rem);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 246, 0.98), rgba(255, 243, 229, 0.95));
+  box-shadow: 0 9px 18px rgba(86, 54, 35, 0.14);
+  font-size: 1.35rem;
   font-weight: 900;
   line-height: 1.05;
+  clip-path: polygon(4% 7%, 95% 2%, 100% 47%, 96% 94%, 8% 98%, 0 54%);
+}
+
+.hero-person-sticker--left .hero-avatar-name {
+  transform: rotate(2.2deg);
+}
+
+.hero-person-sticker--right .hero-avatar-name {
+  transform: rotate(-2.4deg);
+}
+
+.hero-centerpiece {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding-top: 4px;
 }
 
 .hero-center-heart {
+  position: relative;
   display: grid;
   place-items: center;
-  align-self: center;
-  width: clamp(46px, 6vw, 74px);
-  aspect-ratio: 1;
-  border: 2px solid rgba(255, 253, 249, 0.82);
-  border-radius: 8px;
-  color: #fffdf9;
-  background: var(--orange);
-  box-shadow: 0 10px 20px rgba(119, 52, 36, 0.22);
-  font-size: clamp(1.55rem, 4vw, 2.75rem);
+  width: 92px;
+  aspect-ratio: 1.08;
+  filter: drop-shadow(0 10px 12px rgba(117, 45, 34, 0.22));
+  transform: rotate(-4deg);
+}
+
+.hero-center-heart::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  z-index: 2;
+  background:
+    repeating-linear-gradient(26deg, rgba(255, 228, 207, 0.34) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(116deg, rgba(116, 36, 31, 0.18) 0 1px, transparent 1px 5px),
+    radial-gradient(circle at 31% 36%, rgba(255, 236, 218, 0.3) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 68% 62%, rgba(111, 34, 29, 0.18) 0 1px, transparent 1.5px);
+  clip-path: polygon(50% 93%, 23% 72%, 9% 51%, 8% 30%, 18% 12%, 35% 8%, 50% 22%, 65% 8%, 82% 12%, 92% 30%, 91% 51%, 77% 72%);
+  mix-blend-mode: soft-light;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.hero-heart-fabric {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.hero-heart-fill {
+  fill: #d9644f;
+  stroke: #b84b3d;
+  stroke-width: 2.5;
+}
+
+.hero-heart-highlight {
+  fill: none;
+  stroke: rgba(255, 218, 192, 0.7);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.hero-heart-stitch {
+  fill: none;
+  stroke: rgba(255, 219, 198, 0.88);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 4 6;
+}
+
+.hero-heart-spark {
+  position: absolute;
+  top: 42%;
+  z-index: 3;
+  color: #d79a25;
+  font-size: 1.18rem;
   line-height: 1;
-  transform: rotate(-6deg);
+  text-shadow: 0 1px 0 rgba(255, 253, 249, 0.78);
+  animation: hero-spark-twinkle 2.8s ease-in-out infinite;
+}
+
+.hero-heart-spark--left {
+  left: -32px;
+  transform: rotate(-10deg);
+}
+
+.hero-heart-spark--right {
+  right: -32px;
+  transform: rotate(12deg);
+  animation-delay: -1.3s;
 }
 
 .hero-memory-stack {
   display: grid;
   justify-items: center;
-  gap: 10px;
-  margin-top: -2px;
+  gap: 5px;
+  width: min(100%, 430px);
+  margin-top: -3px;
 }
 
 .hero-memory-note,
 .hero-anniversary-capsule {
   margin: 0;
   color: #5b4033;
-  box-shadow: 0 14px 26px rgba(86, 54, 35, 0.16);
-  backdrop-filter: blur(4px);
+  filter: drop-shadow(0 12px 14px rgba(86, 54, 35, 0.15));
 }
 
 .hero-memory-note {
-  min-width: min(86vw, 340px);
-  padding: 14px 32px 15px;
-  border: 1px solid rgba(126, 85, 52, 0.22);
-  border-radius: 8px;
-  background: rgba(255, 250, 240, 0.94);
-  font-size: clamp(1.28rem, 2.4vw, 2rem);
+  position: relative;
+  width: max-content;
+  min-width: min(100%, 380px);
+  max-width: 100%;
+  padding: 15px 42px 16px;
+  border: 1px solid rgba(126, 85, 52, 0.16);
+  background:
+    radial-gradient(circle at 12% 20%, rgba(159, 113, 75, 0.08), transparent 10%),
+    radial-gradient(circle at 86% 78%, rgba(159, 113, 75, 0.08), transparent 12%),
+    repeating-linear-gradient(0deg, transparent 0 13px, rgba(126, 85, 52, 0.035) 13px 14px),
+    linear-gradient(180deg, rgba(255, 252, 242, 0.98), rgba(255, 246, 228, 0.96));
+  font-size: 1.75rem;
   font-weight: 900;
   line-height: 1.18;
+  white-space: nowrap;
+  clip-path: polygon(3% 15%, 10% 8%, 24% 10%, 39% 4%, 56% 8%, 72% 3%, 93% 10%, 99% 47%, 96% 85%, 88% 94%, 69% 91%, 51% 98%, 33% 93%, 13% 97%, 0 57%);
+  overflow: hidden;
+  transform: rotate(-0.4deg);
+}
+
+.hero-memory-note::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(126, 85, 52, 0.08), transparent 11% 88%, rgba(126, 85, 52, 0.07)),
+    repeating-linear-gradient(92deg, transparent 0 8px, rgba(255, 255, 255, 0.22) 8px 9px);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.hero-memory-note::after {
+  content: "";
+  position: absolute;
+  inset: 3px 7px 4px 6px;
+  border: 1px dashed rgba(126, 85, 52, 0.16);
+  clip-path: polygon(2% 18%, 12% 9%, 25% 12%, 42% 5%, 58% 10%, 76% 6%, 95% 12%, 99% 49%, 95% 86%, 86% 94%, 67% 91%, 49% 97%, 31% 93%, 10% 96%, 0 56%);
+  opacity: 0.58;
+  pointer-events: none;
 }
 
 .hero-memory-note strong,
@@ -1367,12 +1505,45 @@ figcaption {
 }
 
 .hero-anniversary-capsule {
-  padding: 9px 28px 10px;
-  border: 1px solid rgba(242, 138, 46, 0.34);
-  border-radius: 8px;
-  background: rgba(255, 239, 204, 0.96);
-  font-size: clamp(0.98rem, 1.6vw, 1.22rem);
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  padding: 8px 25px 9px;
+  border: 1px solid rgba(215, 154, 37, 0.26);
+  border-radius: 9px;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(162, 100, 38, 0.08), transparent 12%),
+    repeating-linear-gradient(0deg, transparent 0 10px, rgba(126, 85, 52, 0.03) 10px 11px),
+    linear-gradient(180deg, rgba(255, 244, 210, 0.98), rgba(255, 232, 184, 0.94));
+  box-shadow: inset 0 0 0 1px rgba(255, 253, 249, 0.66);
+  font-size: 1rem;
   font-weight: 900;
+  line-height: 1.2;
+  white-space: nowrap;
+  clip-path: polygon(5% 14%, 18% 7%, 37% 11%, 57% 5%, 78% 9%, 96% 14%, 100% 50%, 94% 88%, 76% 94%, 56% 90%, 37% 96%, 16% 91%, 0 54%);
+  overflow: hidden;
+  transform: rotate(-0.9deg);
+}
+
+.hero-anniversary-capsule::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(126, 85, 52, 0.05), transparent 14% 84%, rgba(126, 85, 52, 0.06)),
+    repeating-linear-gradient(102deg, transparent 0 7px, rgba(255, 255, 255, 0.24) 7px 8px);
+  opacity: 0.42;
+  pointer-events: none;
+}
+
+.hero-anniversary-capsule::after {
+  content: "";
+  position: absolute;
+  inset: 3px 8px;
+  border: 1px dashed rgba(178, 119, 39, 0.13);
+  clip-path: polygon(4% 20%, 20% 10%, 40% 14%, 59% 8%, 80% 13%, 97% 18%, 100% 51%, 93% 84%, 74% 91%, 55% 86%, 36% 93%, 14% 88%, 0 54%);
+  opacity: 0.62;
+  pointer-events: none;
 }
 
 .home-hero-dots {
@@ -2063,6 +2234,19 @@ button:disabled {
   }
 }
 
+@keyframes hero-spark-twinkle {
+  0%,
+  100% {
+    opacity: 0.58;
+    scale: 0.88;
+  }
+
+  50% {
+    opacity: 1;
+    scale: 1.12;
+  }
+}
+
 @keyframes story-rise {
   to {
     opacity: 1;
@@ -2335,44 +2519,69 @@ button:disabled {
 
   .home-hero-content {
     align-content: center;
-    gap: 10px;
-    padding: 78px 16px 86px;
+    padding: 72px 14px 84px;
+    transform: translateY(-8px);
   }
 
   .hero-sticker-cluster {
-    grid-template-columns: minmax(82px, 1fr) 44px minmax(82px, 1fr);
-    gap: 10px;
+    grid-template-columns: minmax(84px, 1fr) minmax(154px, 1.25fr) minmax(84px, 1fr);
+    gap: 8px;
+    width: 100%;
   }
 
   .hero-avatar-sticker {
-    width: clamp(78px, 24vw, 104px);
-    font-size: clamp(2rem, 13vw, 3rem);
+    width: clamp(88px, 25vw, 118px);
+    box-shadow:
+      0 11px 20px rgba(86, 54, 35, 0.17),
+      inset 0 0 0 6px rgba(255, 250, 238, 0.72);
   }
 
   .hero-avatar-sticker::before {
-    width: 42px;
+    top: -5px;
+    width: 44px;
     height: 14px;
   }
 
   .hero-avatar-name {
-    padding: 7px 15px 8px;
-    font-size: 1rem;
+    margin-top: -5px;
+    padding: 6px 12px 7px;
+    font-size: 0.96rem;
   }
 
   .hero-center-heart {
-    width: 42px;
-    font-size: 1.45rem;
+    width: 60px;
+  }
+
+  .hero-heart-spark {
+    font-size: 0.86rem;
+  }
+
+  .hero-heart-spark--left {
+    left: -19px;
+  }
+
+  .hero-heart-spark--right {
+    right: -19px;
+  }
+
+  .hero-centerpiece {
+    gap: 4px;
+    padding-top: 2px;
+  }
+
+  .hero-memory-stack {
+    gap: 4px;
   }
 
   .hero-memory-note {
-    min-width: 240px;
-    padding: 12px 20px;
-    font-size: 1.26rem;
+    min-width: min(100%, 158px);
+    padding: 9px 13px 10px;
+    font-size: 1rem;
   }
 
   .hero-anniversary-capsule {
-    padding: 8px 18px;
-    font-size: 0.98rem;
+    padding: 6px 12px 7px;
+    font-size: 0.84rem;
   }
 
   .home-hero-dots {
@@ -2616,6 +2825,43 @@ button:disabled {
     min-height: 540px;
   }
 
+  .home-hero-content {
+    padding: 70px 10px 84px;
+  }
+
+  .hero-sticker-cluster {
+    grid-template-columns: minmax(72px, 1fr) minmax(140px, 1.35fr) minmax(72px, 1fr);
+    gap: 6px;
+  }
+
+  .hero-avatar-sticker {
+    width: clamp(78px, 24vw, 96px);
+  }
+
+  .hero-avatar-sticker::after {
+    inset: 6px;
+  }
+
+  .hero-avatar-name {
+    padding: 6px 10px;
+    font-size: 0.88rem;
+  }
+
+  .hero-center-heart {
+    width: 54px;
+  }
+
+  .hero-memory-note {
+    min-width: min(100%, 142px);
+    padding: 8px 10px 9px;
+    font-size: 0.92rem;
+  }
+
+  .hero-anniversary-capsule {
+    padding: 6px 10px;
+    font-size: 0.78rem;
+  }
+
   h1 {
     font-size: clamp(2.55rem, 15vw, 3.6rem);
   }
@@ -2690,6 +2936,7 @@ button:disabled {
   .stage-tape,
   .stage-sticker,
   .edge-bubu,
+  .hero-heart-spark,
   .home-hero-slide,
   .home-hero-dot span,
   .app-topbar,
