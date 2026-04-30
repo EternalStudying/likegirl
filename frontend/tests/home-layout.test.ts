@@ -122,6 +122,12 @@ describe('首页用户入口布局', () => {
     expect(wrapper.find('.home-memory-card').exists()).toBe(true);
     expect(wrapper.find('.home-memory-card__days').text()).toContain(String(togetherDaysFromFixture()));
     expect(wrapper.find('.home-memory-card__anniversary').text()).toContain('下一纪念日');
+    expect(wrapper.find('.daily-dashboard').exists()).toBe(true);
+    expect(wrapper.find('.daily-note-card').text()).toContain('今天也要记得抱抱');
+    expect(wrapper.find('.couple-status-panel').text()).toContain('我们的今日状态');
+    expect(wrapper.find('.progress-ledger').text()).toContain('恋爱进度仪表');
+    expect(wrapper.find('.recent-moments').text()).toContain('最近发生的小事');
+    expect(wrapper.find('.next-plan-strip').text()).toContain('下一件想一起完成的事');
     expect(wrapper.find('.directory-section').exists()).toBe(true);
     expect(wrapper.find('.weather-atmosphere').exists()).toBe(false);
   });
@@ -135,10 +141,20 @@ describe('首页用户入口布局', () => {
     expect(styles).toMatch(/\.home-cozy-stage \.home-hero-carousel::after\s*{[\s\S]*mask-image:\s*url\("data:image\/svg\+xml/);
     expect(styles).toContain("M0%2042Q960%20318%201920%2042V220H0Z");
     expect(styles).toMatch(/\.home-cozy-stage \.home-hero-carousel::after\s*{[\s\S]*drop-shadow/);
-    expect(styles).toMatch(/\.home-cozy-stage \.home-hero-dots\s*{[\s\S]*bottom:\s*-17px;/);
+    expect(styles).toMatch(/\.home-cozy-stage \.home-hero-dots\s*{[\s\S]*bottom:\s*-2px;/);
     expect(styles).toMatch(/\.home-cozy-nav\s*{[\s\S]*margin:\s*var\(--cozy-nav-offset\) auto 0;[\s\S]*border-radius:\s*999px;/);
     expect(styles).toMatch(/\.home-memory-card\s*{[\s\S]*repeating-linear-gradient/);
     expect(styles).toMatch(/\.home-memory-card__days\s*{[\s\S]*font-size:\s*clamp/);
+  });
+
+  it('首页手账仪表盘按 DESIGN.md 渲染今日、状态、进度、最近和下一计划模块', () => {
+    expect(styles).toMatch(/\.daily-dashboard\s*{[\s\S]*width:\s*min\(1180px,\s*calc\(100% - 32px\)\)/);
+    expect(styles).toMatch(/\.daily-dashboard__top\s*{[\s\S]*grid-template-columns:\s*minmax\(280px,\s*0\.94fr\)\s*minmax\(420px,\s*1\.36fr\);/);
+    expect(styles).toMatch(/\.daily-note-card\s*{[\s\S]*repeating-linear-gradient/);
+    expect(styles).toMatch(/\.status-card-grid\s*{[\s\S]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\);/);
+    expect(styles).toMatch(/\.progress-ledger\s*{[\s\S]*repeating-linear-gradient/);
+    expect(styles).toMatch(/\.recent-grid\s*{[\s\S]*grid-template-columns:\s*1fr 0\.92fr 1\.05fr;/);
+    expect(styles).toMatch(/\.next-plan-strip\s*{[\s\S]*var\(--paper-sage\)/);
   });
 
   it('全局顶栏使用红框图中的居中 LG Demo 小栏', () => {
