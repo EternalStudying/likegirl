@@ -82,3 +82,5 @@
 13. 尊重事实优先。如果用户判断和事实冲突，应直接指出并说明依据。
 
 14. 如果用户说“重启”，默认恢复多 Agent 协作模式，并优先复用固定三个子 Agent，但仍只提供 prompt 给用户转发，不直接调用子 Agent。
+
+15. 当当前上下文窗口接近或达到 200k 时，只有前端 Agent 和后端 Agent 需要使用 `planning-with-files-zh` skill（`C:\Users\Acer\.agents\skills\planning-with-files-zh\SKILL.md`）保存上下文；前端 Agent 只将上下文文档存到 `E:\project\likegirl\frontend` 并只读取该目录内的上下文文档，后端 Agent 只将上下文文档存到 `E:\project\likegirl\backend` 并只读取该目录内的上下文文档。主 Agent 和视觉审查 Agent 不强制执行该上下文保存规则，除非用户明确要求。

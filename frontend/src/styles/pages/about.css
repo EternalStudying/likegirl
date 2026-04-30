@@ -1,0 +1,10 @@
+.hero-copy > p:last-child,
+.about-section > p {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 1.12rem;
+}
+
+.about-section {
+  padding-bottom: 80px;
+}

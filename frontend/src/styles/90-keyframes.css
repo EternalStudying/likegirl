@@ -1,0 +1,232 @@
+@keyframes loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes title-pop {
+  to {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+@keyframes stat-enter {
+  to {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg);
+  }
+}
+
+@keyframes stat-glow {
+  0%,
+  42% {
+    left: -42%;
+  }
+
+  70%,
+  100% {
+    left: 118%;
+  }
+}
+
+@keyframes index-rise {
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes float-tape {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 7px;
+  }
+}
+
+@keyframes float-sticker {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 5px -8px;
+  }
+}
+
+@keyframes hero-spark-twinkle {
+  0%,
+  100% {
+    opacity: 0.58;
+    scale: 0.88;
+  }
+
+  50% {
+    opacity: 1;
+    scale: 1.12;
+  }
+}
+
+@keyframes story-rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes edge-bubu-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 -10px;
+  }
+}
+
+@keyframes pointer-heart-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -45%) scale(0.72) rotate(var(--pointer-rotate));
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform:
+      translate(calc(-50% + var(--pointer-dx)), calc(-50% + var(--pointer-dy)))
+      scale(1.32)
+      rotate(calc(var(--pointer-rotate) + 18deg));
+  }
+}
+
+@keyframes pointer-trail-fade {
+  0% {
+    opacity: 0.78;
+    transform: translate(-50%, -50%) scale(1) rotate(var(--pointer-rotate));
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.18) rotate(calc(var(--pointer-rotate) + 16deg));
+  }
+}
+
+@keyframes user-badge-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) rotate(1.6deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(1.6deg);
+  }
+}
+
+@keyframes app-topbar-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes user-panel-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes user-copy-slide {
+  from {
+    opacity: 0;
+    transform: translateX(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes avatar-breathe {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 10px rgba(242, 138, 46, 0.13),
+      0 0 0 20px rgba(223, 81, 69, 0.08),
+      0 20px 30px rgba(111, 58, 35, 0.18);
+  }
+
+  50% {
+    box-shadow:
+      0 0 0 14px rgba(242, 138, 46, 0.2),
+      0 0 0 27px rgba(223, 81, 69, 0.11),
+      0 20px 30px rgba(111, 58, 35, 0.18);
+  }
+}
+
+@keyframes user-sticker-wiggle {
+  0%,
+  100% {
+    transform: rotate(-1deg);
+  }
+
+  50% {
+    transform: rotate(1deg) translateY(-4px);
+  }
+}
+
+@keyframes user-spark-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 4px -9px;
+  }
+}
+
+@keyframes save-toast-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes tape-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 -4px;
+  }
+}
