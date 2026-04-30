@@ -1,0 +1,126 @@
+- generic [ref=e2]:
+  - generic:
+    - complementary "当前位置 · 定位未开启 · 多云 · --° · 更新于 04/29 23:21":
+      - generic: 天气邮票
+      - strong: 当前位置
+      - generic: 定位未开启 · 多云
+      - generic: "--°"
+  - banner "登录后导航" [ref=e30]:
+    - generic [ref=e31]:
+      - paragraph [ref=e32]: LG Demo
+      - link "打开个人资料页：大帅哥" [ref=e33]:
+        - /url: /user
+        - generic [ref=e35]: 大
+        - generic [ref=e36]:
+          - strong [ref=e37]: 大帅哥
+          - generic [ref=e38]: "@大帅哥"
+  - main [ref=e39]:
+    - region "我们的日常封面" [ref=e40]:
+      - region "情侣纪念册插画封面" [ref=e41]:
+        - generic [ref=e42]:
+          - figure [ref=e43]
+          - figure [ref=e44]
+        - generic "小栀 和 阿然" [ref=e46]:
+          - generic [ref=e49]: 小栀
+          - generic [ref=e50]:
+            - generic [ref=e51]:
+              - generic [ref=e52]: ✦
+              - img [ref=e53]
+              - generic [ref=e57]: ✦
+            - generic [ref=e58]:
+              - paragraph [ref=e59]:
+                - text: 在一起第
+                - strong [ref=e60]: "1441"
+                - text: 天
+              - paragraph [ref=e61]:
+                - text: 下一纪念日
+                - strong [ref=e62]: "21"
+                - text: 天后
+          - generic [ref=e65]: 阿然
+        - generic "首页封面轮播" [ref=e66]:
+          - button "切换到樱花温泉边" [ref=e67]
+          - button "切换到冬夜暖灯下" [ref=e69]
+      - navigation "首页章节导航" [ref=e71]:
+        - link "点滴" [ref=e72]:
+          - /url: /story
+          - generic [ref=e73]: ◧
+          - generic [ref=e74]: 点滴
+        - link "留言" [ref=e75]:
+          - /url: /messages
+          - generic [ref=e76]: ●
+          - generic [ref=e77]: 留言
+        - link "轨迹" [ref=e78]:
+          - /url: /story
+          - generic [ref=e79]: ◎
+          - generic [ref=e80]: 轨迹
+        - link "首页" [ref=e81]:
+          - /url: /
+          - generic [ref=e82]: ⌂
+          - generic [ref=e83]: 首页
+        - link "相册" [ref=e84]:
+          - /url: /album
+          - generic [ref=e85]: ■
+          - generic [ref=e86]: 相册
+        - link "清单" [ref=e87]:
+          - /url: /wishes
+          - generic [ref=e88]: ▦
+          - generic [ref=e89]: 清单
+        - link "关于" [ref=e90]:
+          - /url: /about
+          - generic [ref=e91]: ▣
+          - generic [ref=e92]: 关于
+      - region "收好我们的日常与心动" [ref=e93]:
+        - paragraph [ref=e94]: "* Our Cozy Place *"
+        - heading "收好我们的日常与心动" [level=1] [ref=e95]: 收好我们的日常与心动 ♡
+        - article "纪念日信息" [ref=e96]:
+          - generic [ref=e97]:
+            - paragraph [ref=e98]:
+              - text: 朝暮与年岁并往，
+              - text: 与你行至天光。
+            - paragraph [ref=e99]:
+              - text: ♥ 下一纪念日
+              - strong [ref=e100]: 21 天后
+              - text: · 2026-05-20
+          - generic [ref=e101]:
+            - strong [ref=e102]: "1441"
+            - generic [ref=e103]: DAYS
+    - region "纪念册目录" [ref=e104]:
+      - generic [ref=e105]:
+        - paragraph [ref=e106]: Memory Index
+        - heading "纪念册目录" [level=2] [ref=e107]
+      - generic [ref=e108]:
+        - link "01 Story Scroll 故事卷轴 按时间翻看每一个被认真收好的瞬间。 进入 →" [ref=e109]:
+          - /url: /story
+          - generic [ref=e110]: "01"
+          - generic [ref=e111]: Story Scroll
+          - strong [ref=e112]: 故事卷轴
+          - paragraph [ref=e113]: 按时间翻看每一个被认真收好的瞬间。
+          - generic [ref=e114]: 进入 →
+        - link "02 Photo Album 照片相册 把散步、旅行和日常光线装进相册。 进入 →" [ref=e115]:
+          - /url: /album
+          - generic [ref=e116]: "02"
+          - generic [ref=e117]: Photo Album
+          - strong [ref=e118]: 照片相册
+          - paragraph [ref=e119]: 把散步、旅行和日常光线装进相册。
+          - generic [ref=e120]: 进入 →
+        - link "03 Message Board 留言板 写下今天想留给彼此的一句话。 进入 →" [ref=e121]:
+          - /url: /messages
+          - generic [ref=e122]: "03"
+          - generic [ref=e123]: Message Board
+          - strong [ref=e124]: 留言板
+          - paragraph [ref=e125]: 写下今天想留给彼此的一句话。
+          - generic [ref=e126]: 进入 →
+        - link "04 Wish List 恋爱清单 一起完成那些正在发光的小计划。 进入 →" [ref=e127]:
+          - /url: /wishes
+          - generic [ref=e128]: "04"
+          - generic [ref=e129]: Wish List
+          - strong [ref=e130]: 恋爱清单
+          - paragraph [ref=e131]: 一起完成那些正在发光的小计划。
+          - generic [ref=e132]: 进入 →
+        - link "05 About Us 关于我们 记录这本纪念册从哪里开始。 进入 →" [ref=e133]:
+          - /url: /about
+          - generic [ref=e134]: "05"
+          - generic [ref=e135]: About Us
+          - strong [ref=e136]: 关于我们
+          - paragraph [ref=e137]: 记录这本纪念册从哪里开始。
+          - generic [ref=e138]: 进入 →

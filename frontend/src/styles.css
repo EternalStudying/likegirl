@@ -1559,15 +1559,15 @@ figcaption {
   bottom: 18px;
   z-index: 5;
   display: inline-flex;
-  gap: 9px;
+  gap: 7px;
   transform: translateX(-50%);
 }
 
 .home-hero-dot {
   display: grid;
   place-items: center;
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   padding: 0;
   border: 1px solid rgba(126, 85, 52, 0.22);
   border-radius: 999px;
@@ -1576,8 +1576,8 @@ figcaption {
 }
 
 .home-hero-dot span {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: rgba(37, 85, 66, 0.42);
   transition: transform 180ms ease, background 180ms ease;
@@ -1585,7 +1585,7 @@ figcaption {
 
 .home-hero-dot[aria-current="true"] span {
   background: var(--orange);
-  transform: scale(1.55);
+  transform: scale(1.45);
 }
 
 .home-hero-carousel + .directory-section {
@@ -1594,8 +1594,8 @@ figcaption {
 }
 
 .home-cozy-stage {
-  --cozy-hero-height: clamp(360px, 44vh, 470px);
-  --cozy-nav-offset: clamp(18px, 3vw, 30px);
+  --cozy-hero-height: clamp(420px, 50vh, 540px);
+  --cozy-nav-offset: 8px;
   --cozy-nav-half: 28px;
   --cozy-boundary-top: calc(var(--cozy-hero-height) + var(--cozy-nav-offset) + var(--cozy-nav-half));
   position: relative;
@@ -1731,7 +1731,7 @@ figcaption {
 }
 
 .home-cozy-stage .home-hero-dots {
-  bottom: -17px;
+  bottom: -2px;
 }
 
 .home-cozy-nav {
@@ -1788,10 +1788,22 @@ figcaption {
 .home-cozy-nav__icon {
   display: inline-grid;
   place-items: center;
-  width: 1em;
+  width: 1.05em;
+  height: 1.05em;
   color: currentColor;
-  font-size: 0.92em;
+  font-size: 0.94em;
   line-height: 1;
+}
+
+.home-cozy-nav__icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.home-cozy-nav__icon svg * {
+  fill: none;
+  stroke: currentColor;
 }
 
 .home-cozy-intro {
@@ -3292,8 +3304,8 @@ button:disabled {
   }
 
   .home-cozy-stage {
-    --cozy-hero-height: clamp(330px, 58vh, 500px);
-    --cozy-nav-offset: 22px;
+    --cozy-hero-height: clamp(370px, 62vh, 540px);
+    --cozy-nav-offset: 10px;
     --cozy-nav-half: 26px;
   }
 
@@ -3388,8 +3400,8 @@ button:disabled {
 
 @media (max-width: 420px) {
   .home-cozy-stage {
-    --cozy-hero-height: 430px;
-    --cozy-nav-offset: 18px;
+    --cozy-hero-height: 470px;
+    --cozy-nav-offset: 8px;
     --cozy-nav-half: 26px;
   }
 

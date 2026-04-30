@@ -1,0 +1,11 @@
+- generic [ref=e2]:
+  - generic:
+    - complementary "当前位置 · 定位未开启 · 多云 · --° · 更新于 04/29 23:40":
+      - generic: 天气邮票
+      - strong: 当前位置
+      - generic: 定位未开启 · 多云
+      - generic: "--°"
+  - banner "登录后导航" [ref=e3]:
+    - paragraph [ref=e5]: LG Demo
+  - main:
+    - status "加载中" [ref=e6]
