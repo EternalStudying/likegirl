@@ -1,0 +1,29 @@
+- main [ref=e3]:
+  - region "进入我们的 时间线" [ref=e4]:
+    - generic [ref=e5]:
+      - paragraph [ref=e6]: Timeline
+      - heading "进入我们的 时间线" [level=1] [ref=e7]:
+        - generic [ref=e8]: 进入我们的
+        - generic [ref=e9]: 时间线
+      - paragraph [ref=e10]: 把纪念日、照片、留言和愿望清单放在同一个入口，只留给知道账号的人。
+      - list [ref=e11]:
+        - listitem [ref=e12]:
+          - time [ref=e13]: Day 1
+          - generic [ref=e14]: 第一次把普通日子记成纪念日
+        - listitem [ref=e15]:
+          - time [ref=e16]: Today
+          - generic [ref=e17]: 继续写下新的留言和小事
+        - listitem [ref=e18]:
+          - time [ref=e19]: Next
+          - generic [ref=e20]: 下一次纪念日前再一起回来看看
+    - generic [ref=e21]:
+      - generic [ref=e22]:
+        - paragraph [ref=e23]: Private
+        - heading "账号登录" [level=2] [ref=e24]
+      - generic [ref=e25]:
+        - text: 账号
+        - textbox "账号" [ref=e26]
+      - generic [ref=e27]:
+        - text: 密码
+        - textbox "密码" [ref=e28]
+      - button "进入时间线" [ref=e29]

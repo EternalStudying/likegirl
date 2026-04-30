@@ -128,15 +128,17 @@ describe('首页用户入口布局', () => {
     expect(wrapper.find('.home-memory-card__anniversary').text()).toContain('下一纪念日');
     expect(wrapper.find('.daily-dashboard').exists()).toBe(true);
     expect(wrapper.find('.daily-note-card').text()).toContain('今天也要记得抱抱');
-    expect(wrapper.find('.daily-note-card.paper-piece--note.paper-tape').exists()).toBe(true);
+    expect(wrapper.find('.daily-note-card.paper-asset.paper-asset--note').exists()).toBe(true);
+    expect(wrapper.findAll('.paper-asset__texture').length).toBeGreaterThanOrEqual(6);
     expect(wrapper.find('.couple-status-panel').text()).toContain('我们的今日状态');
     expect(wrapper.find('.progress-ledger').text()).toContain('恋爱进度仪表');
-    expect(wrapper.find('.progress-ledger.paper-piece--ledger').exists()).toBe(true);
+    expect(wrapper.find('.progress-ledger.paper-asset--ledger').exists()).toBe(true);
     expect(wrapper.find('.recent-moments').text()).toContain('最近发生的小事');
-    expect(wrapper.findAll('.recent-paper-card.paper-piece')).toHaveLength(3);
+    expect(wrapper.findAll('.recent-paper-card.paper-asset')).toHaveLength(3);
     expect(wrapper.find('.paper-clip').exists()).toBe(true);
+    expect(wrapper.find('.paper-flower').exists()).toBe(true);
     expect(wrapper.find('.next-plan-strip').text()).toContain('下一件想一起完成的事');
-    expect(wrapper.find('.next-plan-strip.paper-piece--strip.paper-tape').exists()).toBe(true);
+    expect(wrapper.find('.next-plan-strip.paper-asset--strip').exists()).toBe(true);
     expect(wrapper.find('.directory-section').exists()).toBe(false);
     expect(wrapper.find('.weather-atmosphere').exists()).toBe(false);
   });
@@ -156,18 +158,28 @@ describe('首页用户入口布局', () => {
     expect(styles).toMatch(/\.home-memory-card__days\s*{[\s\S]*font-size:\s*clamp/);
   });
 
-  it('首页手账仪表盘按 DESIGN.md 渲染今日、状态、进度、最近和下一计划模块', () => {
+  it('首页手账仪表盘使用 PNG 纸张素材渲染今日、状态、进度、最近和下一计划模块', () => {
+    expect(homeViewSource).toContain('paper-note-wide.png');
+    expect(homeViewSource).toContain('paper-ledger-wide.png');
+    expect(homeViewSource).toContain('paper-card-small.png');
+    expect(homeViewSource).toContain('paper-message-note.png');
+    expect(homeViewSource).toContain('paper-strip-sage.png');
+    expect(homeViewSource).toContain('tape-coral.png');
+    expect(homeViewSource).toContain('clip-gold.png');
+    expect(homeViewSource).toContain('flower-sprig.png');
     expect(styles).toMatch(/\.daily-dashboard\s*{[\s\S]*width:\s*min\(1180px,\s*calc\(100% - 32px\)\)/);
     expect(styles).toMatch(/\.daily-dashboard__top\s*{[\s\S]*grid-template-columns:\s*minmax\(280px,\s*0\.94fr\)\s*minmax\(420px,\s*1\.36fr\);/);
-    expect(styles).toMatch(/--paper-mask-card:\s*url\("data:image\/svg\+xml/);
-    expect(styles).toMatch(/\.paper-piece::before\s*{[\s\S]*mask-image:\s*var\(--paper-mask\);[\s\S]*drop-shadow/);
-    expect(styles).toMatch(/\.paper-tape::after\s*{[\s\S]*repeating-linear-gradient/);
-    expect(styles).toMatch(/\.paper-clip\s*{[\s\S]*border:\s*4px solid/);
-    expect(styles).toMatch(/\.daily-note-card\s*{[\s\S]*repeating-linear-gradient/);
+    expect(styles).toMatch(/\.paper-asset\s*{[\s\S]*isolation:\s*isolate;/);
+    expect(styles).toMatch(/\.paper-asset__texture\s*{[\s\S]*pointer-events:\s*none;[\s\S]*user-select:\s*none;[\s\S]*drop-shadow/);
+    expect(styles).toMatch(/\.paper-asset__content\s*{[\s\S]*z-index:\s*1;/);
+    expect(styles).toMatch(/\.paper-tape\s*{[\s\S]*pointer-events:\s*none;/);
+    expect(styles).toMatch(/\.paper-clip\s*{[\s\S]*pointer-events:\s*none;/);
+    expect(styles).toMatch(/\.paper-flower\s*{[\s\S]*pointer-events:\s*none;/);
+    expect(styles).toMatch(/\.daily-note-card \.paper-asset__content\s*{[\s\S]*padding:\s*34px 76px 18px 36px;/);
     expect(styles).toMatch(/\.status-card-grid\s*{[\s\S]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\);/);
-    expect(styles).toMatch(/\.progress-ledger\s*{[\s\S]*repeating-linear-gradient/);
+    expect(styles).toMatch(/\.progress-ledger\s*{[\s\S]*paper-asset/);
     expect(styles).toMatch(/\.recent-grid\s*{[\s\S]*grid-template-columns:\s*1fr 0\.92fr 1\.05fr;/);
-    expect(styles).toMatch(/\.next-plan-strip\s*{[\s\S]*var\(--paper-sage\)/);
+    expect(styles).toMatch(/\.next-plan-strip\s*{[\s\S]*paper-asset/);
   });
 
   it('全局顶栏使用红框图中的居中 LG Demo 小栏', () => {
