@@ -45,49 +45,6 @@ function stopHeroAutoplay() {
 onMounted(startHeroAutoplay);
 onBeforeUnmount(stopHeroAutoplay);
 
-const directoryItems = [
-  {
-    to: '/story',
-    number: '01',
-    title: '故事卷轴',
-    label: 'Story Scroll',
-    description: '按时间翻看每一个被认真收好的瞬间。',
-    accent: 'coral'
-  },
-  {
-    to: '/album',
-    number: '02',
-    title: '照片相册',
-    label: 'Photo Album',
-    description: '把散步、旅行和日常光线装进相册。',
-    accent: 'orange'
-  },
-  {
-    to: '/messages',
-    number: '03',
-    title: '留言板',
-    label: 'Message Board',
-    description: '写下今天想留给彼此的一句话。',
-    accent: 'green'
-  },
-  {
-    to: '/wishes',
-    number: '04',
-    title: '恋爱清单',
-    label: 'Wish List',
-    description: '一起完成那些正在发光的小计划。',
-    accent: 'gold'
-  },
-  {
-    to: '/about',
-    number: '05',
-    title: '关于我们',
-    label: 'About Us',
-    description: '记录这本纪念册从哪里开始。',
-    accent: 'coral'
-  }
-];
-
 const navIcons = {
   messages:
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="currentColor" d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092a10 10 0 1 0-4.777-4.719"/><path fill="currentColor" d="M7.828 13.07A3 3 0 0 1 12 8.764a3 3 0 0 1 5.004 2.224a3 3 0 0 1-.832 2.083l-3.447 3.62a1 1 0 0 1-1.45-.001z"/></g></svg>',
@@ -304,8 +261,7 @@ function formatMessageTime(value?: string) {
 
       <section class="daily-dashboard" aria-labelledby="daily-dashboard-title">
         <div class="daily-dashboard__top">
-          <article class="daily-note-card" aria-labelledby="daily-note-title">
-            <span class="daily-note-card__tape" aria-hidden="true"></span>
+          <article class="daily-note-card paper-piece paper-piece--note paper-tape" aria-labelledby="daily-note-title">
             <div class="dashboard-section-heading">
               <h2 id="daily-note-title">今日小纸条</h2>
               <span aria-hidden="true">♡</span>
@@ -324,7 +280,11 @@ function formatMessageTime(value?: string) {
             </div>
 
             <div class="status-card-grid">
-              <article v-for="person in coupleStatusCards" :key="person.name" class="status-person-card">
+              <article
+                v-for="person in coupleStatusCards"
+                :key="person.name"
+                class="status-person-card paper-piece paper-piece--card"
+              >
                 <img class="status-person-card__avatar" :src="person.avatar" :alt="`${person.name} 的头像`" />
                 <div class="status-person-card__body">
                   <h3>
@@ -341,11 +301,13 @@ function formatMessageTime(value?: string) {
               </article>
             </div>
 
-            <p class="distance-ribbon">相距 <strong>819</strong> 公里 · 一起看着同一片云 ☁</p>
+            <p class="distance-ribbon paper-piece paper-piece--ticket">
+              相距 <strong>819</strong> 公里 · 一起看着同一片云 ☁
+            </p>
           </section>
         </div>
 
-        <section class="progress-ledger" aria-labelledby="progress-ledger-title">
+        <section class="progress-ledger paper-piece paper-piece--ledger" aria-labelledby="progress-ledger-title">
           <div class="dashboard-section-heading">
             <h2 id="progress-ledger-title">恋爱进度仪表</h2>
             <span aria-hidden="true">♡</span>
@@ -379,7 +341,10 @@ function formatMessageTime(value?: string) {
           </div>
 
           <div class="recent-grid">
-            <RouterLink class="recent-paper-card recent-paper-card--memory" to="/story">
+            <RouterLink
+              class="recent-paper-card recent-paper-card--memory paper-piece paper-piece--card paper-tape"
+              to="/story"
+            >
               <span class="recent-paper-card__label">最新点滴</span>
               <figure v-if="latestPhotos[0]" class="recent-paper-card__photo">
                 <img :src="latestPhotos[0].url" :alt="latestPhotos[0].caption" />
@@ -389,14 +354,21 @@ function formatMessageTime(value?: string) {
               <small>{{ formatDate(latestMemory?.date) }} · {{ latestMemory?.tags?.[0] ?? '日常' }}</small>
             </RouterLink>
 
-            <RouterLink class="recent-paper-card recent-paper-card--message" to="/messages">
+            <RouterLink
+              class="recent-paper-card recent-paper-card--message paper-piece paper-piece--note"
+              to="/messages"
+            >
+              <span class="paper-clip" aria-hidden="true"></span>
               <span class="recent-paper-card__label">最新留言</span>
               <h3>{{ latestMessage?.nickname ?? site.couple.personB }}</h3>
               <small>昨天 {{ formatMessageTime(latestMessage?.createdAt) }}</small>
               <p>{{ latestMessage?.content ?? '今天虽然有点累，但想到你就觉得一切都值得呀。' }}</p>
             </RouterLink>
 
-            <RouterLink class="recent-paper-card recent-paper-card--album" to="/album">
+            <RouterLink
+              class="recent-paper-card recent-paper-card--album paper-piece paper-piece--card paper-tape"
+              to="/album"
+            >
               <span class="recent-paper-card__label">最新相册</span>
               <div class="album-preview-strip">
                 <img
@@ -412,7 +384,10 @@ function formatMessageTime(value?: string) {
           </div>
         </section>
 
-        <section class="next-plan-strip" aria-labelledby="next-plan-title">
+        <section
+          class="next-plan-strip paper-piece paper-piece--strip paper-tape"
+          aria-labelledby="next-plan-title"
+        >
           <span class="next-plan-strip__check" aria-hidden="true">✓</span>
           <div>
             <p id="next-plan-title">下一件想一起完成的事</p>
@@ -430,29 +405,6 @@ function formatMessageTime(value?: string) {
         </section>
       </section>
 
-      <section class="section directory-section" aria-labelledby="directory-title">
-        <div class="section-heading">
-          <p>Memory Index</p>
-          <h2 id="directory-title">纪念册目录</h2>
-        </div>
-
-        <div class="directory-grid">
-          <RouterLink
-            v-for="(item, index) in directoryItems"
-            :key="item.to"
-            class="directory-card index-tab"
-            :class="`index-tab--${item.accent}`"
-            :style="`--tab-order: ${index}`"
-            :to="item.to"
-          >
-            <span class="index-number">{{ item.number }}</span>
-            <span class="directory-label">{{ item.label }}</span>
-            <strong>{{ item.title }}</strong>
-            <p>{{ item.description }}</p>
-            <span class="directory-arrow">进入 →</span>
-          </RouterLink>
-        </div>
-      </section>
     </template>
 
     <PageLoader v-else />

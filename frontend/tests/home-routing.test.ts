@@ -49,20 +49,21 @@ describe('首页入口和独立路由', () => {
     expect(wrapper.find('.directory-grid').exists()).toBe(false);
   });
 
-  it('首页只展示入口目录，不直接展示留言表单和完整故事卷轴', async () => {
+  it('首页不再展示目录卡片，也不直接展示留言表单和完整故事卷轴', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve(siteDataFixture) }));
     const router = createRouter({ history: createMemoryHistory(), routes });
 
     const wrapper = mount(HomeView, { global: { plugins: [router] } });
     await flushPromises();
 
-    expect(wrapper.text()).toContain('故事卷轴');
-    expect(wrapper.text()).toContain('留言板');
+    expect(wrapper.find('.directory-grid').exists()).toBe(false);
+    expect(wrapper.findAll('.index-tab')).toHaveLength(0);
+    expect(wrapper.text()).not.toContain('纪念册目录');
     expect(wrapper.find('form.message-form').exists()).toBe(false);
     expect(wrapper.find('.story-scroll').exists()).toBe(false);
   });
 
-  it('首页展示插画横幅轮播和索引签入口', async () => {
+  it('首页展示插画横幅轮播、顶部导航和手账内容区', async () => {
     freezeHomeDate();
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve(siteDataFixture) }));
     const router = createRouter({ history: createMemoryHistory(), routes });
@@ -83,10 +84,11 @@ describe('首页入口和独立路由', () => {
     expect(wrapper.get('.home-memory-card__anniversary').text()).toContain('23 天后');
     expect(wrapper.find('.home-hero-wave').exists()).toBe(false);
     expect(wrapper.findAll('.home-cozy-nav__link')).toHaveLength(7);
-    expect(wrapper.findAll('.index-tab')).toHaveLength(5);
-    expect(wrapper.find('.index-number').text()).toBe('01');
-    expect(wrapper.text()).toContain('Memory Index');
-    expect(wrapper.text()).toContain('纪念册目录');
+    expect(wrapper.find('.daily-dashboard').exists()).toBe(true);
+    expect(wrapper.find('.recent-moments').exists()).toBe(true);
+    expect(wrapper.findAll('.index-tab')).toHaveLength(0);
+    expect(wrapper.text()).not.toContain('Memory Index');
+    expect(wrapper.text()).not.toContain('纪念册目录');
   });
 
   it('首页在 Hero 和纪念卡中保留在一起天数和下一纪念日', async () => {

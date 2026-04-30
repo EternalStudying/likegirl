@@ -16,7 +16,7 @@ describe('custom cursor styles', () => {
       /@media\s*\(pointer:\s*fine\)[\s\S]*body\s*{[\s\S]*cursor:\s*url\("data:image\/svg\+xml,[^"]+"\)\s+\d+\s+\d+,\s*auto;/
     );
     expect(styles).toMatch(
-      /@media\s*\(pointer:\s*fine\)[\s\S]*a\[href\],[\s\S]*button:not\(:disabled\),[\s\S]*\.directory-card[\s\S]*cursor:\s*url\("data:image\/svg\+xml,[^"]+"\)\s+\d+\s+\d+,\s*pointer;/
+      /@media\s*\(pointer:\s*fine\)[\s\S]*a\[href\],[\s\S]*button:not\(:disabled\),[\s\S]*\.back-home-link[\s\S]*cursor:\s*url\("data:image\/svg\+xml,[^"]+"\)\s+\d+\s+\d+,\s*pointer;/
     );
     const clickableCursorRule = styles.match(
       /a\[href\],[\s\S]*?summary\s*{[\s\S]*?cursor:\s*url\("data:image\/svg\+xml,[^"]+"\)\s+\d+\s+\d+,\s*pointer;[\s\S]*?}/

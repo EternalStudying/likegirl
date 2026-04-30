@@ -13,6 +13,10 @@ import { homeHeroSlides } from '../src/config/homeHeroSlides';
 import { siteDataFixture } from './siteData.fixture';
 
 const styles = readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), '../src/styles.css'), 'utf8');
+const homeViewSource = readFileSync(
+  resolve(dirname(fileURLToPath(import.meta.url)), '../src/views/HomeView.vue'),
+  'utf8'
+);
 
 function stubHomeGeolocation() {
   Object.defineProperty(globalThis.navigator, 'geolocation', {
@@ -124,11 +128,16 @@ describe('首页用户入口布局', () => {
     expect(wrapper.find('.home-memory-card__anniversary').text()).toContain('下一纪念日');
     expect(wrapper.find('.daily-dashboard').exists()).toBe(true);
     expect(wrapper.find('.daily-note-card').text()).toContain('今天也要记得抱抱');
+    expect(wrapper.find('.daily-note-card.paper-piece--note.paper-tape').exists()).toBe(true);
     expect(wrapper.find('.couple-status-panel').text()).toContain('我们的今日状态');
     expect(wrapper.find('.progress-ledger').text()).toContain('恋爱进度仪表');
+    expect(wrapper.find('.progress-ledger.paper-piece--ledger').exists()).toBe(true);
     expect(wrapper.find('.recent-moments').text()).toContain('最近发生的小事');
+    expect(wrapper.findAll('.recent-paper-card.paper-piece')).toHaveLength(3);
+    expect(wrapper.find('.paper-clip').exists()).toBe(true);
     expect(wrapper.find('.next-plan-strip').text()).toContain('下一件想一起完成的事');
-    expect(wrapper.find('.directory-section').exists()).toBe(true);
+    expect(wrapper.find('.next-plan-strip.paper-piece--strip.paper-tape').exists()).toBe(true);
+    expect(wrapper.find('.directory-section').exists()).toBe(false);
     expect(wrapper.find('.weather-atmosphere').exists()).toBe(false);
   });
 
@@ -150,6 +159,10 @@ describe('首页用户入口布局', () => {
   it('首页手账仪表盘按 DESIGN.md 渲染今日、状态、进度、最近和下一计划模块', () => {
     expect(styles).toMatch(/\.daily-dashboard\s*{[\s\S]*width:\s*min\(1180px,\s*calc\(100% - 32px\)\)/);
     expect(styles).toMatch(/\.daily-dashboard__top\s*{[\s\S]*grid-template-columns:\s*minmax\(280px,\s*0\.94fr\)\s*minmax\(420px,\s*1\.36fr\);/);
+    expect(styles).toMatch(/--paper-mask-card:\s*url\("data:image\/svg\+xml/);
+    expect(styles).toMatch(/\.paper-piece::before\s*{[\s\S]*mask-image:\s*var\(--paper-mask\);[\s\S]*drop-shadow/);
+    expect(styles).toMatch(/\.paper-tape::after\s*{[\s\S]*repeating-linear-gradient/);
+    expect(styles).toMatch(/\.paper-clip\s*{[\s\S]*border:\s*4px solid/);
     expect(styles).toMatch(/\.daily-note-card\s*{[\s\S]*repeating-linear-gradient/);
     expect(styles).toMatch(/\.status-card-grid\s*{[\s\S]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\);/);
     expect(styles).toMatch(/\.progress-ledger\s*{[\s\S]*repeating-linear-gradient/);
@@ -166,9 +179,10 @@ describe('首页用户入口布局', () => {
     expect(styles).not.toMatch(/@media\s*\(max-width:\s*760px\)[\s\S]*\.app-topbar__inner\s*{[\s\S]*width:\s*calc\(100%\s*-\s*24px\);/);
   });
 
-  it('红框 Hero 横幅贴齐红框宽度且目录顺延到纪念卡之后', () => {
+  it('红框 Hero 横幅贴齐红框宽度且不再渲染纪念册目录', () => {
     expect(styles).toMatch(/\.home-cozy-stage \.home-hero-carousel\s*{[\s\S]*width:\s*100%;[\s\S]*margin:\s*0;/);
-    expect(styles).toMatch(/\.home-cozy-stage \+ \.directory-section\s*{[\s\S]*padding-top:[\s\S]*background:\s*#fff8ee;/);
+    expect(homeViewSource).not.toContain('directoryItems');
+    expect(homeViewSource).not.toContain('directory-section');
   });
 });
 
