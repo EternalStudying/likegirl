@@ -2,6 +2,25 @@
 
 ## 会话：2026-05-01
 
+### 相册页按 DESIGN.md 落地
+- **状态：** complete
+- 执行的操作：
+  - 使用 `web-design` 读取项目根目录 `DESIGN.md`，确认当前规范目标是相册页。
+  - 用户补充 `相册页面设计图-v2.png` 作为参考，并要求导航栏区域不要动。
+  - 未修改 `HomeCozyShell.vue`、公共导航样式或顶栏逻辑；只改相册页和相册页素材。
+  - 将相册页改为手账式标题区、左侧返回吊牌、右侧天气便签、干花邮戳和 4 列相纸卡片。
+  - 当前 API 种子数据只有 2 张照片，因此相册页优先使用 API 照片，不足 8 张时用真实远程照片补齐两行布局。
+  - 初版滚动 reveal 会导致整页截图中卡片未显示，已改为 CSS-only 入场动画，默认可见。
+- 创建/修改的文件：
+  - `E:\project\likegirl\frontend\src\views\AlbumView.vue`
+  - `E:\project\likegirl\frontend\src\styles\pages\album.css`
+  - `E:\project\likegirl\frontend\src\assets\album-scrapbook\*.png`
+  - `E:\project\likegirl\codex-work\album-page-check.png`
+- 验证：
+  - `npm run build` 通过，`vue-tsc -b && vite build` 成功。
+  - Playwright 使用 `msedge` 登录本地服务并访问 `/album`，截图保存到 `E:\project\likegirl\codex-work\album-page-check.png`。
+  - Playwright console 检查：Errors 0，Warnings 0。
+
 ### 首页导航融入顶栏动效
 - **状态：** complete
 - 执行的操作：
@@ -181,6 +200,8 @@
 | 本地服务探测 | `Invoke-WebRequest http://127.0.0.1:5173` | 如服务已运行则继续视觉验收 | 返回 `not-running`，未额外启动服务 | skipped |
 | 前端构建 | `npm run build` | 修复导航被顶栏覆盖和双层长条后仍能构建 | `vue-tsc -b && vite build` 成功，86 modules transformed | passed |
 | Playwright 视觉/DOM 验证 | `node E:\project\likegirl\codex-work\nav-dock-debug.cjs` | 滚动后导航进入顶栏且位于顶栏上方 | `elementAtTopCenter` 命中导航内“首页”，截图保存到 `codex-work\nav-dock-debug.png` | passed |
+| 前端构建 | `npm run build` | 相册页按 DESIGN.md 改造后仍能构建 | `vue-tsc -b && vite build` 成功，103 modules transformed | passed |
+| Playwright 视觉检查 | `playwright-cli --session album-check` | `/album` 可登录访问，导航未被改动，相册内容显示在导航下方 | 截图保存到 `codex-work\album-page-check.png`；console Errors 0，Warnings 0 | passed |
 
 ## 错误日志
 | 时间戳 | 错误 | 尝试次数 | 解决方案 |

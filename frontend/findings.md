@@ -13,6 +13,7 @@
 - 2026-05-01 新任务：删除右上角用户入口，并删除相应用户编辑页面。
 - 2026-05-01 新任务：总结当前上下文窗口工作，写入 `planning-with-files-zh`，用于上下文压缩恢复。
 - 2026-05-01 新任务：鼠标滚轮滚动时，首页导航栏接触顶栏后自然融入顶栏；融入完成后顶栏区域成为导航栏。
+- 2026-05-01 新任务：使用 `web-design` 按 `DESIGN.md` 和 `相册页面设计图-v2.png` 实现相册页，导航栏区域不要动。
 
 ## 项目事实
 - 固定工作区：`E:\project\likegirl`。
@@ -75,6 +76,8 @@
 | `prefers-reduced-motion` 下直接吸附 | 避免对偏好减少动态效果的用户播放融合过程 |
 | 首页导航 fixed 后仍会受父级 stacking context 影响 | `.home-cozy-stage` 原本 `z-index: 1` 会让 fixed 导航被顶栏盖住，导致顶栏标题淡出后看起来空白 |
 | 导航锚点也不能创建 stacking context | `.home-cozy-nav-anchor { z-index: 8 }` 会把 fixed 导航锁在锚点层级里，仍然低于 `.app-topbar { z-index: 45 }` |
+| 相册页改造不触碰公共导航 | 用户明确要求导航栏那一块不要动；相册页实现只落在 `AlbumView.vue`、`styles/pages/album.css` 和相册素材目录 |
+| 相册页用占位真实照片补齐两行布局 | `DESIGN.md` 要求桌面端两行四列，当前后端种子数据只有 2 张照片；前端优先用 API 数据，缺口用真实照片补齐到 8 张 |
 
 ## 遇到的问题
 | 问题 | 解决方案 |
@@ -89,6 +92,7 @@
 | Playwright CLI 默认找 Chrome | 本机没有 `C:\Users\Acer\AppData\Local\Google\Chrome\Application\chrome.exe`；按项目约定改用 `--browser msedge` |
 | PowerShell 中 Playwright CLI 的 `eval/run-code` 容易被引号和括号破坏 | 简单表达式可用 `eval '(() => {...})()'`；复杂滚动/采样流程优先写临时 Node 脚本到 `E:\project\likegirl\codex-work` |
 | 程序化 `window.scrollTo(0, 900)` 在本次调试中没有模拟真实滚轮效果 | 用 `page.mouse.wheel(0, 1200)` 更贴近用户滚轮行为，能触发导航 dock 状态 |
+| 相册页初版滚动 reveal 导致整页截图里卡片不可见 | 由于未滚入视口的卡片保持透明，改为 CSS-only 入场动画，卡片默认可见 |
 
 ## 资源
 - 技能文件：`C:\Users\Acer\.agents\skills\planning-with-files-zh\SKILL.md`
@@ -102,6 +106,7 @@
 - 右上角用户入口已从 `AppTopBar.vue` 删除；`/user` 路由与用户编辑页组件已删除。
 - 相关验证：2026-05-01 记录的 `npm run build` 通过；`npx vitest run tests/architecture.test.ts tests/login.test.ts tests/user-api.test.ts` 通过，14 tests passed。
 - 首页导航融入顶栏动效已实现；本地 `http://127.0.0.1:5173` 未运行，因此本次未做 Playwright 视觉验收。
+- 相册页已按 `DESIGN.md` 初步落地；Playwright 截图保存到 `E:\project\likegirl\codex-work\album-page-check.png`，控制台 Errors 0、Warnings 0。
 
 ## Playwright 验收流程与坑
 1. 先探测服务：`Invoke-WebRequest http://127.0.0.1:5173`，服务存在再做浏览器验收。
