@@ -1063,6 +1063,7 @@ time {
   --cozy-nav-offset: calc(0px - var(--cozy-snow-valley-depth) - var(--cozy-nav-height));
   --cozy-boundary-top: calc(var(--cozy-hero-height) - 12px);
   --home-major-gap: clamp(48px, 5vw, 72px);
+  z-index: auto;
   padding-bottom: var(--home-major-gap);
   background:
     radial-gradient(circle at 12px 12px, rgba(var(--gold-rgb), 0.075) 0 1px, transparent 1.5px),
@@ -1072,6 +1073,7 @@ time {
 
 .home-cozy-stage::before {
   inset: var(--cozy-boundary-top) 0 0;
+  z-index: 0;
   background:
     radial-gradient(circle at 12px 12px, rgba(var(--gold-rgb), 0.065) 0 1px, transparent 1.5px),
     #fff8ee;
@@ -1144,16 +1146,55 @@ time {
   box-shadow: 0 5px 11px rgba(86, 54, 35, 0.09);
 }
 
-.home-cozy-nav {
+.home-cozy-nav-anchor {
+  position: relative;
   width: min(910px, calc(100% - 32px));
   min-height: var(--cozy-nav-height);
   margin: var(--cozy-nav-offset) auto 0;
+}
+
+.home-cozy-nav {
+  width: 100%;
+  max-width: none;
+  min-height: var(--cozy-nav-height);
+  margin: 0;
   padding: 0;
   border: 0;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
   backdrop-filter: none;
+  transform: translateZ(0);
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.home-cozy-nav.is-docking {
+  position: fixed;
+  top: var(--nav-dock-top, 0);
+  left: 50%;
+  z-index: 60;
+  width: var(--nav-dock-width, min(910px, calc(100% - 32px)));
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  transform: translate3d(-50%, var(--nav-dock-y, 0), 0) scale(var(--nav-dock-scale, 1));
+}
+
+.home-cozy-nav.is-docked {
+  background: transparent;
+  box-shadow: none;
+}
+
+.home-cozy-nav.is-docking .paper-nav-shell__texture {
+  opacity: calc(1 - var(--nav-dock-progress, 0));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-cozy-nav {
+    will-change: auto;
+  }
 }
 
 .home-cozy-nav__link {

@@ -5,7 +5,6 @@ import AlbumView from './views/AlbumView.vue';
 import MessagesView from './views/MessagesView.vue';
 import WishesView from './views/WishesView.vue';
 import AboutView from './views/AboutView.vue';
-import UserView from './views/UserView.vue';
 
 export const routes: RouteRecordRaw[] = [
   { path: '/', component: HomeView },
@@ -13,8 +12,7 @@ export const routes: RouteRecordRaw[] = [
   { path: '/album', component: AlbumView },
   { path: '/messages', component: MessagesView },
   { path: '/wishes', component: WishesView },
-  { path: '/about', component: AboutView },
-  { path: '/user', component: UserView }
+  { path: '/about', component: AboutView }
 ];
 
 export default createRouter({

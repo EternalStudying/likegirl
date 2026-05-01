@@ -141,21 +141,6 @@
     letter-spacing: 0.04em;
   }
 
-  .app-topbar__user {
-    max-width: min(170px, 46vw);
-    height: 42px;
-    padding-right: 8px;
-  }
-
-  .app-topbar__user .avatar-shell {
-    width: 34px;
-    height: 34px;
-  }
-
-  .app-topbar__user-handle {
-    display: none;
-  }
-
   .home-hero-carousel {
     width: min(100% - 20px, 1480px);
     min-height: 540px;
@@ -406,45 +391,6 @@
 
   .story-card {
     padding: 16px;
-  }
-
-  .user-badge {
-    position: relative;
-    top: auto;
-    right: auto;
-    max-width: calc(100% - 32px);
-    justify-self: start;
-    margin: 14px 16px 0;
-  }
-
-  .user-cover,
-  .user-profile-grid,
-  .user-quick-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .user-cover {
-    gap: 20px;
-  }
-
-  .user-avatar-panel {
-    transform: none;
-  }
-
-  .profile-edit-modal {
-    align-items: start;
-    padding: 14px 12px calc(24px + env(safe-area-inset-bottom));
-  }
-
-  .profile-edit-dialog {
-    width: min(100%, 430px);
-    max-height: calc(100vh - 28px - env(safe-area-inset-bottom));
-    padding: 20px 16px;
-  }
-
-  .profile-edit-actions {
-    display: grid;
-    grid-template-columns: 1fr;
   }
 
   .finale-section {
@@ -887,13 +833,6 @@
   .home-hero-slide,
   .home-hero-dot span,
   .app-topbar,
-  .user-badge,
-  .user-cover,
-  .user-cover__copy,
-  .user-avatar-panel,
-  .user-avatar-panel .avatar-shell,
-  .user-cover__spark,
-  .save-toast,
   .stat-slice::after {
     animation: none !important;
   }
@@ -901,15 +840,6 @@
   .home-hero-slide,
   .home-hero-dot span {
     transition: none !important;
-  }
-
-  .app-topbar__user,
-  .app-topbar__user::before {
-    transition: none !important;
-  }
-
-  .app-topbar__user:hover {
-    transform: none;
   }
 
   .edge-bubu-layer {

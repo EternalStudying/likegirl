@@ -16,7 +16,6 @@ describe('frontend architecture', () => {
       '/album',
       '/messages',
       '/story',
-      '/user',
       '/wishes'
     ]);
   });

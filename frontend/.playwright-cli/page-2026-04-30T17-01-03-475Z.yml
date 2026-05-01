@@ -1,0 +1,222 @@
+- generic [ref=e2]:
+  - banner "登录后导航" [ref=e30]:
+    - paragraph [ref=e32]: LG Demo
+  - region "我们的日常封面" [ref=e34]:
+    - region "情侣纪念册插画封面" [ref=e35]:
+      - generic [ref=e36]:
+        - figure [ref=e37]
+        - figure [ref=e38]
+      - generic [ref=e40]:
+        - generic [ref=e41]:
+          - generic [ref=e42]:
+            - img "小栀 的头像"
+          - generic [ref=e43]: 小栀
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - img "阿然 的头像"
+          - generic [ref=e48]: 阿然
+      - generic "首页封面轮播" [ref=e49]:
+        - button "切换到樱花温泉边" [ref=e50]
+        - button "切换到冬夜暖灯下" [ref=e52]
+    - navigation "首页章节导航" [ref=e55]:
+      - img
+      - generic [ref=e56]:
+        - link "留言" [ref=e57]:
+          - /url: /messages
+          - img [ref=e59]
+          - generic [ref=e63]: 留言
+        - link "点滴" [ref=e64]:
+          - /url: /story
+          - img [ref=e66]
+          - generic [ref=e70]: 点滴
+        - link "日记" [ref=e71]:
+          - /url: /story
+          - img [ref=e73]
+          - generic [ref=e75]: 日记
+        - link "首页" [ref=e76]:
+          - /url: /
+          - img [ref=e78]
+          - generic [ref=e82]: 首页
+        - link "相册" [ref=e83]:
+          - /url: /album
+          - img [ref=e85]
+          - generic [ref=e91]: 相册
+        - link "清单" [ref=e92]:
+          - /url: /wishes
+          - img [ref=e94]
+          - generic [ref=e96]: 清单
+        - link "关于" [ref=e97]:
+          - /url: /about
+          - img [ref=e99]
+          - generic [ref=e103]: 关于
+    - main [ref=e105]:
+      - region "收好我们的日常与心动" [ref=e106]:
+        - paragraph [ref=e107]: "* Our Cozy Place *"
+        - heading "收好我们的日常与心动" [level=1] [ref=e108]: 收好我们的日常与心动 ♡
+        - article "纪念日信息" [ref=e109]:
+          - img
+          - img
+          - img
+          - generic [ref=e110]:
+            - generic [ref=e111]:
+              - paragraph [ref=e112]:
+                - text: 朝暮与年岁并往，
+                - text: 与你行至天光。
+              - paragraph [ref=e113]:
+                - text: ♥
+                - generic [ref=e114]: 下一纪念日
+                - generic [ref=e115]:
+                  - strong [ref=e116]: 19 天后
+                  - text: · 2026-05-20
+            - generic [ref=e117]:
+              - strong [ref=e118]: "1443"
+              - generic [ref=e119]: DAYS
+      - region [ref=e120]:
+        - generic [ref=e121]:
+          - region "今日小纸条" [ref=e122]:
+            - generic [ref=e123]:
+              - heading "今日小纸条" [level=2] [ref=e124]
+              - generic [ref=e125]: ♡
+            - article [ref=e126]:
+              - img
+              - img
+              - img
+              - generic [ref=e127]:
+                - paragraph [ref=e128]: 今天也要记得抱抱。
+                - paragraph [ref=e129]:
+                  - generic [ref=e130]: 雨天
+                  - generic [ref=e131]: ·适合一起听歌
+          - region "我们的今日状态" [ref=e132]:
+            - generic [ref=e133]:
+              - heading "我们的今日状态" [level=2] [ref=e134]
+              - generic [ref=e135]: ♧
+            - generic [ref=e136]:
+              - article [ref=e137]:
+                - img "小栀 的头像" [ref=e138]
+                - generic [ref=e139]:
+                  - heading "小栀 ♀" [level=3] [ref=e140]:
+                    - text: 小栀
+                    - generic [ref=e141]: ♀
+                  - paragraph [ref=e142]:
+                    - generic [ref=e143]: 泉州市
+                    - generic [ref=e144]: ☁ 16°C
+                  - paragraph [ref=e145]: ☺ 心情很好
+                  - paragraph [ref=e146]: 正在处理一些小事
+                - text: ✿
+              - article [ref=e147]:
+                - img "阿然 的头像" [ref=e148]
+                - generic [ref=e149]:
+                  - heading "阿然 ♂" [level=3] [ref=e150]:
+                    - text: 阿然
+                    - generic [ref=e151]: ♂
+                  - paragraph [ref=e152]:
+                    - generic [ref=e153]: 杭州市
+                    - generic [ref=e154]: ☁ 15°C
+                  - paragraph [ref=e155]: ☺ 专注模式
+                  - paragraph [ref=e156]: 写代码中...
+                - text: ✿
+            - paragraph [ref=e157]:
+              - img
+              - img
+              - generic [ref=e158]:
+                - text: 相距
+                - strong [ref=e159]: "819"
+                - text: 公里 · 一起看着同一片云 ☁
+        - region "恋爱进度仪表" [ref=e160]:
+          - generic [ref=e161]:
+            - heading "恋爱进度仪表" [level=2] [ref=e162]
+            - generic [ref=e163]: ♡
+          - generic [ref=e164]:
+            - generic [ref=e165]: 恋爱进度仪表
+            - img
+            - generic [ref=e166]:
+              - generic [ref=e167]:
+                - article [ref=e168]:
+                  - paragraph [ref=e170]:
+                    - strong [ref=e171]: "1443"
+                    - generic [ref=e172]: 天
+                  - generic [ref=e173]: 我们在一起的日子
+                - article [ref=e174]:
+                  - paragraph [ref=e176]:
+                    - strong [ref=e177]: "19"
+                    - generic [ref=e178]: 天后
+                  - generic [ref=e179]: 下一个纪念日
+                - article [ref=e180]:
+                  - paragraph [ref=e182]:
+                    - strong [ref=e183]: "2"
+                    - generic [ref=e184]: 条
+                  - generic [ref=e185]: 留下的留言
+                - article [ref=e186]:
+                  - paragraph [ref=e188]:
+                    - strong [ref=e189]: "2"
+                    - generic [ref=e190]: 张
+                  - generic [ref=e191]: 共同的照片
+              - generic [ref=e197]:
+                - generic [ref=e198]:
+                  - text: 第一次相遇
+                  - text: 2022.05.20
+                - generic [ref=e199]: 未来的每一天
+        - region "最近发生的小事" [ref=e200]:
+          - generic [ref=e201]:
+            - heading "最近发生的小事" [level=2] [ref=e202]
+            - generic [ref=e203]: ☆
+          - generic [ref=e204]:
+            - article [ref=e205]:
+              - generic [ref=e206]: 最新点滴
+              - link "一起搬家 把灯打开的那一刻，新家就有了意义。 2023.03.18 · 日常" [ref=e207]:
+                - /url: /story
+                - img
+                - img
+                - generic [ref=e208]:
+                  - figure [ref=e209]:
+                    - img "周末约会" [ref=e210]
+                  - generic [ref=e211]:
+                    - heading "一起搬家" [level=3] [ref=e212]
+                    - paragraph [ref=e213]: 把灯打开的那一刻，新家就有了意义。
+                    - generic [ref=e214]: 2023.03.18 · 日常
+            - article [ref=e215]:
+              - generic [ref=e216]: 最新留言
+              - link "页面验收 的头像 页面验收 昨天 13:54 新版故事卷轴测试留言" [ref=e217]:
+                - /url: /messages
+                - img
+                - generic [ref=e218]:
+                  - generic [ref=e219]:
+                    - img "页面验收 的头像" [ref=e220]
+                    - generic [ref=e221]:
+                      - heading "页面验收" [level=3] [ref=e222]
+                      - generic [ref=e223]: 昨天 13:54
+                  - paragraph [ref=e224]: 新版故事卷轴测试留言
+            - article [ref=e225]:
+              - generic [ref=e226]: 最新相册
+              - link "周末约会 牵手散步 春日 & 雪日 小记 共 2 张照片 ›" [ref=e227]:
+                - /url: /album
+                - img
+                - img
+                - generic [ref=e228]:
+                  - generic [ref=e229]:
+                    - img "周末约会" [ref=e230]
+                    - img "牵手散步" [ref=e231]
+                  - generic [ref=e232]:
+                    - heading "春日 & 雪日 小记" [level=3] [ref=e233]
+                    - generic [ref=e234]: 共 2 张照片 ›
+        - region "下一件想一起完成的事" [ref=e235]:
+          - generic [ref=e236]:
+            - heading "下一件想一起完成的事" [level=2] [ref=e237]
+            - generic [ref=e238]: ♡
+          - generic [ref=e239]:
+            - generic [ref=e240]: 下一件想一起完成的事
+            - img
+            - img
+            - generic [ref=e241]:
+              - generic [ref=e242]: ✓
+              - generic [ref=e243]:
+                - heading "一起去看极光" [level=2] [ref=e244]
+                - text: 吹海风、踩沙滩、看日落 🌊
+              - paragraph [ref=e245]:
+                - text: 目标时间
+                - strong [ref=e246]: 2026-05-20
+              - img
+              - link "去清单看看" [ref=e247]:
+                - /url: /wishes
+                - text: 去清单看看
+                - generic [ref=e248]: →

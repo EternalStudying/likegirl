@@ -121,18 +121,6 @@
   }
 }
 
-@keyframes user-badge-enter {
-  from {
-    opacity: 0;
-    transform: translateY(-10px) rotate(1.6deg);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) rotate(1.6deg);
-  }
-}
-
 @keyframes app-topbar-enter {
   from {
     opacity: 0;
@@ -142,81 +130,6 @@
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes user-panel-rise {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes user-copy-slide {
-  from {
-    opacity: 0;
-    transform: translateX(22px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes avatar-breathe {
-  0%,
-  100% {
-    box-shadow:
-      0 0 0 10px rgba(242, 138, 46, 0.13),
-      0 0 0 20px rgba(223, 81, 69, 0.08),
-      0 20px 30px rgba(111, 58, 35, 0.18);
-  }
-
-  50% {
-    box-shadow:
-      0 0 0 14px rgba(242, 138, 46, 0.2),
-      0 0 0 27px rgba(223, 81, 69, 0.11),
-      0 20px 30px rgba(111, 58, 35, 0.18);
-  }
-}
-
-@keyframes user-sticker-wiggle {
-  0%,
-  100% {
-    transform: rotate(-1deg);
-  }
-
-  50% {
-    transform: rotate(1deg) translateY(-4px);
-  }
-}
-
-@keyframes user-spark-float {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-
-  50% {
-    translate: 4px -9px;
-  }
-}
-
-@keyframes save-toast-pop {
-  from {
-    opacity: 0;
-    transform: translateY(8px) scale(0.96);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
   }
 }
 

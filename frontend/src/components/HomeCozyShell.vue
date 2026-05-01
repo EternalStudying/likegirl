@@ -10,11 +10,43 @@ import navPaperPill from '../assets/paper/nav-paper-pill.png';
 const { site } = useSiteData();
 const activeSlideIndex = ref(0);
 const heroPaused = ref(false);
+const navAnchorRef = ref<HTMLElement | null>(null);
+const navRef = ref<HTMLElement | null>(null);
+const navDockProgress = ref(0);
+const navDockOffsetY = ref(0);
+const navDockTop = ref(0);
+const navDockWidth = ref(0);
+const navDockScale = ref(1);
 const prefersReducedMotion =
   typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 let heroAutoplayTimer: number | undefined;
+let navDockFrame: number | undefined;
 
 const activeSlide = computed(() => homeHeroSlides[activeSlideIndex.value] ?? homeHeroSlides[0]);
+const isNavDocking = computed(() => navDockProgress.value > 0);
+const isNavDocked = computed(() => navDockProgress.value >= 0.995);
+const navDockStyle = computed(() => {
+  const style: Record<string, string> = {
+    '--nav-dock-progress': navDockProgress.value.toFixed(4),
+    '--nav-dock-y': `${navDockOffsetY.value.toFixed(2)}px`,
+    '--nav-dock-top': `${navDockTop.value.toFixed(2)}px`,
+    '--nav-dock-scale': navDockScale.value.toFixed(4)
+  };
+
+  if (navDockWidth.value > 0) {
+    style['--nav-dock-width'] = `${navDockWidth.value.toFixed(2)}px`;
+  }
+
+  return style;
+});
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
+}
+
+function smoothStep(value: number) {
+  return value * value * (3 - 2 * value);
+}
 
 function showHeroSlide(index: number) {
   activeSlideIndex.value = (index + homeHeroSlides.length) % homeHeroSlides.length;
@@ -43,8 +75,76 @@ function stopHeroAutoplay() {
   }
 }
 
-onMounted(startHeroAutoplay);
-onBeforeUnmount(stopHeroAutoplay);
+function setDocumentDockState(progress: number) {
+  document.documentElement.style.setProperty('--home-nav-dock-progress', progress.toFixed(4));
+  document.documentElement.classList.toggle('is-home-nav-docking', progress > 0);
+  document.documentElement.classList.toggle('is-home-nav-docked', progress >= 0.995);
+}
+
+function updateNavDockMetrics() {
+  const anchor = navAnchorRef.value;
+  const nav = navRef.value;
+  const topbar = document.querySelector<HTMLElement>('.app-topbar');
+
+  if (!anchor || !nav || !topbar) {
+    return;
+  }
+
+  const anchorRect = anchor.getBoundingClientRect();
+  const topbarRect = topbar.getBoundingClientRect();
+  const blendDistance = Math.max(76, topbarRect.height + 30);
+  const rawProgress = clamp((topbarRect.bottom - anchorRect.top) / blendDistance, 0, 1);
+  const progress = prefersReducedMotion ? (rawProgress > 0 ? 1 : 0) : smoothStep(rawProgress);
+  const finalScale = 0.88;
+  const navHeight = nav.offsetHeight || anchorRect.height;
+  const finalTop = topbarRect.top + (topbarRect.height - navHeight * finalScale) / 2;
+
+  navDockProgress.value = progress;
+  navDockOffsetY.value = (anchorRect.top - finalTop) * (1 - progress);
+  navDockTop.value = finalTop;
+  navDockWidth.value = anchorRect.width;
+  navDockScale.value = 1 - (1 - finalScale) * progress;
+  setDocumentDockState(progress);
+}
+
+function requestNavDockUpdate() {
+  if (navDockFrame !== undefined) {
+    return;
+  }
+
+  navDockFrame = window.requestAnimationFrame(() => {
+    navDockFrame = undefined;
+    updateNavDockMetrics();
+  });
+}
+
+function startNavDockTracking() {
+  updateNavDockMetrics();
+  window.addEventListener('scroll', requestNavDockUpdate, { passive: true });
+  window.addEventListener('resize', requestNavDockUpdate);
+}
+
+function stopNavDockTracking() {
+  if (navDockFrame !== undefined) {
+    window.cancelAnimationFrame(navDockFrame);
+    navDockFrame = undefined;
+  }
+
+  window.removeEventListener('scroll', requestNavDockUpdate);
+  window.removeEventListener('resize', requestNavDockUpdate);
+  document.documentElement.style.removeProperty('--home-nav-dock-progress');
+  document.documentElement.classList.remove('is-home-nav-docking', 'is-home-nav-docked');
+}
+
+onMounted(() => {
+  startHeroAutoplay();
+  startNavDockTracking();
+});
+
+onBeforeUnmount(() => {
+  stopHeroAutoplay();
+  stopNavDockTracking();
+});
 
 const navIcons = {
   messages:
@@ -155,27 +255,35 @@ const coupleStatusCards = computed(() => [
         </div>
       </section>
 
-      <nav class="home-cozy-nav paper-nav-shell" aria-label="首页章节导航">
-        <img
-          class="paper-nav-shell__texture"
-          :src="navPaperPill"
-          alt=""
-          aria-hidden="true"
-          draggable="false"
-        />
-        <div class="paper-nav-shell__content">
-          <RouterLink
-            v-for="item in cozyNavItems"
-            :key="item.label"
-            class="home-cozy-nav__link"
-            exact-active-class="home-cozy-nav__link--home"
-            :to="item.to"
-          >
-            <span class="home-cozy-nav__icon" aria-hidden="true" v-html="item.icon"></span>
-            <span>{{ item.label }}</span>
-          </RouterLink>
-        </div>
-      </nav>
+      <div ref="navAnchorRef" class="home-cozy-nav-anchor">
+        <nav
+          ref="navRef"
+          class="home-cozy-nav paper-nav-shell"
+          :class="{ 'is-docking': isNavDocking, 'is-docked': isNavDocked }"
+          :style="navDockStyle"
+          aria-label="首页章节导航"
+        >
+          <img
+            class="paper-nav-shell__texture"
+            :src="navPaperPill"
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+          />
+          <div class="paper-nav-shell__content">
+            <RouterLink
+              v-for="item in cozyNavItems"
+              :key="item.label"
+              class="home-cozy-nav__link"
+              exact-active-class="home-cozy-nav__link--home"
+              :to="item.to"
+            >
+              <span class="home-cozy-nav__icon" aria-hidden="true" v-html="item.icon"></span>
+              <span>{{ item.label }}</span>
+            </RouterLink>
+          </div>
+        </nav>
+      </div>
 
       <div class="home-route-content">
         <slot />

@@ -1,257 +1,353 @@
 # DESIGN.md
 
-> 把首页从“目录入口”升级为“情侣今日手账仪表盘”：成熟网页的信息层级，保留 LikeGirl 的水彩、纸张、温柔纪念册气质。
+> 把相册页做成一张铺开的恋爱手账桌面：旧纸、相片、胶带、干花、邮戳和天气便签共同承载照片记忆。
+
+## 0. Current Design Artifacts
+
+| Page | Artifact | Notes |
+|------|----------|-------|
+| 首页 | `E:\project\likegirl\codex-work\首页设计图\likegirl-home-design-content.png`、`E:\project\likegirl\codex-work\首页设计图\likegirl-home-design-layout.png` | 现有登录后公共外壳的视觉基准。 |
+| 相册 | `E:\project\likegirl\codex-work\相册设计图\相册页面设计图-v2.png` | 以顶部导航、纸张手账、相片卡片为主。 |
+| 相册素材 | `E:\project\likegirl\codex-work\相册设计图\素材\可用` | 已抠图的纸张、胶带、花枝、导航图标等 PNG 素材。 |
+| 清单 | `E:\project\likegirl\codex-work\清单设计图\清单页面设计图.png` | 以用户当前结构截图为基础：顶部 `LG Demo`、大幅 hero、双头像、中心爱心、轮播点、hero 下方居中纸质导航，且 `清单` 高亮。 |
+
+清单页设计不要按当前三条 seed 数据收窄成固定布局；页面内容可以重新设计，但必须保留现有上方导航结构，不做底部导航。
 
 ## 1. Visual Theme & Atmosphere
 
-**Style**: Cozy Scrapbook Dashboard  
-**Keywords**: 手账纸张、撕边便签、温柔水彩、恋爱仪表盘、暖奶油色、旧相纸、胶带贴纸、轻量动效  
-**Tone**: 成熟、有秩序、亲密、温柔，NOT 企业 SaaS、冷硬后台、霓虹潮流、卡片堆砌。  
-**Feel**: 像两个人每天早上翻开的共享小纸袋，里面有天气、距离、心情、照片和下一件想一起完成的事。
+**Style**: Vintage Scrapbook Photo Album  
+**Keywords**: 复古纸张、手撕相纸、胶带固定、干花贴纸、邮戳印章、暖色照片、手账网格、轻量纸感动效  
+**Tone**: 温柔、怀旧、亲密、自然、有手作痕迹，NOT 现代极简图库、冷白后台、玻璃拟态、强科技感。  
+**Feel**: 像把两个人的照片铺在一张旧书桌上，灯串微亮，纸页有纹理，每张照片都被小心贴好。
 
 **Interaction Tier**: L2 流畅交互  
-**Dependencies**: Vue 3 + CSS only。不要新增 GSAP、Lenis、canvas 或 WebGL。  
+**Dependencies**: Vue 3 + CSS only。不要新增 GSAP、Lenis、canvas 或 WebGL。
 
 **Page Direction**:
-- 保留现有成熟首屏结构：顶部细导航、全宽水彩 hero、波浪纸边、胶囊导航、居中标题、大纪念日卡片。
-- 在首屏下方新增截图式“今日手账仪表盘”：今日小纸条、我们的今日状态、恋爱进度仪表、最近发生的小事、下一件想一起完成的事。
-- 页面不是后台 dashboard，而是“生活手账”：信息密度可以提高，但每个模块都应像被贴在同一页纸上的小物件。
+- 页面目标是“照片相册”，不是通用图片网格；每张卡片都要像真实相纸贴在纸面上。
+- 顶部保持纸质横幅导航，当前页“相册”使用红色胶囊高亮。
+- 左侧保留“返回首页”吊牌，右上保留天气便签，右侧可放干花与邮戳装饰。
+- 首屏包含标题区和 2 行相册卡片，桌面端每行 4 张，整体宽松但不空。
+- 所有装饰服务于相册氛围，不压住照片和文字。
 
 ## 2. Color Palette & Roles
 
 ```css
 :root {
   /* Backgrounds */
-  --bg: #fff8f2;
-  --bg-rgb: 255, 248, 242;
-  --bg-dotted: #f8ead9;
-  --surface: #fffdf9;
-  --surface-rgb: 255, 253, 249;
-  --surface-alt: #fff4e6;
-  --surface-hover: #fff9f0;
-  --paper-note: #fffaf0;
-  --paper-lined: #fff8ec;
-  --paper-sage: #dfe3c8;
+  --bg: #f8efe2;
+  --bg-rgb: 248, 239, 226;
+  --bg-paper: #fff8ec;
+  --surface: #fffaf0;
+  --surface-rgb: 255, 250, 240;
+  --surface-alt: #f3e3cc;
+  --surface-hover: #fff4e4;
+  --photo-paper: #fffdf6;
+  --tape: #d9c29f;
+  --tape-red: #d97968;
+  --tape-green: #8f9b73;
 
   /* Borders */
-  --border: #ead4c0;
-  --border-rgb: 234, 212, 192;
-  --border-hover: #e7bd8e;
-  --paper-line: rgba(126, 85, 52, 0.14);
+  --border: #e5cfb5;
+  --border-rgb: 229, 207, 181;
+  --border-hover: #d7ad86;
+  --paper-line: rgba(111, 78, 48, 0.14);
 
   /* Text */
-  --text: #37231f;
-  --text-rgb: 55, 35, 31;
-  --text-secondary: #6f5a4d;
-  --text-tertiary: #8a766d;
-  --text-soft: #9c8171;
+  --text: #35231c;
+  --text-rgb: 53, 35, 28;
+  --text-secondary: #6a5548;
+  --text-tertiary: #8f7a6c;
+  --text-muted: #aa9484;
 
   /* Accent */
-  --accent: #df5145;
-  --accent-rgb: 223, 81, 69;
-  --accent-hover: #c84238;
-  --accent-soft: #ffd9cc;
-  --orange: #f28a2e;
-  --orange-rgb: 242, 138, 46;
-  --gold: #c78a19;
-  --gold-rgb: 199, 138, 25;
-  --ink-green: #214f3f;
-  --ink-green-rgb: 33, 79, 63;
-  --sage: #8d9a73;
-  --deep-coral: #9f322b;
+  --accent: #d95b49;
+  --accent-rgb: 217, 91, 73;
+  --accent-hover: #bf4738;
+  --accent-soft: #f7cabb;
+  --title-red: #9f352d;
+  --ink-green: #28533f;
+  --stamp: #d7836e;
+  --date-bg: #efe0c9;
+  --date-text: #7a604e;
 
   /* Semantic */
-  --success: #3f7a55;
-  --error: #b83b33;
-  --warning: #c78a19;
+  --success: #4d7758;
+  --error: #b94336;
+  --warning: #c58a2b;
 
   /* Effects */
-  --shadow-paper: 0 16px 34px rgba(111, 58, 35, 0.12);
-  --shadow-float: 0 22px 46px rgba(111, 58, 35, 0.16);
-  --shadow-tiny: 0 7px 16px rgba(111, 58, 35, 0.1);
+  --shadow-paper: 0 14px 28px rgba(87, 55, 31, 0.13);
+  --shadow-photo: 0 16px 30px rgba(76, 47, 25, 0.18);
+  --shadow-soft: 0 8px 18px rgba(76, 47, 25, 0.1);
+  --ring: 0 0 0 3px rgba(var(--accent-rgb), 0.18);
 }
 ```
 
 **Color Rules:**
-- 所有新增样式必须优先引用 CSS 变量；确需新增颜色时先补变量，再使用。
-- 同一模块最多使用 1 个主强调色和 1 个辅助强调色，避免截图式模块变花。
-- 大面积背景只用奶油、纸白、浅橘、浅鼠尾草绿；红色只用于重点数字、按钮和小心形。
-- 天气层可以染色顶栏和页面，但内容卡片必须保持可读。
-- 禁止把当前暖色系统替换为蓝紫、纯白灰或黑色科技感。
+- 所有新增颜色必须先定义为 CSS 变量，再在组件中引用。
+- 页面大面积只使用纸白、奶油、浅棕；红色只用于当前导航、标题重点、邮戳和小装饰。
+- 绿色只用于英文小标题、植物贴纸或小面积状态，不做大面积背景。
+- 照片本身是页面色彩重点，卡片底色必须克制，不能抢照片。
+- 日期标签使用浅棕底，不使用纯灰或纯白。
 
 ## 3. Typography Rules
 
 **Font Stack:**
 
 ```css
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700;900&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
 
 :root {
-  --font-serif: "Noto Serif SC", "Source Han Serif SC", "思源宋体", "Songti SC", "STSong", "SimSun", Georgia, "Times New Roman", serif;
-  --font-script: "Segoe Script", "Brush Script MT", "Noto Serif SC", serif;
-  --font-number: Georgia, "Times New Roman", "Noto Serif SC", serif;
+  --font-serif: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --font-sans: "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
 }
 ```
 
 | Role | Font | Size | Weight | Line Height | Letter Spacing |
 |------|------|------|--------|-------------|----------------|
-| Hero H1 | `--font-serif` | `clamp(2rem, 4vw, 3.45rem)` | 900 | 1.12 | 0 |
-| Section H2 | `--font-serif` | `clamp(1.45rem, 2.6vw, 2.1rem)` | 900 | 1.2 | 0 |
-| Card H3 | `--font-serif` | `clamp(1.05rem, 1.45vw, 1.35rem)` | 900 | 1.25 | 0 |
-| Body | `--font-serif` | `1rem` | 500 | 1.7 | 0 |
-| Label | `--font-serif` | `0.82rem` | 800 | 1.2 | 0.02em |
-| Number | `--font-number` | `clamp(2.6rem, 5vw, 4.6rem)` | 500 | 0.95 | 0 |
+| Hero H1 | var(--font-serif) | clamp(56px, 6vw, 98px) | 900 | 1.02 | 0 |
+| English Label | var(--font-serif) | 18px | 700 | 1.2 | 0 |
+| Section H2 | var(--font-serif) | clamp(34px, 4vw, 56px) | 800 | 1.12 | 0 |
+| Card Title | var(--font-serif) | 24px | 700 | 1.25 | 0 |
+| Body | var(--font-sans) | 16px | 500 | 1.7 | 0 |
+| Meta / Date | var(--font-sans) | 14px | 600 | 1.2 | 0 |
+| Navigation | var(--font-sans) | 15px | 600 | 1.2 | 0 |
 
 **Typography Rules:**
-- 中文标题要有“手写纸面”的厚度，优先 800/900，不使用负字距。
-- 英文小标题保持短、轻、装饰性，例如 `Our Cozy Place`、`Memory Index`。
-- 数字是页面视觉锚点，使用 Georgia 风格衬线数字，颜色用 `--deep-coral`、`--gold`、`--ink-green` 分区。
-- 卡片内正文不超过两行；长内容进入详情页，首页只放摘要。
-- **NEVER use**: Arial、Roboto、Inter 作为主视觉字体；不要用等宽字体做浪漫页面正文。
+- 中文大标题使用宋体/衬线气质，形成“旧相册标题”感。
+- 正文、日期、导航使用无衬线，保证小字号清晰。
+- 标题可以使用深红色，但不使用渐变、描边或强投影。
+- 正文最大行宽控制在 36em 内，避免横向拉太长。
+- **NEVER use**: Impact, Comic Sans MS, Arial Black, 等宽字体做标题。
 
 **Text Decoration:**
-- Hero H1: 不做渐变，不加重投影，只保留极淡纸面阴影。
-- Section H2: 可加小心形、花枝、星号作为旁注，但不要在文字本身做描边。
-- 关键数字: 可用短下划线、虚线轨迹或小图标陪衬，不使用发光霓虹。
+- Hero h1: 无渐变、无投影，使用 `--title-red` 纯色。
+- 英文 `PHOTO ALBUM`: 使用 `--ink-green`，不做大字距。
+- 副标题: 可使用红色手绘下划线装饰，但不要用真实文本下划线。
 
 ## 4. Component Stylings
+
+### Asset Usage Map
+
+裁切后的可用素材目录：
+
+`E:\project\likegirl\codex-work\相册设计图\素材\可用`
+
+实现时建议把实际会用到的 PNG 复制到前端资源目录，例如：
+
+`E:\project\likegirl\frontend\src\assets\album-scrapbook`
+
+保持文件名不变，便于按下表映射。
+
+| Area | Asset | Usage | Suggested Size | Layer |
+|------|-------|-------|----------------|-------|
+| 顶部灯串 | `top-garland.png` | 页面最顶部横向灯串花枝，对齐设计图顶部 | width: 100vw; height: 110-150px | 背景装饰 |
+| 顶部纸边 | `top-torn-paper.png` | 灯串下方撕纸边，压住顶部背景 | width: 100vw; height: 70-96px | 背景装饰 |
+| 顶部导航 | `nav-pill.png` | 纸质胶囊导航底图；文字和图标叠在上面 | width: 720-860px | 导航底层 |
+| 导航图标 | `icon-nav-message.png`, `icon-nav-moment.png`, `icon-nav-diary.png`, `icon-nav-home.png`, `icon-nav-album.png`, `icon-nav-list.png`, `icon-nav-about.png` | 对应留言、点滴、日记、首页、相册、清单、关于 | 16-20px | 导航内容 |
+| 返回首页 | `back-home-tag.png` | 左侧悬挂吊牌，文字“返回首页”叠加 | width: 92-120px | 左侧装饰/入口 |
+| 天气便签 | `weather-note-card.png` | 右上天气剧场纸条底图，城市和温度叠加 | width: 112-140px | 右上信息 |
+| 右上干花 | `dry-flower-taped.png` | 天气便签左侧或下方干花胶带装饰 | width: 130-170px | 右上装饰 |
+| 邮戳 | `love-postmark-large.png` 或 `stamp-love-postmark.png` | 标题右侧淡红邮戳，低透明度 | width: 104-150px | 中层装饰 |
+| 标题下划线 | `hero-red-underline.png` 或 `scribble-red.png` | 副标题下方手绘红线 | width: 190-260px | 标题装饰 |
+| 相册胶带 | `tape-beige-long.png`, `tape-red-long.png`, `tape-green-long.png`, `tape-grid-white.png` | 随机贴在相册卡片顶部边缘 | width: 72-110px | 卡片装饰 |
+| 波点胶带 | `tape-red-dotted.png`, `tape-green-dotted.png` | 少量用于重点卡片，不要每张都用 | width: 78-116px | 卡片装饰 |
+| 折角纸 | `tape-corner-fold-top.png`, `tape-corner-fold-side.png`, `note-corner-fold.png` | 卡片角落或页面右下纸张折角 | width: 54-90px | 边角装饰 |
+| 小花叶 | `flower-sticker-small.png`, `small-daisy.png`, `leaf-sticker.png`, `leaf-branch.png`, `baby-breath-branch.png` | 相册卡片角落装饰，避开标题和日期 | width: 36-90px | 卡片装饰 |
+| 花束 | `flower-bouquet-large.png`, `flower-cluster-medium.png`, `flower-cluster-small.png`, `left-bottom-bouquet.png` | 页面边角或空白区域氛围装饰 | width: 120-260px | 背景/边角 |
+| 心形贴纸 | `heart-red-sticker.png`, `heart-sketch-red.png`, `heart-double-paper.png`, `wax-seal-heart.png` | 局部点缀，控制在每屏 3 个以内 | width: 26-54px | 小装饰 |
+| 日期底图 | `date-pill-location.png`, `date-pill-calendar.png`, `ticket-date-red.png`, `ticket-date-green.png`, `ticket-label-red.png`, `ticket-label-green.png` | 日期标签或票根样式底图；文字叠加在中间 | height: 26-34px | 卡片信息 |
+| 图库小贴纸 | `camera-sticker.png`, `photo-stack-sticker.png` | 相册标题区或空状态点缀 | width: 42-70px | 信息装饰 |
+| 灯具 | `string-lights-left.png`, `string-lights-center.png`, `lantern-single.png` | 只用于顶部或大屏边缘，移动端隐藏 | width: 120-280px | 氛围装饰 |
+| 纸条 | `note-with-dryflower.png`, `wide-note-red-tape.png`, `airmail-note-stamp.png` | 备用便签/空状态/说明区，不进入主照片网格 | width: 160-260px | 信息容器 |
+
+**Asset Rules:**
+- 设计图里的关键复现优先级：顶部灯串纸边 > 纸质导航 > 返回吊牌 > 天气便签和干花 > 胶带相册卡片 > 邮戳/花枝点缀。
+- PNG 装饰应使用 `pointer-events: none`，只有返回首页、导航、相册卡片本身可点击。
+- 装饰图宽高用 CSS 控制，不能拉伸变形；使用 `object-fit: contain`。
+- 同一张相册卡片最多 2 个装饰 PNG：1 条胶带 + 1 个小花/邮戳/心形。
+- 移动端隐藏顶部灯串以外的大型边角装饰，避免压缩内容。
 
 ### Buttons
 
 ```css
-.scrapbook-button {
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  min-height: 46px;
-  padding: 0 24px;
-  border: 1px solid rgba(var(--accent-rgb), 0.28);
-  border-radius: 14px;
-  color: #fffaf2;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 52%),
-    var(--accent);
-  box-shadow: 0 12px 22px rgba(var(--accent-rgb), 0.2);
-  font-weight: 900;
-  text-decoration: none;
-  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 18px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font: 600 15px/1.2 var(--font-sans);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
-.scrapbook-button:hover {
-  transform: translateY(-2px);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 52%),
-    var(--accent-hover);
-  box-shadow: 0 16px 28px rgba(var(--accent-rgb), 0.25);
+.btn:hover {
+  transform: translateY(-1px);
+  background: var(--surface-hover);
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-paper);
 }
 
-.scrapbook-button:active {
+.btn:active {
   transform: translateY(0);
-  box-shadow: 0 8px 16px rgba(var(--accent-rgb), 0.18);
+  box-shadow: var(--shadow-soft);
 }
 
-.scrapbook-button:focus-visible {
-  outline: 3px solid rgba(var(--orange-rgb), 0.34);
-  outline-offset: 3px;
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-soft), var(--ring);
 }
 
-.scrapbook-button:disabled,
-.scrapbook-button[aria-disabled="true"] {
+.btn:disabled {
+  opacity: 0.55;
   cursor: not-allowed;
-  opacity: 0.58;
   transform: none;
-  box-shadow: none;
+}
+
+.btn--primary {
+  border-color: rgba(var(--accent-rgb), 0.45);
+  background: linear-gradient(180deg, #e97862, var(--accent));
+  color: #fffaf3;
+}
+
+.btn--primary:hover {
+  background: linear-gradient(180deg, #ed826d, var(--accent-hover));
 }
 ```
 
-### Cards
+### Album Cards
 
 ```css
-.paper-card {
+.album-card {
   position: relative;
-  border: 1px solid rgba(var(--border-rgb), 0.9);
-  border-radius: 10px;
-  background:
-    radial-gradient(circle at 18px 18px, rgba(var(--gold-rgb), 0.08) 0 1px, transparent 1.4px),
-    repeating-linear-gradient(0deg, transparent 0 27px, var(--paper-line) 28px),
-    linear-gradient(180deg, rgba(var(--surface-rgb), 0.98), rgba(255, 247, 236, 0.94));
-  background-size: 22px 22px, auto, auto;
+  padding: 12px 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--photo-paper);
   box-shadow: var(--shadow-paper);
-  color: var(--text);
+  transform: rotate(var(--rotate, 0deg));
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
 }
 
-.paper-card:hover {
-  transform: translateY(-3px) rotate(-0.4deg);
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-float);
-}
-
-.paper-card:focus-within {
-  outline: 3px solid rgba(var(--orange-rgb), 0.26);
-  outline-offset: 3px;
-}
-
-.paper-card::after {
+.album-card::before {
   content: "";
   position: absolute;
-  right: 0;
-  top: 0;
-  width: 54px;
-  height: 54px;
-  background:
-    linear-gradient(135deg, rgba(var(--gold-rgb), 0.16), rgba(255, 255, 255, 0.36) 48%, transparent 50%),
-    linear-gradient(135deg, transparent 0 50%, rgba(171, 92, 39, 0.14) 51% 100%);
+  top: -12px;
+  left: var(--tape-left, 36px);
+  width: 86px;
+  height: 28px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--tape) 86%, white);
+  box-shadow: 0 3px 8px rgba(70, 45, 24, 0.12);
+  transform: rotate(var(--tape-rotate, -4deg));
+  opacity: 0.88;
   pointer-events: none;
+}
+
+.album-card:hover {
+  transform: rotate(var(--rotate, 0deg)) translateY(-5px);
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-photo);
+}
+
+.album-card:focus-within {
+  outline: none;
+  box-shadow: var(--shadow-paper), var(--ring);
+}
+
+.album-card__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.54 / 1;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.album-card__footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding-top: 12px;
+}
+
+.album-card__title {
+  margin: 0;
+  color: var(--text);
+  font: 700 24px/1.25 var(--font-serif);
+}
+
+.album-card__date {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 28px;
+  padding: 0 14px;
+  border: 1px solid rgba(var(--border-rgb), 0.75);
+  border-radius: 5px;
+  background: var(--date-bg);
+  color: var(--date-text);
+  font: 600 14px/1 var(--font-sans);
 }
 ```
 
 ### Navigation
 
 ```css
-.cozy-pill-nav {
+.album-nav {
+  position: sticky;
+  top: 24px;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(8px, 1.4vw, 20px);
-  width: max-content;
-  max-width: calc(100% - 32px);
-  margin: 0 auto;
-  padding: 8px 18px;
-  border: 1px solid rgba(126, 85, 52, 0.16);
+  width: min(860px, calc(100% - 32px));
+  min-height: 58px;
+  margin: 24px auto 0;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
   border-radius: 999px;
-  background: rgba(var(--surface-rgb), 0.9);
-  box-shadow: 0 13px 26px rgba(95, 55, 34, 0.13);
-  backdrop-filter: blur(10px) saturate(1.06);
+  background: rgba(var(--surface-rgb), 0.88);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(10px);
 }
 
-.cozy-pill-nav a {
+.album-nav__link {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 7px;
-  min-width: 76px;
-  min-height: 38px;
-  padding: 7px 12px;
+  min-height: 42px;
+  padding: 0 18px;
   border-radius: 999px;
   color: var(--text-secondary);
-  font-weight: 900;
   text-decoration: none;
+  font: 600 15px/1.2 var(--font-sans);
   transition: color 180ms ease, background 180ms ease, transform 180ms ease;
 }
 
-.cozy-pill-nav a:hover,
-.cozy-pill-nav a:focus-visible {
-  color: var(--deep-coral);
-  background: rgba(var(--accent-rgb), 0.08);
+.album-nav__link:hover {
+  color: var(--text);
+  background: rgba(var(--border-rgb), 0.28);
   transform: translateY(-1px);
-  outline: none;
 }
 
-.cozy-pill-nav a[aria-current="page"] {
-  color: #fff9f2;
-  background: linear-gradient(180deg, #eb7165, #d85248);
-  box-shadow: 0 9px 18px rgba(174, 61, 51, 0.22);
+.album-nav__link:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.album-nav__link[aria-current="page"] {
+  background: linear-gradient(180deg, #e97862, var(--accent));
+  color: #fffaf3;
+  box-shadow: 0 8px 16px rgba(var(--accent-rgb), 0.28);
 }
 ```
 
@@ -259,21 +355,23 @@
 
 ```css
 .paper-link {
-  color: var(--deep-coral);
-  font-weight: 900;
+  color: var(--title-red);
   text-decoration: none;
-  background-image: linear-gradient(90deg, currentColor, currentColor);
+  background-image: linear-gradient(var(--accent-soft), var(--accent-soft));
+  background-size: 100% 8px;
+  background-position: 0 88%;
   background-repeat: no-repeat;
-  background-position: 0 100%;
-  background-size: 0 2px;
-  transition: background-size 180ms ease, color 180ms ease;
+  transition: color 180ms ease, background-size 180ms ease;
 }
 
-.paper-link:hover,
-.paper-link:focus-visible {
+.paper-link:hover {
   color: var(--accent-hover);
-  background-size: 100% 2px;
+  background-size: 100% 12px;
+}
+
+.paper-link:focus-visible {
   outline: none;
+  box-shadow: var(--ring);
 }
 ```
 
@@ -284,227 +382,351 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: 28px;
-  padding: 4px 10px;
-  border: 1px solid rgba(var(--border-rgb), 0.92);
-  border-radius: 999px;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text-secondary);
+  font: 600 14px/1 var(--font-sans);
+  box-shadow: var(--shadow-soft);
+}
+
+.weather-note {
+  width: 126px;
+  padding: 18px 16px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-paper);
+  transform: rotate(3deg);
+}
+
+.weather-note strong {
+  display: block;
+  color: var(--accent);
+  font: 800 22px/1.2 var(--font-serif);
+}
+
+.weather-note b {
+  display: block;
   color: var(--ink-green);
-  background: rgba(var(--surface-rgb), 0.78);
-  box-shadow: 0 3px 8px rgba(111, 58, 35, 0.08);
-  font-size: 0.82rem;
-  font-weight: 800;
+  font: 800 30px/1.1 var(--font-serif);
 }
 ```
 
-### Dashboard Modules
+### Decorative Elements
 
 ```css
-.daily-dashboard {
-  width: min(1180px, calc(100% - 32px));
-  margin: clamp(28px, 4vw, 48px) auto;
-  display: grid;
-  gap: clamp(18px, 2.6vw, 30px);
+.asset-img {
+  display: block;
+  width: var(--asset-w, auto);
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
 }
 
-.daily-top-grid {
-  display: grid;
-  grid-template-columns: minmax(280px, 0.94fr) minmax(420px, 1.36fr);
-  gap: clamp(18px, 2.4vw, 28px);
-  align-items: start;
+.album-top-garland {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 0;
+  width: 100vw;
+  max-width: none;
+  transform: translateX(-50%);
 }
 
-.torn-note {
-  padding: clamp(24px, 4vw, 42px);
-  transform: rotate(-2deg);
+.album-top-paper {
+  position: absolute;
+  top: 58px;
+  left: 50%;
+  z-index: 1;
+  width: 100vw;
+  max-width: none;
+  transform: translateX(-50%);
+}
+
+.album-back-tag {
+  position: absolute;
+  top: 86px;
+  left: 24px;
+  z-index: 3;
+  width: 106px;
+}
+
+.album-weather-asset {
+  position: absolute;
+  top: 88px;
+  right: 58px;
+  z-index: 3;
+  width: 126px;
+}
+
+.album-dry-flower {
+  position: absolute;
+  top: 116px;
+  right: 200px;
+  z-index: 2;
+  width: 158px;
+}
+
+.album-postmark {
+  position: absolute;
+  top: 214px;
+  right: 330px;
+  z-index: 1;
+  width: 132px;
+  opacity: 0.55;
+  transform: rotate(10deg);
+}
+
+.album-card__tape {
+  position: absolute;
+  top: -15px;
+  left: var(--tape-left, 42px);
+  z-index: 2;
+  width: var(--tape-width, 92px);
+  transform: rotate(var(--tape-rotate, -4deg));
+}
+
+.album-card__sticker {
+  position: absolute;
+  right: var(--sticker-right, -8px);
+  bottom: var(--sticker-bottom, 18px);
+  z-index: 2;
+  width: var(--sticker-width, 54px);
+}
+
+.paper-page {
+  min-height: 100vh;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.64), transparent 34%),
-    repeating-linear-gradient(0deg, transparent 0 30px, rgba(126, 85, 52, 0.12) 31px),
-    var(--paper-note);
-  filter: drop-shadow(0 14px 20px rgba(111, 58, 35, 0.12));
+    radial-gradient(circle at 22% 18%, rgba(217, 91, 73, 0.05), transparent 24%),
+    radial-gradient(circle at 72% 8%, rgba(40, 83, 63, 0.05), transparent 20%),
+    var(--bg);
+  color: var(--text);
 }
 
-.status-card-grid {
+.paper-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(rgba(111, 78, 48, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(111, 78, 48, 0.035) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.stamp {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  place-items: center;
+  width: 122px;
+  height: 122px;
+  border: 3px double color-mix(in srgb, var(--stamp) 78%, transparent);
+  border-radius: 999px;
+  color: var(--stamp);
+  font: 700 13px/1.1 var(--font-serif);
+  text-align: center;
+  opacity: 0.62;
+  transform: rotate(15deg);
 }
 
-.progress-ledger {
-  padding: clamp(22px, 3vw, 34px);
-  overflow: hidden;
-}
+@media (max-width: 767px) {
+  .album-back-tag,
+  .album-weather-asset,
+  .album-dry-flower,
+  .album-postmark {
+    display: none;
+  }
 
-.recent-grid {
-  display: grid;
-  grid-template-columns: 1fr 0.92fr 1.05fr;
-  gap: clamp(16px, 2.4vw, 28px);
-}
-
-.next-plan-strip {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto auto;
-  align-items: center;
-  gap: clamp(14px, 3vw, 38px);
-  padding: 20px clamp(20px, 4vw, 42px);
-  border-radius: 8px;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.26), transparent 36%),
-    var(--paper-sage);
-  box-shadow: var(--shadow-paper);
+  .album-top-garland {
+    opacity: 0.55;
+  }
 }
 ```
 
 ## 5. Layout Principles
 
 **Container:**
-- Max width: `1180px` for dashboard sections.
-- Hero width: `100vw` visual band, content constrained to `min(1180px, calc(100% - 32px))`.
-- Narrow text blocks: `680px` max.
-- Page padding: `16px` mobile, `32px` tablet, `clamp(32px, 5vw, 72px)` desktop section rhythm.
+- Max width: `1380px`
+- Page padding desktop: `0 48px 64px`
+- Page padding mobile: `0 18px 40px`
+- Title block width: `min(620px, 100%)`
 
 **Spacing Scale:**
-- Section padding: `clamp(28px, 5vw, 64px)`.
-- Component gap: `clamp(16px, 2.4vw, 30px)`.
-- Card internal padding: `clamp(18px, 3vw, 34px)`.
-- Small chip gap: `6px-10px`.
+- Top navigation margin: `24px`
+- Hero/title area padding: `76px 0 64px`
+- Album grid gap: `34px 36px`
+- Card internal padding: `12px`
+- Decoration safe distance from content: at least `24px`
 
-**Page Structure:**
+**Grid:**
 
 ```css
-.home-page {
-  background:
-    radial-gradient(circle at 12px 12px, rgba(var(--gold-rgb), 0.12) 0 1px, transparent 1.5px),
-    linear-gradient(180deg, #fff3e5 0%, #fffdf9 48%, #f8e5d1 100%);
-  background-size: 22px 22px, auto;
+.album-page__inner {
+  position: relative;
+  width: min(1380px, calc(100% - 96px));
+  margin: 0 auto;
 }
 
-.home-main-flow {
+.album-hero {
+  position: relative;
   display: grid;
-  gap: clamp(28px, 5vw, 56px);
+  grid-template-columns: minmax(0, 1fr) 360px;
+  align-items: start;
+  gap: 48px;
+  padding: 76px 0 64px;
 }
 
-.dashboard-grid {
+.album-hero__title {
+  max-width: 620px;
+  padding-left: 72px;
+}
+
+.album-grid {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: clamp(14px, 2vw, 24px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 34px 36px;
+  padding-bottom: 64px;
 }
-
-.dashboard-span-4 { grid-column: span 4; }
-.dashboard-span-6 { grid-column: span 6; }
-.dashboard-span-8 { grid-column: span 8; }
-.dashboard-span-12 { grid-column: 1 / -1; }
 ```
 
-**Information Hierarchy:**
-- 首屏负责情绪和品牌，不承载太多小数据。
-- 第二屏“今日手账仪表盘”承载截图中的高密度生活信息。
-- `恋爱进度仪表` 必须是一整行宽卡，作为数据核心。
-- `最近发生的小事` 使用三列卡片，分别承接点滴、留言、相册。
-- `下一件想一起完成的事` 使用横向浅绿色纸条，作为行动入口。
+**Composition Rules:**
+- 标题区左对齐，英文小标题在中文大标题上方。
+- 第一行相册卡片从标题下方开始，不能挤到导航下面。
+- 卡片可以有轻微旋转，但单张旋转不超过 `1.2deg`。
+- 装饰物使用绝对定位时必须让出主内容区域，不能遮挡文字、日期和人物主体。
 
 ## 6. Depth & Elevation
 
 | Level | Treatment | Use |
 |-------|-----------|-----|
-| Flat | 无阴影，只有纸张底纹 | 页面背景、分隔背景 |
-| Subtle | `0 7px 16px rgba(111, 58, 35, 0.1)` | 小标签、天气 chip、日期 chip |
-| Paper | `0 16px 34px rgba(111, 58, 35, 0.12)` | 常规手账卡片 |
-| Floating | `0 22px 46px rgba(111, 58, 35, 0.16)` | Hero 内贴纸、重点状态卡 hover |
-| Pressed | 内部浅线条 + 无上浮 | 时间线、进度虚线、状态 ledger |
+| Flat | 无阴影，仅纸纹背景 | 页面底层纸面 |
+| Subtle | `var(--shadow-soft)` | 导航、标签、小便签 |
+| Paper | `var(--shadow-paper)` | 相册卡片、天气纸条、返回吊牌 |
+| Photo Hover | `var(--shadow-photo)` | 相册卡片 hover |
+| Stamp | 低透明度、无投影 | 邮戳、印章装饰 |
 
-**Depth Rules:**
-- 阴影只模拟纸张叠放，不模拟玻璃拟态。
-- 同一屏最多 2 个明显浮起元素，避免所有卡片都在抢焦点。
-- 胶带、回形针、贴纸可作为局部装饰，但不能遮挡正文。
+**Elevation Rules:**
+- 阴影方向保持向下，模拟纸片放在桌面上。
+- 禁止大面积模糊光晕和玻璃拟态阴影。
+- 相册卡片 hover 只能上浮一点，不能像商品卡一样强烈弹出。
 
 ## 7. Animation & Interaction
 
-**Motion Philosophy**: 像纸片被轻轻放到桌面上，只动画 `transform` 和 `opacity`，不做快速弹跳。  
-**Tier**: L2。
+**Motion Philosophy**: 轻、慢、纸感，像纸片被手指轻轻托起。  
+**Tier**: L2
 
 ### Dependencies
 
 ```html
-<!-- No extra runtime dependency. Use Vue state + CSS only. -->
+<!-- CSS only，无额外运行时依赖 -->
 ```
 
 ### Base Setup
 
 ```js
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('is-visible');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.14 });
+// Vue 页面只需要在列表渲染时按 index 设置轻微延迟。
+const albumMotionStyle = (index) => ({
+  "--delay": `${Math.min(index * 55, 360)}ms`,
+  "--rotate": `${[-0.6, 0.5, -0.4, 0.6][index % 4]}deg`,
+});
 ```
 
 ### Entrance Animation
 
 ```css
-.paper-reveal {
-  opacity: 0;
-  transform: translate3d(0, 18px, 0) rotate(-0.6deg);
-  transition: opacity 520ms ease, transform 520ms ease;
+.album-hero__title,
+.album-card,
+.weather-note,
+.stamp {
+  animation: paper-rise 520ms ease both;
+  animation-delay: var(--delay, 0ms);
 }
 
-.paper-reveal.is-visible {
-  opacity: 1;
-  transform: translate3d(0, 0, 0) rotate(0);
-}
-
-@keyframes tape-float {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(var(--tape-rotate, -4deg)); }
-  50% { transform: translate3d(0, -4px, 0) rotate(calc(var(--tape-rotate, -4deg) + 1deg)); }
+@keyframes paper-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px) rotate(var(--rotate, 0deg));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(var(--rotate, 0deg));
+  }
 }
 ```
 
 ### Scroll Behavior
 
-```css
-.daily-dashboard {
-  scroll-margin-top: 82px;
-}
+```js
+// 可选：不引入依赖，用 IntersectionObserver 给相册卡片加 reveal。
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("is-visible");
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.18 });
 
-.progress-thread {
-  transform-origin: left center;
-  transition: transform 700ms ease, opacity 700ms ease;
-}
+document.querySelectorAll("[data-reveal]").forEach((el) => observer.observe(el));
 ```
 
-使用 IntersectionObserver 给 `progress-thread` 添加 `is-visible`，实现虚线轨迹从左到右轻微展开。不要使用 scroll-jacking。
+```css
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px) rotate(var(--rotate, 0deg));
+  transition: opacity 520ms ease, transform 520ms ease;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0) rotate(var(--rotate, 0deg));
+}
+```
 
 ### Hover & Focus States
 
 ```css
-.status-person-card,
-.recent-paper-card,
-.album-strip-card {
-  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+.album-card:hover .album-card__image {
+  filter: saturate(1.04) contrast(1.02);
 }
 
-.status-person-card:hover,
-.recent-paper-card:hover,
-.album-strip-card:hover {
-  transform: translateY(-3px) rotate(-0.4deg);
-  box-shadow: var(--shadow-float);
+.album-card:hover .album-card__title {
+  color: var(--title-red);
 }
 
-.status-person-card:focus-within,
-.recent-paper-card:focus-within,
-.album-strip-card:focus-within {
-  outline: 3px solid rgba(var(--orange-rgb), 0.26);
-  outline-offset: 3px;
+.album-card a:focus-visible,
+.album-card button:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
 }
 ```
 
 ### Special Effects
 
-- 首页巧思：`今日小纸条` 的胶带轻微浮动，hover 时纸条角度归正，像被人扶正。
-- 天气联动：天气层保持全站最顶，但 dashboard 卡片内容层级要清晰，不能被强天气完全盖住。
-- 鼠标轨迹爱心效果保留，但 dashboard 密集区域中粒子 opacity 降低，避免干扰阅读。
+```css
+.hand-drawn-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.hand-drawn-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 74%;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.78;
+  transform: rotate(-2deg);
+}
+```
 
 ### Reduced Motion
 
@@ -514,21 +736,14 @@ const revealObserver = new IntersectionObserver((entries) => {
   *::before,
   *::after {
     scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
+    animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 1ms !important;
   }
 
-  .paper-reveal {
-    opacity: 1;
-    transform: none;
-  }
-
-  .status-person-card:hover,
-  .recent-paper-card:hover,
-  .album-strip-card:hover,
-  .torn-note:hover {
-    transform: none;
+  .album-card,
+  .album-card:hover {
+    transform: rotate(var(--rotate, 0deg));
   }
 }
 ```
@@ -537,26 +752,25 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 ### Do
 
-- 使用截图的信息架构：今日小纸条、两人状态、距离条、恋爱进度、最近小事、下一件计划。
-- 保留项目现有水彩 hero、奶油背景、点阵纸纹、衬线中文标题和暖色体系。
-- 使用纸张、胶带、回形针、虚线、手绘小花作为结构装饰，而不是纯装饰。
-- 让每个模块都有明确数据来源或未来可接 API 的字段。
-- 卡片可以轻微旋转，但同一屏旋转角度要克制，通常在 `-2deg` 到 `2deg`。
-- 大数字要成为视觉锚点，例如 `1441 天`、`21 天后`、`36 条`、`128 张`。
-- 移动端先保留信息顺序，再考虑视觉装饰；读得清比装饰完整更重要。
+- 保持截图里的“纸张桌面 + 相纸网格 + 真实照片”作为核心识别。
+- 使用真实照片作为卡片主视觉，照片比例统一为横向相纸。
+- 当前导航“相册”必须清楚高亮，且与其它导航项在同一个纸质胶囊内。
+- 相册卡片标题和日期要稳定对齐，日期标签统一放在卡片底部右侧。
+- 装饰物可以少量压住卡片边缘，但不能压住照片主体、标题、日期。
+- 桌面端优先保证 4 列相册，移动端优先保证可读性和触摸面积。
 
 ### Don't
 
-- 禁止把截图直接复刻成另一套风格，必须继承 LikeGirl 当前视觉语言。
-- 禁止新增企业后台式 sidebar、表格、冷灰统计卡。
-- 禁止大面积使用纯白卡片和黑色无衬线数字。
-- 禁止给每张卡都加很重的阴影、玻璃模糊或彩色渐变。
-- 禁止引入新的 JS 动画库、canvas 或 WebGL 来实现本页布局。
-- 禁止让天气效果挡住按钮点击；天气层必须 `pointer-events: none`。
-- 禁止卡片内文案溢出或强行压缩字体，内容过长就截断或进入详情页。
-- 禁止移动端保留三列密集布局；必须降为单列或横向小滚动。
-- 禁止新增与情侣纪念册无关的营销话术、商业 CTA 或通用 SaaS 文案。
-- 禁止为完成设计而新建无来源的真实照片；优先复用项目 assets。
+- ❌ 不要把相册做成普通电商卡片或后台数据卡片。
+- ❌ 不要使用纯白背景、冷灰边框、蓝紫渐变或黑色科技风。
+- ❌ 不要让所有卡片旋转角度过大，最多只做轻微手工感。
+- ❌ 不要使用圆角超过 8px 的大卡片，纸张应偏方正。
+- ❌ 不要把胶带、贴纸、干花做得比照片更抢眼。
+- ❌ 不要使用玻璃拟态、霓虹光效、毛玻璃大面板。
+- ❌ 不要在卡片里堆叠多行说明文字；相册页只保留标题和日期。
+- ❌ 不要让顶部导航遮挡标题或天气便签。
+- ❌ 不要在移动端保留四列硬挤，必须改为单列或双列。
+- ❌ 不要用图标替代必要文字；相册标题、日期必须可直接阅读。
 
 ## 9. Responsive Behavior
 
@@ -564,83 +778,85 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 | Name | Width | Key Changes |
 |------|-------|-------------|
-| Desktop | `> 1120px` | Hero 全宽，dashboard 最大 `1180px`；顶部状态区左右两列；最近小事三列 |
-| Tablet | `768px-1120px` | Dashboard 保持两列，但最近小事降为两列；导航可横向滚动 |
-| Mobile | `< 768px` | 所有 dashboard 模块单列；状态卡单列；进度仪表数字两列；下一件计划竖排 |
-| Small Mobile | `< 420px` | Hero 降低装饰密度；导航仅显示图标和短文字；隐藏非关键贴纸 |
+| Desktop | `> 1180px` | 4 列相册，标题左侧偏移，天气纸条在右上 |
+| Tablet | `768px - 1180px` | 2 列相册，标题取消大偏移，装饰减少 |
+| Mobile | `< 768px` | 单列相册，导航横向滚动，返回吊牌和天气纸条进入普通流 |
 
-**Touch Targets:** minimum `44px`。  
-**Collapsing Strategy:** 内容优先级为：标题和天数 > 今日状态 > 下一计划 > 最近小事 > 装饰物。移动端先隐藏胶带/花枝等装饰，不隐藏核心数据。
+**Touch Targets:** minimum `44px`  
+**Collapsing Strategy:** 导航保持横向胶囊滚动；相册卡片单列铺开；干花、邮戳、角落灯串等纯装饰在移动端隐藏或弱化。
 
 ```css
-@media (max-width: 1120px) {
-  .daily-top-grid,
-  .recent-grid {
-    grid-template-columns: 1fr 1fr;
+@media (max-width: 1180px) {
+  .album-page__inner {
+    width: min(920px, calc(100% - 48px));
   }
 
-  .progress-ledger,
-  .next-plan-strip {
-    grid-column: 1 / -1;
+  .album-hero {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .album-hero__title {
+    padding-left: 0;
+  }
+
+  .album-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
   }
 }
 
-@media (max-width: 768px) {
-  .daily-dashboard,
-  .daily-top-grid,
-  .status-card-grid,
-  .recent-grid,
-  .next-plan-strip {
-    grid-template-columns: 1fr;
+@media (max-width: 767px) {
+  .album-page__inner {
+    width: calc(100% - 36px);
   }
 
-  .cozy-pill-nav {
+  .album-nav {
+    top: 10px;
     justify-content: flex-start;
-    width: calc(100% - 28px);
+    width: calc(100% - 24px);
     overflow-x: auto;
-    scrollbar-width: none;
+    min-height: 54px;
+    padding: 6px;
   }
 
-  .cozy-pill-nav::-webkit-scrollbar {
-    display: none;
+  .album-nav__link {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0 14px;
   }
 
-  .torn-note {
+  .album-hero {
+    padding: 52px 0 36px;
+  }
+
+  .album-hero__title h1 {
+    font-size: clamp(48px, 18vw, 72px);
+  }
+
+  .album-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-bottom: 42px;
+  }
+
+  .album-card {
     transform: none;
   }
 
-  .next-plan-strip {
-    align-items: stretch;
-  }
-}
-
-@media (max-width: 420px) {
-  .paper-card {
-    border-radius: 8px;
+  .album-card:hover {
+    transform: translateY(-3px);
   }
 
-  .paper-card::after,
-  .decorative-tape,
-  .decorative-flower {
+  .album-card__footer {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .weather-note,
+  .stamp,
+  .desktop-decoration {
     display: none;
-  }
-
-  .scrapbook-button {
-    width: 100%;
   }
 }
 ```
-
-## Implementation Notes For This Project
-
-- 目标页面优先改 `frontend/src/views/HomeView.vue` 和 `frontend/src/styles.css`。
-- 不改后端接口；缺少的数据先从 `useSiteData()`、当前用户、静态 mock 派生。
-- 当前 `HomeView.vue` 已有 `home-cozy-stage`、`home-cozy-nav`、`home-memory-card`，后续实现应在这些结构下方新增 `daily-dashboard`，不要推翻首屏。
-- 新增模块建议：
-  - `DailyNoteCard`：今日小纸条。
-  - `CoupleStatusPanel`：两人状态卡 + 距离纸条。
-  - `LoveProgressLedger`：恋爱进度仪表。
-  - `RecentMomentsGrid`：最新点滴、最新留言、最新相册。
-  - `NextPlanStrip`：下一件想一起完成的事。
-- 图标优先使用现有内联 SVG 风格，线条统一 `stroke-width: 2`，颜色继承 `currentColor`。
-- 实现阶段请先小步落地首屏下方 dashboard，不要同时重构登录页、用户页或其他路由。

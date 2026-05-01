@@ -142,11 +142,6 @@ const weatherNames: Record<WeatherType, string> = {
 };
 
 const normalizedWeatherType = computed<WeatherType>(() => normalizeWeatherType(weather.value?.weatherType));
-const weatherLabel = computed(() => (weather.value ? weatherNames[normalizedWeatherType.value] : ''));
-const temperatureText = computed(() =>
-  typeof weather.value?.temperature === 'number' ? `${weather.value.temperature}°` : '--°'
-);
-const isLocationDisabledFallback = computed(() => weather.value?.country === '定位未开启');
 const showCloudLayer = computed(() =>
   ['cloudy', 'thunder', 'windy', 'night'].includes(normalizedWeatherType.value)
 );
@@ -190,76 +185,12 @@ const cloudConfigs = computed(() => {
   }
 });
 
-const stampCity = computed(() => {
-  if (!weather.value) {
-    return '';
-  }
-
-  if (isLocationDisabledFallback.value || isUnknownValue(weather.value.city)) {
-    return '当前位置';
-  }
-
-  return normalizePlainText(weather.value.city);
-});
-
-const stampMeta = computed(() => {
-  if (!weather.value) {
-    return '';
-  }
-
-  if (isLocationDisabledFallback.value) {
-    return `定位未开启 · ${weatherLabel.value}`;
-  }
-
-  return weatherLabel.value;
-});
-
-const stampTitle = computed(() => {
-  if (!weather.value) {
-    return '';
-  }
-
-  const updated = formatUpdatedAt(weather.value.updatedAt);
-  const locationTitle = isLocationDisabledFallback.value
-    ? `${stampCity.value} · 定位未开启`
-    : isUnknownValue(weather.value.country) || normalizePlainText(weather.value.country).toLowerCase() === 'browser'
-      ? stampCity.value
-      : `${stampCity.value}, ${normalizePlainText(weather.value.country)}`;
-
-  return `${locationTitle} · ${weatherLabel.value} · ${temperatureText.value} · 更新于 ${updated}`;
-});
-
 function normalizeWeatherType(type: string | undefined): WeatherType {
   if (!type) {
     return 'cloudy';
   }
 
   return type in weatherNames ? (type as WeatherType) : 'cloudy';
-}
-
-function normalizePlainText(value: string | null | undefined) {
-  return typeof value === 'string' ? value.trim() : '';
-}
-
-function isUnknownValue(value: string | null | undefined) {
-  const normalized = normalizePlainText(value);
-  return normalized === '' || normalized.toLowerCase() === 'unknown';
-}
-
-function formatUpdatedAt(updatedAt: string) {
-  const date = new Date(updatedAt);
-
-  if (Number.isNaN(date.getTime())) {
-    return updatedAt;
-  }
-
-  return date.toLocaleString('zh-CN', {
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false
-  });
 }
 
 function getCloudStyle(cloud: CloudConfig, index: number) {
@@ -488,13 +419,6 @@ onMounted(loadWeather);
         '--bug-delay': bug.delay
       }"></span>
     </div>
-
-    <aside class="weather-atmosphere__stamp" :title="stampTitle" :aria-label="stampTitle">
-      <span class="weather-atmosphere__eyebrow">天气邮票</span>
-      <strong>{{ stampCity }}</strong>
-      <span class="weather-atmosphere__meta">{{ stampMeta }}</span>
-      <span class="weather-atmosphere__temp">{{ temperatureText }}</span>
-    </aside>
   </div>
 </template>
 
@@ -1370,92 +1294,6 @@ onMounted(loadWeather);
   box-shadow: 0 0 14px rgba(247, 228, 150, 0.48);
   animation: weather-firefly-float var(--bug-duration) ease-in-out infinite;
   animation-delay: var(--bug-delay);
-}
-
-.weather-atmosphere__stamp {
-  position: fixed;
-  top: 92px;
-  right: 26px;
-  z-index: 1;
-  min-width: 136px;
-  display: grid;
-  gap: 2px;
-  padding: 12px 14px 11px;
-  border: 1px solid rgba(140, 95, 61, 0.2);
-  border-radius: 8px;
-  color: #5b4336;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.84), transparent 48%),
-    repeating-linear-gradient(0deg, rgba(130, 99, 71, 0.045) 0 1px, transparent 1px 24px),
-    rgba(255, 250, 242, 0.9);
-  box-shadow: 0 14px 28px rgba(82, 43, 26, 0.14);
-  backdrop-filter: blur(12px) saturate(1.04);
-}
-
-.weather-atmosphere__stamp::before {
-  content: '';
-  position: absolute;
-  inset: 5px;
-  border: 1px dashed rgba(184, 145, 110, 0.28);
-  border-radius: 6px;
-  pointer-events: none;
-}
-
-.weather-atmosphere__eyebrow,
-.weather-atmosphere__meta {
-  position: relative;
-  z-index: 1;
-}
-
-.weather-atmosphere__eyebrow {
-  color: #85624e;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0;
-}
-
-.weather-atmosphere__stamp strong {
-  position: relative;
-  z-index: 1;
-  color: #8f342d;
-  font-size: 1.05rem;
-  line-height: 1.1;
-}
-
-.weather-atmosphere__meta {
-  color: #6a5a51;
-  font-size: 0.82rem;
-  font-weight: 700;
-}
-
-.weather-atmosphere__temp {
-  position: relative;
-  z-index: 1;
-  color: #214f3f;
-  font-size: 1.28rem;
-  font-weight: 900;
-  line-height: 1.1;
-}
-
-.weather-atmosphere[data-daytime='night'] .weather-atmosphere__stamp {
-  color: #efe6df;
-  background:
-    linear-gradient(135deg, rgba(82, 62, 81, 0.76), transparent 52%),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 24px),
-    rgba(68, 50, 68, 0.84);
-}
-
-.weather-atmosphere[data-daytime='night'] .weather-atmosphere__eyebrow,
-.weather-atmosphere[data-daytime='night'] .weather-atmosphere__meta {
-  color: rgba(255, 241, 223, 0.82);
-}
-
-.weather-atmosphere[data-daytime='night'] .weather-atmosphere__stamp strong {
-  color: #ffe3ba;
-}
-
-.weather-atmosphere[data-daytime='night'] .weather-atmosphere__temp {
-  color: #f6d28f;
 }
 
 @keyframes weather-cloud-drift {

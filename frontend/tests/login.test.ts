@@ -144,7 +144,7 @@ describe('App auth flow', () => {
     expect(wrapper.find('.directory-grid').exists()).toBe(false);
   });
 
-  it('登录后渲染全局顶栏并链接到用户页', async () => {
+  it('登录后渲染全局顶栏且不再显示用户入口', async () => {
     localStorage.setItem('likegirl_token', 'jwt-token');
     vi.stubGlobal('fetch', mockAppFetch());
 
@@ -152,14 +152,10 @@ describe('App auth flow', () => {
     await flushPromises();
 
     const topbar = wrapper.get('.app-topbar');
-    const userLink = topbar.get('.app-topbar__user');
 
     expect(topbar.text()).toContain('LG Demo');
-    expect(userLink.attributes('href')).toBe('/user');
-    expect(userLink.attributes('aria-label')).toContain('小夏');
-    expect(userLink.text()).toContain('小夏');
-    expect(userLink.text()).toContain('@lover');
-    expect(userLink.find('.generated-avatar').exists()).toBe(true);
+    expect(topbar.find('.app-topbar__user').exists()).toBe(false);
+    expect(topbar.find('a[href="/user"]').exists()).toBe(false);
   });
 
   it('401 退出事件会清除 token 并回到登录页', async () => {
